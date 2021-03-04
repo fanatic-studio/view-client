@@ -1,0 +1,94 @@
+{
+	"name": "view-design",
+	"version": "0.0.1",
+	"author": "CH<evildoer.ch@gmail.com>",
+	"license": "MIT",
+	"keywords": [
+		"cli",
+		"vue",
+		"react",
+		"template",
+		"deploy",
+		"electron"
+	],
+	"description": "",
+	"scripts": {
+		"dev": "vue-cli-service serve",
+		"wbuild": "vue-cli-service build",
+		"lint": "vue-cli-service lint",
+		"serve": "vue-cli-service electron:serve",
+		"build": "vue-cli-service electron:build",
+		"build:w": "npm run build -- --win",
+		"build:l": "npm run build -- --linux",
+		"build:all": "npm run build -- -mwl",
+		"generate-icons": "electron-icon-builder --input=./build/logo.png --output=build --flatten",
+		"postinstall": "electron-builder install-app-deps",
+		"postuninstall": "electron-builder install-app-deps",
+		"release": "npm run build -- -mwl --publish always",
+		"changelog": "standard-version --infile CHANGELOG.md"
+	},
+	"main": "background.js",
+	"dependencies": {
+		"ant-design-vue": "^1.7.3",
+		"axios": "^0.21.1",
+		"core-js": "^2.6.5",
+		"crypto-js": "^4.0.0",
+		"download-git-repo": "^3.0.2",
+		"fix-path": "^3.0.0",
+		"localforage": "^1.9.0",
+		"lowdb": "^1.0.0",
+		"mavon-editor": "^2.9.1",
+		"moment": "^2.29.1",
+		"node-ssh": "^11.1.1",
+		"qs": "^6.9.6",
+		"vue": "^2.6.10",
+		"vue-class-component": "^7.0.2",
+		"vue-property-decorator": "^8.1.0",
+		"vue-router": "^3.0.3",
+		"vuedraggable": "^2.24.3",
+		"vuex": "^3.0.1",
+		"vuex-class": "^0.3.2",
+		"vuex-persistedstate": "^4.0.0-beta.3"
+	},
+	"devDependencies": {
+		"@types/crypto-js": "^4.0.1",
+		"@types/electron-devtools-installer": "^2.2.0",
+		"@types/fs-extra": "^9.0.6",
+		"@types/lowdb": "^1.0.9",
+		"@types/node": "^14.14.22",
+		"@types/qs": "^6.9.5",
+		"@vue/cli-plugin-babel": "^3.6.0",
+		"@vue/cli-plugin-eslint": "^3.6.0",
+		"@vue/cli-plugin-typescript": "^3.6.0",
+		"@vue/cli-service": "^3.6.0",
+		"@vue/eslint-config-prettier": "^4.0.1",
+		"@vue/eslint-config-typescript": "^4.0.0",
+		"@vue/test-utils": "1.0.0-beta.29",
+		"babel-core": "7.0.0-bridge.0",
+		"babel-eslint": "^10.0.1",
+		"babel-plugin-import": "^1.11.0",
+		"babel-preset-env": "^1.7.0",
+		"electron": "^11.2.1",
+		"electron-devtools-installer": "^3.1.0",
+		"electron-icon-builder": "^2.0.1",
+		"electron-updater": "^4.3.5",
+		"eslint": "^5.16.0",
+		"eslint-plugin-vue": "^5.0.0",
+		"less": "~3.9.0",
+		"less-loader": "^4.1.0",
+		"style-loader": "^0.23.1",
+		"typescript": "^3.4.3",
+		"vue-cli-plugin-electron-builder": "^2.0.0-rc.5",
+		"vue-template-compiler": "^2.5.21"
+	},
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-conventional-changelog"
+		}
+	},
+	"standard-version": {
+		"skip": {
+			"commit": false
+		}
+	}
+}

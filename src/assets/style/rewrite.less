@@ -1,0 +1,110 @@
+.ant-modal-content {
+  border-radius: 8px;
+  overflow: hidden;
+}
+.ant-form-item {
+  margin-bottom: 19px;
+  &.ant-form-item-with-help {
+    margin-bottom: 0;
+  }
+}
+.ant-form-item-label > label {
+  color: #666;
+}
+.ant-tag {
+  background: none;
+  border: none;
+}
+.ant-input-search{
+  border-radius: 16px;
+}
+@media (prefers-color-scheme: dark) {
+  .ant-modal-content,
+  .ant-modal-header,
+  .ant-modal-footer {
+    background: #1e1e1f;
+    border-color: #222;
+  }
+  .ant-modal-title,
+  .ant-modal-close-x,
+  .ant-modal-confirm-body .ant-modal-confirm-title,
+  .ant-modal-confirm-body .ant-modal-confirm-content {
+    color: #888;
+  }
+  .ant-spin-container:after{
+    background: rgba(#000,.1);
+  }
+  .ant-popover-inner{
+    background: #444;
+  }
+  .ant-popover-placement-top > .ant-popover-content > .ant-popover-arrow, .ant-popover-placement-topLeft > .ant-popover-content > .ant-popover-arrow, .ant-popover-placement-topRight > .ant-popover-content > .ant-popover-arrow{
+    border-right-color: #444;
+    border-bottom-color: #444;
+  }
+  .ant-steps-item-title {
+    color: #888 !important;
+  }
+  .ant-steps-item-title::after{
+    background-color: #666 !important;
+  }
+  .ant-steps-item-wait .ant-steps-item-icon{
+    background: #666;
+  }
+  .ant-steps-item-finish .ant-steps-item-icon{
+    background-color: transparent;
+  }
+  .ant-input,
+  .ant-btn:not(.ant-btn-primary),
+  .ant-input-group-addon {
+    background: #1e1e1f;
+    border-color: #555;
+    color: #888;
+  }
+  .ant-radio-inner,
+  .ant-checkbox-inner{
+    background: #eee;
+  }
+
+  .ant-radio-wrapper,
+  .ant-checkbox-wrapper{
+    color: #888;
+  }
+  .ant-input-affix-wrapper{
+    background: #1e1e1f;
+    border-color: #555;
+    color: #888;
+  }
+  .ant-input-suffix,
+  .ant-input-search-icon,
+  .ant-input-password-icon{
+    color: #888;
+  }
+  .ant-input-password-icon:hover{
+    color: @primary-color;
+  }
+  .ant-tabs-bar {
+    border-bottom: 1px solid #333;
+  }
+  .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab{
+    background: #333;
+    border-color: #333;
+  }
+  .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab .ant-tabs-close-x,
+  .ant-tabs-extra-content .ant-tabs-new-tab{
+    color: #888;
+    border-color: #555;
+  }
+  // .ant-modal-content{
+  //   filter: invert(1) hue-rotate(180deg);
+  // }
+  .ant-tabs {
+    color: #888;
+  }
+  .ant-empty-normal {
+    filter: invert(0.8) hue-rotate(0deg);
+  }
+  .ant-message-notice-content{
+    background: #ccc;
+  }
+
+}
