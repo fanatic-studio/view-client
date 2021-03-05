@@ -26,12 +26,12 @@ export default class AppLayout extends Vue {
 			status: "",
 		};
 		await this.getProjectLis(pjParams);
-		const pjMParams = {
+		const pjmParams = {
 			pageIndex: 1,
 			pageSize: 100,
 			status: "",
 		};
-		await this.getProjectMemberLis(pjMParams);
+		await this.getProjectMemberLis(pjmParams);
 		const milsParams = {
 			pageIndex: 1,
 			pageSize: 10,
