@@ -89,10 +89,13 @@ class Login extends Vue {
 				this.btnLoading = true;
 				const res = await this.login(postData);
 				if (res) {
-					let resultData = await this.__getAccountInfo();
+					const resultData = await this.__getAccountInfo();
 					this.btnLoading = false;
 					this.$message.success("登陆成功");
-					if (resultData.accountData.gitLabAccountId === 0) {
+					if (
+						resultData.accountData &&
+						resultData.accountData.gitLabAccountId === 0
+					) {
 						this.$router.push("/asyncGitLab");
 					} else {
 						this.$router.push("/app");

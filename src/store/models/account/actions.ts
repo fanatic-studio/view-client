@@ -1,6 +1,7 @@
 import AccountApi from "@/api/account";
 // import cookie from "@/utils/cookie";
 import crypto from "@/utils/crypto";
+import { StoreResult } from "@/utils/util";
 import { ActionTree } from "vuex";
 
 import {

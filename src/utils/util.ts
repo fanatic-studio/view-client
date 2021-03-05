@@ -28,3 +28,12 @@ export function getWeek(dt: any) {
 	let num = Math.ceil(days / 7);
 	return num;
 }
+
+export function StoreResult(s: boolean, d: any) {
+	const res = {
+		status: s,
+		data: d,
+	};
+
+	return res;
+}

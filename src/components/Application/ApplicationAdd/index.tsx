@@ -1,4 +1,7 @@
-import { ApplicationMode } from "@/store/models/application/types";
+import {
+	AddApplicationParams,
+	ApplicationMode,
+} from "@/store/models/application/types";
 import { ProjectMemberMode } from "@/store/models/project/types";
 import {
 	Form,
@@ -54,23 +57,13 @@ class ApplicationAdd extends Vue {
 		validateFields(async (err: string, value: any) => {
 			if (!err) {
 				this.btnLoading = true;
-				const params: ApplicationMode = {
+				const params: AddApplicationParams = {
 					appType: value.appType,
 					name: value.name,
 					cName: value.cName,
 					desc: value.desc,
 					assignee: value.assignee,
-					welcomeJump: value.welcomeJump,
-					welcomeImage: value.welcomeImage,
-					welcomeLimitE: value.welcomeLimitE,
-					welcomeLimitS: value.welcomeLimitS,
-					welcomeSkip: value.welcomeSkip,
-					welcomeWait: value.welcomeWait,
-					version: value.version,
-					versionName: value.versionName,
-					platform: value.platform,
 					package: value.package,
-					debug: value.debug,
 				};
 				await this.addApplication(params);
 				this.updateMilsList();
@@ -83,52 +76,101 @@ class ApplicationAdd extends Vue {
 		const { getFieldDecorator } = this.form;
 		return (
 			<Form onSubmit={this.handleSubmit}>
-				<Form.Item label="里程碑名称">
-					{getFieldDecorator("name", {
+				<Row gutter={8}>
+					<Col span="8">
+						<Form.Item label="工程类型">
+							{getFieldDecorator("appType", {
+								rules: [
+									{
+										required: true,
+										message: "工程类型不能为空",
+									},
+								],
+							})(
+								<Select
+									show-search
+									allowClear
+									name="appType"
+									placeholder="请输入工程类型"
+								>
+									<Select.Option key="native">前端-原生</Select.Option>
+									<Select.Option key="h5">前端-H5</Select.Option>
+									<Select.Option key="xcx">前端-小程序</Select.Option>
+									<Select.Option key="web">前端-后台</Select.Option>
+									<Select.Option key="java">后端-JAVA</Select.Option>
+									<Select.Option key="go">后端-Go</Select.Option>
+									<Select.Option key="ai">ai</Select.Option>
+								</Select>
+							)}
+						</Form.Item>
+					</Col>
+					<Col span="8">
+						<Form.Item label="工程名称">
+							{getFieldDecorator("name", {
+								rules: [
+									{
+										required: true,
+										message: "工程名称不能为空",
+									},
+								],
+							})(
+								<Input
+									type="text"
+									name="name"
+									placeholder="选择输入工程名称，必须是英文，作为git仓库名称"
+								></Input>
+							)}
+						</Form.Item>
+					</Col>
+					<Col span="8">
+						<Form.Item label="包名">
+							{getFieldDecorator("package", {
+								rules: [
+									{
+										required: true,
+										message: "工程名称不能为空",
+									},
+								],
+							})(
+								<Input
+									type="text"
+									name="package"
+									placeholder="选择输入工程名称"
+								></Input>
+							)}
+						</Form.Item>
+					</Col>
+				</Row>
+				<Form.Item label="工程名称">
+					{getFieldDecorator("cName", {
 						rules: [
 							{
 								required: true,
-								message: "需求名称不能为空",
+								message: "工程名称不能为空",
 							},
 						],
 					})(
 						<Input
 							type="text"
-							name="name"
-							placeholder="选择输入需求名称"
+							name="cName"
+							placeholder="选择输入工程名称"
 						></Input>
 					)}
 				</Form.Item>
-				<Form.Item label="里程碑说明">
+				<Form.Item label="工程说明">
 					{getFieldDecorator("desc", {
 						rules: [
 							{
 								required: true,
-								message: "里程碑说明不能为空",
+								message: "工程说明不能为空",
 							},
 						],
 					})(
 						<Input
 							type="text"
 							name="desc"
-							placeholder="选择输入里程碑说明"
+							placeholder="选择输入工程说明"
 						></Input>
-					)}
-				</Form.Item>
-				<Form.Item label="里程碑内容">
-					{getFieldDecorator("content", {
-						rules: [
-							{
-								required: true,
-								message: "里程碑内容不能为空",
-							},
-						],
-					})(
-						<Input.TextArea
-							rows={6}
-							name="content"
-							placeholder="输入里程碑内容，简短描述里程碑内容的目标"
-						></Input.TextArea>
 					)}
 				</Form.Item>
 				<Form.Item label="需求负责人">
@@ -150,47 +192,6 @@ class ApplicationAdd extends Vue {
 						</Select>
 					)}
 				</Form.Item>
-				<Row gutter={8}>
-					<Col span="12">
-						<Form.Item label="里程碑开始时间">
-							{getFieldDecorator("startAt", {
-								rules: [
-									{
-										required: false,
-										message: "需求开始时间",
-									},
-								],
-							})(
-								<DatePicker
-									style={{ width: "100%" }}
-									show-time
-									format="YYYY-MM-DD HH:mm:ss"
-									placeholder="选择需求开始时间"
-								></DatePicker>
-							)}
-						</Form.Item>
-					</Col>
-					<Col span="12">
-						<Form.Item label="里程碑上线时间">
-							{getFieldDecorator("onlineAt", {
-								rules: [
-									{
-										required: false,
-										message: "需求上线时间",
-									},
-								],
-							})(
-								<DatePicker
-									style={{ width: "100%" }}
-									show-time
-									format="YYYY-MM-DD HH:mm:ss"
-									placeholder="选择需求上线时间"
-									name="onlineAt"
-								></DatePicker>
-							)}
-						</Form.Item>
-					</Col>
-				</Row>
 				<Form.Item>
 					<Button
 						type="primary"
