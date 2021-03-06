@@ -5,6 +5,7 @@ import App from "./App";
 import router from "./router";
 import store from "./store";
 import "@/style/index.css";
+import validateAuth from "@/utils/validateLogin";
 
 Vue.use(Modal);
 
@@ -59,8 +60,4 @@ const initAPP = async () => {
 };
 // 初始化系统
 initAPP();
-// new Vue({
-//     router,
-//     store,
-//     render: (h) => h(App)
-// }).$mount('#app');
+validateAuth(store, router);

@@ -3,21 +3,27 @@ import WorkLayout from "@/components/Layouts/WorkLayout";
 import { RouterItem } from "./types";
 export const publicRouter: Array<RouterItem> = [
 	{
+		name: "NotFound",
 		path: "*",
-		name: "",
-		meta: { label: "首页" },
+		meta: { label: "404" },
+		redirect: "/notFound",
+	},
+	{
+		name: "NotFound",
+		path: "/notFound",
+		meta: { label: "404" },
 		component: () => import("@/views/NotFound"),
 	},
 	{
+		name: "Home",
 		path: "/",
-		name: "",
 		meta: { label: "首页" },
 		redirect: "/login",
 	},
 	{
 		name: "Login",
 		path: "/login",
-		meta: { label: "首页" },
+		meta: { label: "登录页" },
 		component: () => import("@/views/Login"),
 	},
 	{

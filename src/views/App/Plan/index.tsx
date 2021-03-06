@@ -18,7 +18,6 @@ import { Component, Vue } from "vue-property-decorator";
 import style from "./index.less";
 import { namespace } from "vuex-class";
 const PlanStore = namespace("plan");
-import RequirementHeader from "@/components/Requirement/RequirementHeader";
 import { PlanItemData, PlanData } from "@/store/models/plan/types";
 import PlanInfo from "@/components/Plan/PlanInfo";
 import PlanAdd from "@/components/Plan/PlanAdd";
