@@ -17,7 +17,10 @@ export default (store: any, router: { beforeEach: Function }) => {
 			// 	return next({
 			// 		name: "notfound",
 			// 	});
-			if (store.state.account.loginInfo.token === "") {
+			if (
+				newpath.name !== "Login" &&
+				store.state.account.loginInfo.token === ""
+			) {
 				return next({
 					path: "/login",
 				});

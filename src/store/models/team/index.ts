@@ -5,7 +5,6 @@ import actions from "./actions";
 import getters from "./getters";
 
 const createState = (): TeamState => ({
-	// teamId: "140d6f9174c3490eb0ffa72c8a9c8004", // dev
 	teamId: "187ffe4378f042f2b40da22b2e67c21f", // 线上
 	currTeam: {},
 	teamList: [],

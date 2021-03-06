@@ -13,6 +13,4 @@ export default class AppConfig {
 	public static LOGO_IMG: string = require("../assets/logo.png");
 
 	public static icon = "/favicon.ico";
-
-	public static teamId = "140d6f9174c3490eb0ffa72c8a9c8004";
 }
