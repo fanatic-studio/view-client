@@ -129,7 +129,12 @@ class Login extends Vue {
 									},
 								],
 							})(
-								<Input size="large" type="text" name="username">
+								<Input
+									size="large"
+									type="text"
+									name="username"
+									placeholder="请输入用户名"
+								>
 									<Icon slot="prefix" type="user" />
 								</Input>
 							)}
@@ -143,7 +148,12 @@ class Login extends Vue {
 									},
 								],
 							})(
-								<Input size="large" type="password" name="password">
+								<Input
+									size="large"
+									type="password"
+									name="password"
+									placeholder="请输入密码"
+								>
 									<Icon slot="prefix" type="lock" />
 								</Input>
 							)}
@@ -158,7 +168,12 @@ class Login extends Vue {
 								],
 							})(
 								<div class={style.inputCode}>
-									<Input size="large" type="text" name="code">
+									<Input
+										size="large"
+										type="text"
+										name="code"
+										placeholder="请输入验证码"
+									>
 										<Icon slot="prefix" type="lock" />
 									</Input>
 									<img
