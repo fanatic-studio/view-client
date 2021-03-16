@@ -7,7 +7,7 @@ export default () => [
 		id: 'basic-layout',
 		name: 'basic-layout',
 		path: '/',
-		redirect: defaultHomeKey,
+		redirect: 'dashbord',
 		component: BasicLayout,
 		/** 路由从此处开始配置 id与name需要与path保持一致
         菜单会根以下的层级进行自动生成
@@ -17,10 +17,10 @@ export default () => [
     **/
 		children: [
 			{
-				id: 'home',
-				name: 'home',
-				path: 'home',
-				icon: 'home',
+				id: defaultHomeKey,
+				name: defaultHomeKey,
+				path: defaultHomeKey,
+				icon: defaultHomeKey,
 				component: () => import('@/views/WorkSpace/Home'),
 			},
 			{
