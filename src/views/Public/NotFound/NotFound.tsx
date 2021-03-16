@@ -3,13 +3,12 @@ import { Button } from 'ant-design-vue';
 
 import styles from './index.less';
 import img from '@/assets/404.svg';
-import defaultHomeKey from '@/config/default.homeKey';
 
 @Component
 export default class NotFound extends Vue {
 	private backHome() {
 		this.$router.push({
-			name: defaultHomeKey,
+			name: 'dashbord',
 		});
 	}
 	protected render() {
