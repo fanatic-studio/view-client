@@ -1,0 +1,54 @@
+.issuesListItem {
+	cursor: pointer;
+	padding: 12px;
+	border: 1px solid #e8e8e8;
+	display: flex;
+	align-items: center;
+	margin-bottom: 8px;
+	transition: all 0.3s;
+	border-radius: 8px;
+	background-color: #fff;
+	&:hover {
+		box-shadow: 0 0 20px rgba(100, 100, 100, 0.2);
+	}
+	.item {
+		margin-left: 8px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		.left {
+			.baseInfo {
+				display: flex;
+				align-items: center;
+				.title {
+					font-size: 16px;
+					color: #333;
+					font-weight: bold;
+				}
+				.desc {
+					font-size: 14px;
+					color: #666;
+					margin-left: 8px;
+				}
+			}
+		}
+		.right {
+			// display:flex
+		}
+	}
+	.timeInfoItem {
+		width: 20%;
+		.timeInfoItemTag {
+			width: 64px;
+			text-align: center;
+		}
+	}
+	.milsProgressItem {
+		width: 50%;
+		.milsProgressItemInfo {
+			display: flex;
+			align-items: center;
+		}
+	}
+}
