@@ -60,7 +60,7 @@ export default class DashboardProjectCard extends Vue {
 							</div>
 						</Card.Meta>
 						<div class={styles.projectItem}>
-							{/* {this.renderPlan(item.plan)} */}
+							{this.renderPlan(item.plan)}
 							{this.renderPlanItem(item.planItem)}
 						</div>
 					</Card>
@@ -71,20 +71,18 @@ export default class DashboardProjectCard extends Vue {
 
 	renderPlan(item: PlanData) {
 		return (
-			<div>
-				<Tooltip
-					placement="right"
-					overlayStyle={{
-						width: '400px',
-						maxWidth: '400px',
-						height: '800px',
-						overflow: 'hidden',
-						overflowY: 'scroll',
-					}}
-				>
-					<div slot="title">
-						<div>{item.desc}</div>
-						{/* <mavon-editor
+			<Tooltip
+				overlayStyle={{
+					width: '400px',
+					maxWidth: '400px',
+					height: '800px',
+					overflow: 'hidden',
+					overflowY: 'scroll',
+				}}
+			>
+				<div slot="title">
+					<div>{item.desc}</div>
+					<mavon-editor
 						value={item.content}
 						class={styles.mavonEditorTooltipPreview}
 						style={{
@@ -100,14 +98,13 @@ export default class DashboardProjectCard extends Vue {
 						editable={false}
 						subfield={false}
 						toolbarsFlag={false}
-					></mavon-editor> */}
-					</div>
-					<div>
-						<Tag color="purple">{`${item.year}年${item.month}月`}</Tag>
-						{item.name}
-					</div>
-				</Tooltip>
-			</div>
+					></mavon-editor>
+				</div>
+				<div>
+					<Tag color="purple">{`${item.year}年${item.month}月`}</Tag>
+					{item.name}
+				</div>
+			</Tooltip>
 		);
 	}
 
