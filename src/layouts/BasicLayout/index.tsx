@@ -114,10 +114,10 @@ export default class BasicLayout extends Vue {
 	// 验证当前路由是否与当前active的tab一致，若不一致，进行active tab path跳转
 	validateActiveRouter() {
 		// 不一致
-		if (this.$route.name !== this.tabActive)
-			this.$router.push({
-				name: this.tabActive,
-			});
+		// if (this.$route.name !== this.tabActive)
+		// 	this.$router.push({
+		// 		name: this.tabActive,
+		// 	});
 	}
 	render() {
 		// 获取需要实用的状态
