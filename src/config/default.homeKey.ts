@@ -1,1 +1,1 @@
-export default 'dashbord';
+export default 'home';
