@@ -249,8 +249,17 @@ class MilestoneEdit extends Vue {
 					完成
 				</Button>
 			);
-		} else {
-			return {};
+		} else if (this.currEditMilestone.status === 'done') {
+			return (
+				<Button
+					size="large"
+					on-click={() => {
+						this.statusUpdateHandler('doing');
+					}}
+				>
+					重开
+				</Button>
+			);
 		}
 	}
 }

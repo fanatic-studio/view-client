@@ -74,18 +74,18 @@ export default class MilestoneItem extends Vue {
 		return <Progress percent={p} status="active" />;
 	}
 	renderInfoButon() {
-		if (this.item.status !== 'done') {
-			if (
-				this.accountInfo.accountData.roleId === 1 ||
-				this.accountInfo.accountData.accountId === this.item.accountId ||
-				this.accountInfo.accountData.accountId === this.item.assignee
-			) {
-				return (
-					<Button type="link" on-click={this.itemEditClick}>
-						编辑
-					</Button>
-				);
-			}
+		// if (this.item.status !== 'done') {
+		if (
+			this.accountInfo.accountData.roleId === 1 ||
+			this.accountInfo.accountData.accountId === this.item.accountId ||
+			this.accountInfo.accountData.accountId === this.item.assignee
+		) {
+			return (
+				<Button type="link" on-click={this.itemEditClick}>
+					编辑
+				</Button>
+			);
 		}
+		// }
 	}
 }
