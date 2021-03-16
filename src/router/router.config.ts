@@ -242,7 +242,7 @@ export default () => [
 		id: 'asyncGitLab',
 		name: 'asyncGitLab',
 		path: '/asyncGitLab',
-		component: () => import('@/views/Public/AsyncGitLab'),
+		component: () => import('@/views/Public/AsyncGitlab'),
 	},
 	// 公有路由
 	{
