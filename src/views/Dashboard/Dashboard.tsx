@@ -31,7 +31,7 @@ export default class Dashboard extends Vue {
 		await this.getMyIssuesList();
 	}
 
-	@Watch('myIssuesList', { immediate: true, deep: true })
+	@Watch('__myIssuesList', { immediate: true, deep: true })
 	watchMyIssuesList() {
 		console.log('__myIssuesList', this.__myIssuesList);
 		this.updateDnDIssuesList();
