@@ -9,17 +9,16 @@ import { RoadMapData, RoadMapDataItem } from './types';
 const MilestoneStore = namespace('milestone');
 @Component
 export default class Plan extends Vue {
-	@MilestoneStore.Getter('milestoneList') milestoneList!: Array<MilestoneMode>;
+	@MilestoneStore.Getter('milestoneList') __milestoneList!: Array<
+		MilestoneMode
+	>;
 	@MilestoneStore.Getter('milestoneListCount') milestoneListCount!: number;
 	@MilestoneStore.Action('getMilestoneList') __getMilestoneList!: Function;
-	// y = new Date().getFullYear();
-	// m = `${new Date().getMonth() + 1}`.padStart(2, 0);
-	// d = (date: any) => `${this.y}-${this.m}-${date}`;
 
 	dataList: Array<any> = [];
-	@Watch('milestoneList')
+	@Watch('__milestoneList')
 	watchMilestoneList() {
-		this.dataList = this.genDataList(this.milestoneList);
+		this.dataList = this.genDataList(this.__milestoneList);
 	}
 
 	updateData(e: any) {
@@ -65,9 +64,6 @@ export default class Plan extends Vue {
 	}
 
 	render() {
-		console.log('milestoneList', this.milestoneList);
-		JSON.stringify;
-
 		return (
 			<div class={styles.roadMap}>
 				<Gantt
