@@ -167,9 +167,8 @@ const actions: ActionTree<RootState, any> = {
 	},
 	// 退出登录
 	async logout(store) {
-		const resultData = await AccountApi.AccountLogout();
-		store.commit('SET_LOGIN_INFO', {});
-		store.commit('SET_ACCOUNT_INFO', {
+		await AccountApi.AccountLogout();
+		store.rootState.account.accountInfo = {
 			accountData: {
 				accountId: '',
 				roleId: 0,
@@ -179,7 +178,7 @@ const actions: ActionTree<RootState, any> = {
 			roles: [],
 			postIds: [],
 			posts: [],
-		});
+		};
 		store.commit('LOGOUT');
 		return true;
 	},

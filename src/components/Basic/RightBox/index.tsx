@@ -11,7 +11,7 @@ const AccountStore = namespace('account');
 @Component
 export default class RightBox extends Vue {
 	@AccountStore.Getter('accountInfo') accountInfo!: AccountInfo;
-	@AccountStore.Action('logout') logout!: Function;
+	@Action('logout') logout!: Function;
 	// 当前语言信息
 	@State((state) => state.language) language!: language;
 	// 当前登录信息
