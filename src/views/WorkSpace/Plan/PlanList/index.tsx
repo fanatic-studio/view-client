@@ -89,6 +89,7 @@ export default class PlanList extends Vue {
 					class={style.reqTabs}
 					tabBarStyle={{
 						padding: '0 24px',
+						backgroundColor: '#fff',
 					}}
 					on-tabClick={this.tabClick}
 				>
