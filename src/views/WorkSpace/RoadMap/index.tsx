@@ -14,6 +14,17 @@ export default class Plan extends Vue {
 	>;
 	@MilestoneStore.Getter('milestoneListCount') milestoneListCount!: number;
 	@MilestoneStore.Action('getMilestoneList') __getMilestoneList!: Function;
+	pageIndex: number = 1;
+	pageSize: number = 10;
+	milestoneStatus: string = 'doing';
+	async created() {
+		const params = {
+			pageIndex: this.pageIndex,
+			pageSize: this.pageSize,
+			status: this.milestoneStatus,
+		};
+		this.__getMilestoneList(params);
+	}
 
 	dataList: Array<any> = [];
 	@Watch('__milestoneList')
