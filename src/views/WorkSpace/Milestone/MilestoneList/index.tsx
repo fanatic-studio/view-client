@@ -127,7 +127,7 @@ export default class MilestoneList extends Vue {
 					maskClosable={false}
 					footer={null}
 				>
-					<MilestoneAdd on-updateMilsList={this.updateMilsList} />
+					<MilestoneAdd on-updateNotice={this.updateMilsList} />
 				</Modal>
 				<Drawer
 					title="里程碑更新"
@@ -137,7 +137,7 @@ export default class MilestoneList extends Vue {
 					}}
 					width={600}
 				>
-					<MilestoneEdit on-updateMilsList={this.updateMilsList} />
+					<MilestoneEdit on-updateNotice={this.updateMilsList} />
 				</Drawer>
 				<Drawer
 					title="里程碑信息"
@@ -147,7 +147,7 @@ export default class MilestoneList extends Vue {
 					}}
 					width={1000}
 				>
-					<MilestoneInfo on-updateMilsList={this.updateMilsList} />
+					<MilestoneInfo on-updateNotice={this.updateMilsList} />
 				</Drawer>
 			</div>
 		);

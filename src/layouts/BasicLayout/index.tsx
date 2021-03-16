@@ -82,7 +82,12 @@ export default class BasicLayout extends Vue {
 			status: '',
 		};
 		await this.getProjectMemberLis(pjmParams);
-		await this.getMilestoneList(comonParams);
+		const milsParams = {
+			pageIndex: 1,
+			pageSize: 10,
+			status: 'doing',
+		};
+		await this.getMilestoneList(milsParams);
 		await this.__getApplicationList(comonParams);
 		await this.getRequirementList(comonParams);
 		await this.__getMonthPlan({ planId: '' });
