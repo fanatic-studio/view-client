@@ -59,6 +59,13 @@ export default class AxiosRequest {
     }
 
     private apiToUrl(api: string): string {
+        if (api === "/login/phone" || api==="/login/verifyCode") {
+			const url = "http://cs.daieco.com" + api; // http://cs.daieco.com http://192.168.11.80:7018
+			return url;
+		} else {
+			const url = this.url + api;
+			return url;
+		}
         return this.url + api;
     }
 
@@ -68,21 +75,43 @@ export default class AxiosRequest {
         };
     }
 
-    private updateHeaders(api: string) {
-        const headers: any = {};
-        const checkApiAuth = noAuthApi.indexOf(api) > -1;
-        if (!checkApiAuth) {
-            const accountToken = localStore.getItem('AccountToken');
-            headers['Authorization'] = `Bearer ${accountToken}`;
-        }
+    // private updateHeaders(api: string) {
+    //     const headers: any = {};
+    //     const checkApiAuth = noAuthApi.indexOf(api) > -1;
+    //     if (!checkApiAuth) {
+    //         const accountToken = localStore.getItem('AccountToken');
+    //         headers['Authorization'] = `Bearer ${accountToken}`;
+    //     }
 
-        return headers;
-    }
+    //     return headers;
+    // }
+
+    
+    private updateHeaders(params: any, api: string) {
+        let hData: any = {}
+        const noAuthApi = [
+            "/login/phone",
+            "/login/verifyCode"
+        ];
+
+        hData = {
+			appKey: "ABBBD884A51C42D87099AFE63453141E",
+		};
+		let checkApiAuth = noAuthApi.indexOf(api) > -1;
+
+		if (!checkApiAuth) {
+            const accountToken = localStore.getItem('AccountToken');
+			hData['token'] = accountToken;
+		}
+		return hData;
+	}
 
     public postData(api: string, param?: any): Promise<any> {
         const paramsData = this.updateParams(param);
         const paramStr = qs.stringify(paramsData);
-        const header = this.updateHeaders(api);
+        const header = this.updateHeaders(param, api);
+        console.log(222, header, paramsData);
+        
         return new Promise((resolve, reject) => {
             this.instance
                 .request({
@@ -114,7 +143,7 @@ export default class AxiosRequest {
 
     public getData(api: string, param?: any): Promise<any> {
         const paramsData = this.updateParams(param);
-        const header = this.updateHeaders(api);
+        const header = this.updateHeaders(param, api);
         return new Promise((resolve, reject) => {
             this.instance
                 .request({

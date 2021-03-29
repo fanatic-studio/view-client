@@ -42,6 +42,14 @@ export interface LoginResponse extends IResponse {
 	};
 }
 
+export interface PhoenLoginParams {
+	phoneNum: string,
+	verifyCode: string,
+	loginType: number,
+	deviceType: string,
+	source: string,
+}
+
 export interface GetCaptchaParams {
 	phone: number;
 }
@@ -66,3 +74,5 @@ export interface AsyncGitlabAccountParams {
 export interface AsyncGitlabAccountResponse extends IResponse {
 	data: {};
 }
+
+

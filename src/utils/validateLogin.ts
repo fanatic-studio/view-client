@@ -17,14 +17,14 @@ export default (store: any, router: { beforeEach: Function }) => {
 			// 	return next({
 			// 		name: "notfound",
 			// 	});
-			if (
-				newpath.name !== "Login" &&
-				store.state.account.loginInfo.token === ""
-			) {
-				return next({
-					path: "/login",
-				});
-			}
+			// if (
+			// 	newpath.name !== "Login" &&
+			// 	store.state.account.loginInfo.token === ""
+			// ) {
+			// 	return next({
+			// 		path: "/login",
+			// 	});
+			// }
 			// if (newpath.name !== "Login" && newpath.name !== "NotFound")
 			// 	return next({
 			// 		path: "/notfound",

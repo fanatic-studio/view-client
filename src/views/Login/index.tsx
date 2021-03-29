@@ -1,14 +1,15 @@
-import { Form, Input, Icon, Checkbox, Button } from "ant-design-vue";
-import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-const AccountStore = namespace("account");
-const TeamStore = namespace("team");
-import Bubble from "@/components/Common/Bubble";
-import style from "./index.less";
-import AccountApi from "@/api/account";
-import crypto from "@/utils/crypto";
-import Logo from "@/components/Common/Logo";
-import { LoginParams } from "@/store/models/account/types";
+import { Form, Input, Icon, Checkbox, Button } from 'ant-design-vue';
+import { Component, Vue } from 'vue-property-decorator';
+import { State, Action, namespace } from 'vuex-class';
+const AccountStore = namespace('account');
+const TeamStore = namespace('team');
+import style from './index.less';
+import crypto from '@/utils/crypto';
+import { LoginParams, PhoenLoginParams } from '@/store/models/account/types';
+import AccountApi from "@/api/account"
+
+import localStore from '@/localStore';
+
 @Component({
 	props: {
 		form: {
@@ -19,42 +20,41 @@ import { LoginParams } from "@/store/models/account/types";
 class Login extends Vue {
 	form: any;
 	btnLoading: boolean = false;
-	codeUrl: string = "";
+	codeUrl: string = '';
 	uuid!: string;
-	// 是否记住密码
-	@AccountStore.State((state) => state.rememberMe) rememberMeChecked!: boolean;
-	// 记住的用于登录信息
-	@AccountStore.Getter("getRememberLoginInfo") getRememberLoginInfo: any;
-	@AccountStore.Action("toggleRmemberMe") toggleRmemberMe!: Function;
-	@AccountStore.Action("login") login!: Function;
-	@AccountStore.Action("getAccountInfo") __getAccountInfo!: Function;
-	@AccountStore.Action("getCode") getCode!: Function;
 
-	@TeamStore.Getter("teamList") teamList: any;
-	@TeamStore.Action("getTeamList") getTeamList!: Function;
-	@TeamStore.Action("updateCurrTeam") updateCurrTeam!: Function;
+	// 是否记住密码
+	@State((state) => state.rememberMe) rememberMeChecked!: boolean;
+	@Action('toggleRmemberMe') toggleRmemberMe: Function;
+	@Action('getCode') getCode!: Function;
+
+	// 记住的用于登录信息
+	@State((state) => state.rememberLoginInfo) rememberLoginInfo!: {
+		phoneNum: string;
+		verifyCode: string;
+	};
+
+	@Action('login') login!: Function;
+	@Action('phoneLogin') phoneLogin!: Function
+	@AccountStore.Action('getAccountInfo') __getAccountInfo!: Function;
+
+	// @TeamStore.Getter('teamList') teamList: any;
+	// @TeamStore.Action('getTeamList') getTeamList!: Function;
+	// @TeamStore.Action('updateCurrTeam') updateCurrTeam!: Function;
 
 	async created() {
-		await this.getVCode();
-		await this.getTeamList();
+		
 	}
 
 	protected mounted() {
-		const r = this.getRememberLoginInfo;
-		if (r.username && r.username !== "") {
+		let { phoneNum, verifyCode } = this.rememberLoginInfo || {
+			phoneNum: '',
+			verifyCode: '',
+		};
+		if (phoneNum !== '') {
 			this.form.setFieldsValue({
-				username: r.username,
-			});
-			if (this.rememberMeChecked) {
-				try {
-					const password = crypto.decrypt(r.password);
-					this.form.setFieldsValue({
-						password: password,
-					});
-				} catch (e) {
-					console.error(e);
-				}
-			}
+				phoneNum: phoneNum,
+			});		
 		}
 	}
 
@@ -62,7 +62,7 @@ class Login extends Vue {
 		this.toggleRmemberMe(e.target.checked);
 		if (!e.target.checked) {
 			this.form.setFieldsValue({
-				password: "",
+				password: '',
 			});
 		}
 	}
@@ -73,37 +73,59 @@ class Login extends Vue {
 		this.uuid = res.id;
 	}
 
+	async getVerifyCode(event: Event) {
+		event.preventDefault();
+		const {
+			form: { validateFields },
+		} = this;
+
+		validateFields(async (err: string, value: PhoenLoginParams) => {
+			// 获取验证码结果
+			try {
+				const result = AccountApi.getVerifyCode({
+					phoneNum: value.phoneNum,
+				})
+				console.log('getVerifyCode ------', result);
+				this.$message.success('验证码已发送');
+			} catch (error) {
+				this.$message.success(error.msg);
+			}
+		});
+	}
+
 	async handleSubmit(event: Event) {
 		event.preventDefault();
 		const {
 			form: { validateFields },
 		} = this;
-		validateFields(async (err: string, value: LoginParams) => {
+		validateFields(async (err: string, value: PhoenLoginParams) => {
 			if (!err) {
-				const postData: LoginParams = {
-					username: value.username,
-					password: value.password,
-					code: value.code,
+				// const postData: LoginParams = {
+				// 	username: value.username,
+				// 	password: value.password,
+				// 	code: value.code,
+				// };
+				// postData.uuid = this.uuid;
+				// this.btnLoading = true;
+				// this.$router.push('/app');
+				// return;
+				const postData: PhoenLoginParams = {
+					phoneNum: value.phoneNum,
+					verifyCode: value.verifyCode,
+					loginType: 2,
+					deviceType: '3',
+					source: "packing",
 				};
-				postData.uuid = this.uuid;
-				this.btnLoading = true;
-				const res = await this.login(postData);
-				if (res) {
-					const resultData = await this.__getAccountInfo();
-					this.btnLoading = false;
-					this.$message.success("登陆成功");
-					if (
-						resultData.accountData &&
-						resultData.accountData.gitLabAccountId === 0
-					) {
-						this.$router.push("/asyncGitLab");
-					} else {
-						this.$router.push("/app");
-					}
+				
+				let ress = await AccountApi.PhoneLogin(postData);
+				if (ress.code === 200) {
+
+					localStore.setItem("UserInfo", ress.data);
+					localStore.setItem("AccountToken", ress.data.javaToken);
+					
+					this.$router.push('/app');
 				} else {
-					this.btnLoading = false;
-					this.getVCode();
-					this.$message.error("账号或密码错误");
+					this.$message.error('登录失败');
 				}
 			}
 		});
@@ -113,88 +135,60 @@ class Login extends Vue {
 		const { getFieldDecorator } = this.form;
 		return (
 			<div class={style.login}>
-				<Bubble />
+				{/* <Bubble /> */}
 				<div class={style.loginPanel}>
-					<Logo headLogo />
+					{/* <Logo canClick={false} theme="lightDash" /> */}
 					<Form
 						class={style.loginForm}
 						onSubmit={(event: Event) => this.handleSubmit(event)}
 					>
 						<Form.Item>
-							{getFieldDecorator("username", {
+							{getFieldDecorator('phoneNum', {
 								rules: [
 									{
 										required: true,
-										message: "用户名不能为空",
+										message: '手机号不能为空',
 									},
 								],
 							})(
 								<Input
 									size="large"
 									type="text"
-									name="username"
-									placeholder="请输入用户名"
+									name="phoneNum"
+									placeholder="请输入手机号"
 								>
 									<Icon slot="prefix" type="user" />
 								</Input>
 							)}
 						</Form.Item>
 						<Form.Item>
-							{getFieldDecorator("password", {
+							{getFieldDecorator('verifyCode', {
 								rules: [
 									{
 										required: true,
-										message: "密码不能为空",
-									},
-								],
-							})(
-								<Input
-									size="large"
-									type="password"
-									name="password"
-									placeholder="请输入密码"
-								>
-									<Icon slot="prefix" type="lock" />
-								</Input>
-							)}
-						</Form.Item>
-						<Form.Item>
-							{getFieldDecorator("code", {
-								rules: [
-									{
-										required: true,
-										message: "验证码不能为空",
+										message: '验证码不能为空',
 									},
 								],
 							})(
 								<div class={style.inputCode}>
 									<Input
-										size="large"
-										type="text"
-										name="code"
-										placeholder="请输入验证码"
-									>
-										<Icon slot="prefix" type="lock" />
-									</Input>
-									<img
-										class={style.codeImg}
-										src={this.codeUrl}
-										onClick={() => {
-											this.getVCode();
-										}}
-									></img>
+									size="large"
+									type="verifyCode"
+									name="verifyCode"
+									placeholder="请输入验证码"
+								>
+									<Icon slot="prefix" type="lock" />
+									
+								</Input>
+								<button class={style.captureBtn} onClick={(event: Event) => this.getVerifyCode(event)}>获取验证码</button>
 								</div>
 							)}
 						</Form.Item>
+
 						<Form.Item>
-							<Checkbox
-								checked={this.rememberMeChecked}
-								onChange={this.rememberMe}
-							>
-								记住密码
-							</Checkbox>
+							
 							<Button type="primary" block size="large" html-type="submit">
-								登陆
+								登录
 							</Button>
 						</Form.Item>
 					</Form>
