@@ -16,11 +16,7 @@ import WorkProjectCard from "@/components/WorkPlace/WorkProjectCard";
 	},
 })
 export default class WorkPlace extends Vue {
-	@IssuesStore.Getter("myIssuesList") myIssuesList!: Array<IssuesData>;
-	@IssuesStore.Action("getMyIssuesList") getMyIssuesList!: Function;
-	@IssuesStore.Action("updateIssues") updateIssues!: Function;
-	@IssuesStore.Action("updateEditIssues") updateEditIssues!: Function;
-	@AccountStore.Action("getAccountInfo") __getAccountInfo!: Function;
+	
 
 	myToDoIssuesList: Array<IssuesData> = [];
 	myDoingIssuesList: Array<IssuesData> = [];
@@ -28,56 +24,14 @@ export default class WorkPlace extends Vue {
 	issueInfoDrawer: boolean = false;
 
 	async created() {
-		await this.getMyIssuesList();
 	}
 
 	@Watch("myIssuesList", { immediate: true, deep: true })
-	watchMyIssuesList() {
-		console.log("__myIssuesList", this.myIssuesList);
-		this.updateDnDIssuesList();
-	}
+	
 
 	mounted() {}
 
-	updateDnDIssuesList() {
-		this.myToDoIssuesList = [];
-		this.myDoingIssuesList = [];
-		this.myDoneIssues = [];
-		this.myIssuesList.map((item) => {
-			if (item.status === "doing") {
-				this.myDoingIssuesList.push(item);
-			} else if (item.status == "done") {
-				this.myDoneIssues.push(item);
-			} else if (item.status == "todo") {
-				this.myToDoIssuesList.push(item);
-			}
-		});
-	}
-
-	async issueListChange(
-		issue: {
-			added?: { element: IssuesData };
-			removed?: { element: IssuesData };
-		},
-		type: string
-	) {
-		console.log("issue", issue);
-		if (issue.added) {
-			this.updateEditIssues(issue.added.element);
-			const params = {
-				status: type,
-			};
-			await this.updateIssues(params);
-			await this.getMyIssuesList();
-		}
-		if (issue.removed) {
-		}
-	}
-
-	issuesInfoShow(issue: IssuesData) {
-		this.updateEditIssues(issue);
-		this.issueInfoDrawer = !this.issueInfoDrawer;
-	}
+	
 
 	bodyStyle = {
 		padding: "8px 0 0 0 ",
@@ -118,7 +72,7 @@ export default class WorkPlace extends Vue {
 							list={this.myToDoIssuesList}
 							group="people"
 							on-change={async (item: any) => {
-								await this.issueListChange(item, "todo");
+								
 							}}
 						>
 							{this.renderItem(this.myToDoIssuesList)}
@@ -131,7 +85,7 @@ export default class WorkPlace extends Vue {
 							list={this.myDoingIssuesList}
 							group="people"
 							on-change={async (item: any) => {
-								await this.issueListChange(item, "doing");
+								
 							}}
 						>
 							{this.renderItem(this.myDoingIssuesList)}
@@ -144,7 +98,7 @@ export default class WorkPlace extends Vue {
 							list={this.myDoneIssues}
 							group="people"
 							on-change={async (item: any) => {
-								await this.issueListChange(item, "done");
+								
 							}}
 						>
 							{this.renderItem(this.myDoneIssues)}
@@ -158,7 +112,7 @@ export default class WorkPlace extends Vue {
 	renderItem(itemList: Array<IssuesData>) {
 		return itemList.map((item) => {
 			return (
-				<IssuesDragItem item={item} on-itemInfoClick={this.issuesInfoShow} />
+				<IssuesDragItem item={item} on-itemInfoClick={true} />
 			);
 		});
 	}
