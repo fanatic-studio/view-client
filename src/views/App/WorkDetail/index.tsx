@@ -8,6 +8,8 @@ import { OrderData } from "@/store/models/order/types";
 import localStore from '@/localStore';
 import imgSrc from '@/assets/order_detail.png'
 import comSrc from '@/assets/complete.png'
+
+
 @Component({
 	components: {
 		
@@ -15,7 +17,8 @@ import comSrc from '@/assets/complete.png'
 })
 
 export default class OrderDetail extends Vue {
-
+    LODOP:any;
+    public pointResult:any = {};
     orderData: OrderData = {unOrderTotalPrice: 76.24, orderTotalPrice: 0, unCount: 0, count: 0};
     simpleItem: any = {}
     orderDetailInfo: any = {
@@ -167,7 +170,8 @@ export default class OrderDetail extends Vue {
 
     rightInfo() {
         return (
-            <Card bordered={false}>
+            <div>
+                <Card bordered={false}>
                 <div class={style.topUserInfo}>
                     <span class={style.sortStyle}>#{this.orderDetailInfo.rowNum}</span>
                     <div class={style.topUserInfoCenter}>
@@ -207,8 +211,10 @@ export default class OrderDetail extends Vue {
                         this.isModalVisible = true;
                         // await this.completeOrder()
                     }}>确认支付</Button>
+                    <iframe src="" frameborder="0"></iframe>
                 </div>
             </Card>
+            </div>
         )
     }
 }
