@@ -35,51 +35,7 @@ export const publicRouter: Array<RouterItem> = [
 ];
 
 export const workRouter: Array<RouterItem> = [
-	{
-		path: "myPlan",
-		icon: "",
-		name: "myPlan",
-		meta: {
-			label: "工作计划",
-		},
-		component: () => import("@/views/App/Plan"),
-	},
-	{
-		path: "myRequirement",
-		icon: "",
-		name: "myRequirement",
-		meta: {
-			label: "需求",
-		},
-		component: () => import("@/views/App/Requirement"),
-	},
-	{
-		path: "myRpplication",
-		icon: "",
-		name: "myRpplication",
-		meta: {
-			label: "子项目",
-		},
-		component: () => import("@/views/App/Application"),
-	},
-	{
-		path: "myMilestone",
-		icon: "",
-		name: "myMilestone",
-		meta: {
-			label: "里程碑",
-		},
-		component: () => import("@/views/App/Milestone"),
-	},
-	{
-		path: "myIssues",
-		icon: "",
-		name: "myIssues",
-		meta: {
-			label: "issue",
-		},
-		component: () => import("@/views/App/Issues"),
-	},
+	
 ];
 
 export const appRouter: Array<RouterItem> = [

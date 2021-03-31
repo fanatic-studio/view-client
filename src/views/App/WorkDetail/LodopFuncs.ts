@@ -1,4 +1,5 @@
 ﻿var CreatedOKLodop7766:any=null;
+let getCLodop: Function;
 
 //====判断是否需要安装CLodop云打印服务器:====
 export function needCLodop(){
@@ -62,7 +63,7 @@ export function getLodop(oOBJECT?:any,oEMBED?:any){
   try{
     var isIE = (navigator.userAgent.indexOf('MSIE')>=0) || (navigator.userAgent.indexOf('Trident')>=0);
     if (needCLodop()) {
-    //   try{ LODOP=getCLodop();} catch(err) {};
+      try{ LODOP=getCLodop();} catch(err) {};
       if (!LODOP && document.readyState!=="complete") {alert("C-Lodop没准备好，请稍后再试！"); return;};
       if (!LODOP) {
         // if (isIE) document.write(strCLodopInstall); else
