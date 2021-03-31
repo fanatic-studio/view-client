@@ -19,6 +19,7 @@
 		"serve": "vue-cli-service electron:serve",
 		"build": "vue-cli-service electron:build",
 		"build:w": "npm run build -- --win",
+		"build:w32": "npm run build -- --win --ia32",
 		"build:l": "npm run build -- --linux",
 		"build:all": "npm run build -- -mwl",
 		"generate-icons": "electron-icon-builder --input=./build/logo.png --output=build --flatten",

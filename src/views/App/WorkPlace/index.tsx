@@ -129,7 +129,7 @@ export default class WorkPlace extends Vue {
 						</div>
 						<div class={style.verStyle}>
 							<span class={style.moneyStyle}>￥{item.orderTotalPrice}</span>
-							<span>{item.createTime}</span>
+							<span>{this.orderStatus === 39 ? item.createTime : item.payTime}</span>
 						</div>
 						<Button class={style.payBtn} onClick={()=> {
 							localStore.setItem("orderItem", item)

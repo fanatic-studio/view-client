@@ -8,6 +8,8 @@ import { OrderData } from "@/store/models/order/types";
 import localStore from '@/localStore';
 import imgSrc from '@/assets/order_detail.png'
 import comSrc from '@/assets/complete.png'
+declare var LODOPFUNCS: any;
+import {getLodop} from './LodopFuncs'
 
 
 @Component({
@@ -43,7 +45,20 @@ export default class OrderDetail extends Vue {
 			
 			console.log('---------GetOrderInfo error', error);
 		}
-	}
+    }
+    
+    handleClick() {
+        this.LODOP = getLodop();
+        this.LODOP.SET_PRINT_PAGESIZE(2, '148mm', '210mm');
+        let formDate = document.getElementById("form1");
+
+        if (formDate) {
+            this.LODOP.ADD_PRINT_HTM(0, 0, "100%", "100%", formDate.innerHTML);
+        }
+        //this.LODOP.PREVIEW();
+        this.LODOP.PRINT();
+    }
+
 
     // 获取订单详情
     async getOrderDetail() {
@@ -128,7 +143,35 @@ export default class OrderDetail extends Vue {
                     await this.handleOk()
                 }} onCancel={() => {
                     this.handleCancel()
-                }}>请确认无误并继续您的操作</Modal>
+                    }}>请确认无误并继续您的操作
+                </Modal>
+
+                <Button type="primary" onClick={ this.handleClick }>测试打印</Button>
+                
+                <form>
+                    <table style="width:180px;height:300px">
+                        <tr style="width:180px;height:20px;">
+                            <td>订单号：</td>
+                            <td>#001</td>
+                        </tr>
+                        <tr style="width:180px;height:20px;">
+                            <td>姓名：</td>
+                            <td>李凯</td>
+                        </tr>
+                        <tr style="width:180px;height:20px;">
+                            <td>手机号：</td>
+                            <td>13930001001</td>
+                        </tr>
+                        <tr style="width:180px;height:20px;">
+                            <td>订单重量：</td>
+                            <td>10kg</td>
+                        </tr>
+                        <tr style="width:180px;height:20px;">
+                            <td>订单金额：</td>
+                            <td>100元</td>
+                        </tr>
+                    </table>
+                </form>
             </div>
         )  
     }
@@ -169,52 +212,101 @@ export default class OrderDetail extends Vue {
     }
 
     rightInfo() {
-        return (
-            <div>
-                <Card bordered={false}>
-                <div class={style.topUserInfo}>
-                    <span class={style.sortStyle}>#{this.orderDetailInfo.rowNum}</span>
-                    <div class={style.topUserInfoCenter}>
-                        <span class={style.sortStyle}>{this.orderDetailInfo.nickName}</span>
-                        <span class={style.phoneStyle}>{this.orderDetailInfo.phoneNum}</span>
-                    </div>
-                    <span class={style.phoneStyle}>普通卡</span>
+        if (this.orderDetailInfo.orderStatus === 39) {
+            return (
+                <div>
+                    <Card bordered={false}>
+                        <div class={style.topUserInfo}>
+                            <span class={style.sortStyle}>#{this.orderDetailInfo.rowNum}</span>
+                            <div class={style.topUserInfoCenter}>
+                                <span class={style.sortStyle}>{this.orderDetailInfo.nickName}</span>
+                                <span class={style.phoneStyle}>{this.orderDetailInfo.phoneNum}</span>
+                            </div>
+                            <span class={style.phoneStyle}>普通卡</span>
+                        </div>
+                        <div class={style.botLogo}>
+                            <img class={style.logoImg} src={comSrc} />
+                            <span>结算单</span>
+                        </div>
+                        <div class={style.priceItems}>
+                            <span class={style.priceItemsLeft}>称重</span>
+                            <span class={style.priceItemsRight}>{this.orderDetailInfo.totalRecyclePrice}元</span>
+                        </div>
+                        <div class={style.priceItems}>
+                            <span class={style.priceItemsLeft}>VIP加成</span>
+                            <span class={style.priceItemsRight}>{this.orderDetailInfo.totalVipPrice}元</span>
+                        </div>
+                        <div class={style.priceItems}>
+                            <span class={style.priceItemsLeft}>活动加成</span>
+                            <span class={style.priceItemsRight}>{this.orderDetailInfo.activityPrice}元</span>
+                        </div>
+                        <div class={style.resultPay}>
+                            <span class={style.priceItemsLeft}>{this.orderDetailInfo.orderStatus === 39 ? "需支付" : "已支付"}</span>
+                            <span class={style.resultPayPrice}>{this.orderDetailInfo.totalPrice}元</span>
+                        </div>
+                        <div class={style.actionBtn}>
+                            <Button class={style.cancelBtn} onClick={(event: Event) => {
+                                this.modalTitle = "确认取消订单？"
+                                this.isModalVisible = true;
+                                // await this.cancelOrder()
+                            }}>取消支付</Button>
+                            <Button class={style.confirmBtn} onClick={(event: Event) => {
+                                this.modalTitle = "确认支付？"
+                                this.isModalVisible = true;
+                                // await this.completeOrder()
+                            }}>确认支付</Button>
+                        </div>
+                    </Card>
                 </div>
-                <div class={style.botLogo}>
-                    <img class={style.logoImg} src={comSrc} />
-                    <span>结算单</span>
+            )       
+        } else {
+            return (
+                <div>
+                    <Card bordered={false}>
+                        <div class={style.topUserInfo}>
+                            <span class={style.sortStyle}>#{this.orderDetailInfo.rowNum}</span>
+                            <div class={style.topUserInfoCenter}>
+                                <span class={style.sortStyle}>{this.orderDetailInfo.nickName}</span>
+                                <span class={style.phoneStyle}>{this.orderDetailInfo.phoneNum}</span>
+                            </div>
+                            <span class={style.phoneStyle}>普通卡</span>
+                        </div>
+                        <div class={style.botLogo}>
+                            <img class={style.logoImg} src={comSrc} />
+                            <span>结算单</span>
+                        </div>
+                        <div class={style.priceItems}>
+                            <span class={style.priceItemsLeft}>称重</span>
+                            <span class={style.priceItemsRight}>{this.orderDetailInfo.totalRecyclePrice}元</span>
+                        </div>
+                        <div class={style.priceItems}>
+                            <span class={style.priceItemsLeft}>VIP加成</span>
+                            <span class={style.priceItemsRight}>{this.orderDetailInfo.totalVipPrice}元</span>
+                        </div>
+                        <div class={style.priceItems}>
+                            <span class={style.priceItemsLeft}>活动加成</span>
+                            <span class={style.priceItemsRight}>{this.orderDetailInfo.activityPrice}元</span>
+                        </div>
+                        <div class={style.resultPay}>
+                            <span class={style.priceItemsLeft}>{this.orderDetailInfo.orderStatus === 39 ? "需支付" : "已支付"}</span>
+                            <span class={style.resultPayPrice}>{this.orderDetailInfo.totalPrice}元</span>
+                        </div>
+                        {/* <div class={style.actionBtn}>
+                            <Button class={style.cancelBtn} onClick={(event: Event) => {
+                                this.modalTitle = "确认取消订单？"
+                                this.isModalVisible = true;
+                                // await this.cancelOrder()
+                            }}>取消支付</Button>
+                            <Button class={style.confirmBtn} onClick={(event: Event) => {
+                                this.modalTitle = "确认支付？"
+                                this.isModalVisible = true;
+                                // await this.completeOrder()
+                            }}>确认支付</Button>
+                        </div> */}
+                    </Card>
                 </div>
-                <div class={style.priceItems}>
-                    <span class={style.priceItemsLeft}>称重</span>
-                    <span class={style.priceItemsRight}>{this.orderDetailInfo.totalRecyclePrice}元</span>
-                </div>
-                <div class={style.priceItems}>
-                    <span class={style.priceItemsLeft}>VIP加成</span>
-                    <span class={style.priceItemsRight}>{this.orderDetailInfo.totalVipPrice}元</span>
-                </div>
-                <div class={style.priceItems}>
-                    <span class={style.priceItemsLeft}>活动加成</span>
-                    <span class={style.priceItemsRight}>{this.orderDetailInfo.activityPrice}元</span>
-                </div>
-                <div class={style.resultPay}>
-                    <span class={style.priceItemsLeft}>{this.orderDetailInfo.orderStatus === 39 ? "需支付" : "已支付"}</span>
-                    <span class={style.resultPayPrice}>{this.orderDetailInfo.totalPrice}元</span>
-                </div>
-                <div class={style.actionBtn}>
-                    <Button class={style.cancelBtn} onClick={(event: Event) => {
-                        this.modalTitle = "确认取消订单？"
-                        this.isModalVisible = true;
-                        // await this.cancelOrder()
-                    }}>取消支付</Button>
-                    <Button class={style.confirmBtn} onClick={(event: Event) => {
-                        this.modalTitle = "确认支付？"
-                        this.isModalVisible = true;
-                        // await this.completeOrder()
-                    }}>确认支付</Button>
-                    <iframe src="" frameborder="0"></iframe>
-                </div>
-            </Card>
-            </div>
-        )
+            )  
+        }
+        
     }
 }

@@ -22,7 +22,7 @@ module.exports = {
 				},
 				win: {
 					icon: "./build/icons/icon.ico", // 应用文件图标
-					target: [{ target: "nsis", arch: ["x32"] }],
+					target: [{ target: "nsis", arch: ["x64"] }],
 					legalTrademarks: "misthin",
 				},
 				mac: {

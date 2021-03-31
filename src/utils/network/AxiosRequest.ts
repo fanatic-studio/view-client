@@ -60,10 +60,10 @@ export default class AxiosRequest {
 
     private apiToUrl(api: string): string {
         if (api === "/login/phone" || api==="/login/verifyCode") {
-			const url = "http://192.168.11.120:7018" + api; // http://cs.daieco.com http://192.168.11.168:7018
+			const url = "http://192.168.11.168:7018" + api; // http://cs.daieco.com http://192.168.11.168:7018
 			return url;
 		} else {
-			const url = 'http://192.168.11.120:7020' + api;  // http://packing.daieco.com http://192.168.11.168:7020
+			const url = 'http://192.168.11.168:7020' + api;  // http://packing.daieco.com http://192.168.11.168:7020
 			return url;
 		}
         return this.url + api;
