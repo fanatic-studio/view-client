@@ -100,33 +100,26 @@ class Login extends Vue {
 		} = this;
 		validateFields(async (err: string, value: PhoenLoginParams) => {
 			if (!err) {
-				// const postData: LoginParams = {
-				// 	username: value.username,
-				// 	password: value.password,
-				// 	code: value.code,
-				// };
-				// postData.uuid = this.uuid;
-				// this.btnLoading = true;
-				// this.$router.push('/app');
-				// return;
 				const postData: PhoenLoginParams = {
 					phoneNum: value.phoneNum,
 					verifyCode: value.verifyCode,
 					loginType: 2,
 					deviceType: '3',
 					source: "packing",
-				};
-				
-				let ress = await AccountApi.PhoneLogin(postData);
-				if (ress.code === 200) {
-
-					localStore.setItem("UserInfo", ress.data);
-					localStore.setItem("AccountToken", ress.data.javaToken);
-					
-					this.$router.push('/app');
-				} else {
-					this.$message.error('登录失败');
-				}
+				};	
+				this.$router.push('/app');
+				let ress = await AccountApi.PhoneLogin(postData).then(res=> {
+					if (res.code === 200) {
+						localStore.setItem("UserInfo", res.data);
+						let token = res.data.javaToken
+						console.log(token);
+						
+						localStore.setItem("AccountToken", token);
+						this.$router.push('/app');
+					} else {
+						this.$message.error('登录失败');
+					}
+				})
 			}
 		});
 	}

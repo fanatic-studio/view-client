@@ -20,32 +20,32 @@ export default class AppLayout extends Vue {
 	@PlanStore.Action("getMonthPlan") __getMonthPlan!: Function;
 
 	async created() {
-		const pjParams = {
-			pageIndex: 1,
-			pageSize: 10,
-			status: "",
-		};
-		await this.getProjectLis(pjParams);
-		const pjmParams = {
-			pageIndex: 1,
-			pageSize: 100,
-			status: "",
-		};
-		await this.getProjectMemberLis(pjmParams);
-		const milsParams = {
-			pageIndex: 1,
-			pageSize: 10,
-			status: "",
-		};
-		await this.getMilestoneList(milsParams);
-		const appParams = {
-			pageIndex: 1,
-			pageSize: 10,
-			status: "",
-		};
-		await this.__getApplicationList(appParams);
+		// const pjParams = {
+		// 	pageIndex: 1,
+		// 	pageSize: 10,
+		// 	status: "",
+		// };
+		// await this.getProjectLis(pjParams);
+		// const pjmParams = {
+		// 	pageIndex: 1,
+		// 	pageSize: 100,
+		// 	status: "",
+		// };
+		// await this.getProjectMemberLis(pjmParams);
+		// const milsParams = {
+		// 	pageIndex: 1,
+		// 	pageSize: 10,
+		// 	status: "",
+		// };
+		// await this.getMilestoneList(milsParams);
+		// const appParams = {
+		// 	pageIndex: 1,
+		// 	pageSize: 10,
+		// 	status: "",
+		// };
+		// await this.__getApplicationList(appParams);
 
-		await this.__getMonthPlan({ planId: "" });
+		// await this.__getMonthPlan({ planId: "" });
 	}
 
 	opereateMenu(): void {

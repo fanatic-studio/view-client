@@ -16,7 +16,7 @@ export default class Logo extends Vue {
 				on-click={this.iconClick}
 			>
 				<img class={style.logoImg} src={logo} />
-				<h1 class={style.title}>View Design</h1>
+				<h1 class={style.title}>可见中转站</h1>
 			</div>
 		);
 	}

@@ -113,6 +113,15 @@ export const appRouter: Array<RouterItem> = [
 				component: WorkLayout,
 				children: [...workRouter],
 			},
+			{
+				path: "workDetail",
+				icon: "",
+				name: "workDetail",
+				meta: {
+					label: "订单详情",
+				},
+				component: () => import("@/views/App/WorkDetail"),
+			},
 		],
 	},
 ];
