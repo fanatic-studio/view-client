@@ -10,6 +10,7 @@ import imgSrc from '@/assets/order_detail.png'
 import comSrc from '@/assets/complete.png'
 declare var LODOPFUNCS: any;
 import {getLodop} from './LodopFuncs'
+import { app, protocol, BrowserWindow } from 'electron';
 
 
 @Component({
@@ -40,9 +41,7 @@ export default class OrderDetail extends Vue {
 		try {
 			const result = await OrderApi.GetOrderInfo({});
 			this.orderData = result;
-			console.log('---------GetOrderInfo', result);
 		} catch (error) {
-			
 			console.log('---------GetOrderInfo error', error);
 		}
     }
@@ -71,9 +70,8 @@ export default class OrderDetail extends Vue {
             }
 			const result = await OrderApi.GetOrderDetail(params);
 			this.orderDetailInfo = result;
-			console.log('---------GetOrderDetail', result);
 		} catch (error) {
-			console.log('---------GetOrderDetail error', error);
+            this.$message.error(error.msg);
 		}
 	}
 
@@ -87,11 +85,9 @@ export default class OrderDetail extends Vue {
             }
 			const result = await OrderApi.CancelOrder(params);
 			this.orderDetailInfo = result;
-			console.log('---------CancelOrder', result);
             this.$message.success('取消订单成功');
             this.$router.go(-1)
 		} catch (error) {
-			console.log('---------CancelOrder error', error);
             this.$message.error(error.msg ? error.msg : "请求失败");
 		}
     }
@@ -109,10 +105,12 @@ export default class OrderDetail extends Vue {
             };
 			const result = await OrderApi.OrderPay(params);
 			this.$message.success('支付已完成');
+
+            var iTop = (window.screen.height-30-500)/2;       //获得窗口的垂直位置;
+			var iLeft = (window.screen.width-10-400)/2;  
+            window.open(`http://cs.daieco.com/h5/print/print.html?id=${orderItem.recycleOrderCode}`, "_blank", `width=400px,height=500px,top=${iTop}px,left=${iLeft}px`)
             this.$router.go(-1)
-			console.log('---------OrderPay', result);
 		} catch (error) {
-			console.log('---------OrderPay error', error);
             this.$message.error(error.msg ? error.msg : "请求失败");
 		}
     }
@@ -134,10 +132,16 @@ export default class OrderDetail extends Vue {
         return (
             <div class={style.orderDetail}>
                 <WorkPlaceHeader orderData={this.orderData} />
-                <div class={style.titleDiv}>
-                    <img class={style.logoImg} src={imgSrc} />
-                    <span>货物信息</span>
+                <div class={style.titleContent}>
+                    <div class={style.titleDiv}>
+                        <img class={style.logoImg} src={imgSrc} />
+                        <span>货物信息</span>
+                    </div>
+                    <Button class={style.titleContentRight} onClick={() => {
+                        this.$router.go(-1)
+                    }}>返回上一页</Button>
                 </div>
+                
                 {this.orderDetailView()}
                 <Modal title={this.modalTitle} visible={this.isModalVisible} onOk={async ()=> {
                     await this.handleOk()

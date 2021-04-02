@@ -107,19 +107,26 @@ class Login extends Vue {
 					deviceType: '3',
 					source: "packing",
 				};	
-				this.$router.push('/app');
-				let ress = await AccountApi.PhoneLogin(postData).then(res=> {
-					if (res.code === 200) {
-						localStore.setItem("UserInfo", res.data);
-						let token = res.data.javaToken
-						console.log(token);
+				try {
+					let res = await AccountApi.PhoneLogin(postData)
+					localStore.setItem("UserInfo", res.data);
+					let token = res.data.javaToken
+					console.log(token);
+					localStore.setItem("AccountToken", token);
+					this.$router.push('/app');
+				} catch (error) {
+					console.log("-----", error);
+					this.$message.error(error.msg);
+				}
+				// let ress = await AccountApi.PhoneLogin(postData).then(res=> {
+				// 	console.log("-----", res);
+					
+				// 	if (res.code === 200) {
 						
-						localStore.setItem("AccountToken", token);
-						this.$router.push('/app');
-					} else {
-						this.$message.error('登录失败');
-					}
-				})
+				// 	} else {
+						
+				// 	}
+				// })
 			}
 		});
 	}

@@ -32,14 +32,16 @@ export default class WorkPlace extends Vue {
 	async getOrderList() {
 		try {
 			let params = {
+				pageNum: 1,
+				pageSize: -1,
 				orderStatus: this.orderStatus
 			}
 			const result = await OrderApi.GetOrderList(params);
 			this.myToDoIssuesList = result.records;
-
-			console.log('---------GetOrderList', result);
+			console.log("result", result);
+			
 		} catch (error) {
-			console.log('---------GetOrderList error', error);
+			this.$message.error(error.msg);
 		}
 	}
 
@@ -47,10 +49,8 @@ export default class WorkPlace extends Vue {
 		try {
 			const result = await OrderApi.GetOrderInfo({});
 			this.orderData = result;
-			console.log('---------GetOrderInfo', result);
 		} catch (error) {
-			
-			console.log('---------GetOrderInfo error', error);
+			this.$message.error(error.msg);
 		}
 	}
 
@@ -64,7 +64,14 @@ export default class WorkPlace extends Vue {
 			<div class={style.workPlace}>
 				<WorkPlaceHeader orderData={this.orderData} />
 				<div class={style.content}>
-					<Card bodyStyle={this.bodyStyle} title="任务大厅" bordered={false}>
+					<Card bodyStyle={this.bodyStyle}  bordered={false}>
+						<div class={style.projectContent}>
+							<span class={style.projectContentLeft}>任务大厅</span>
+							<Button onClick={async () => {
+								await this.getDataInfo();
+								await this.getOrderList();
+							}}>刷新</Button>
+						</div>
 						{this.renderIssuesList()}
 					</Card>
 				</div>

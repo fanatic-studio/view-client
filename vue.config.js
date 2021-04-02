@@ -61,7 +61,7 @@ module.exports = {
 					icon: "build/electron-icon/icon.png",
 					target: "AppImage",
 				},
-				productName: "ViewDesign", // 安装文件名
+				productName: "可见收银台", // 安装文件名
 				appId: "org.misthin-tools.electron",
 				// appId: 'org.${name}.electron',
 				copyright: "Copyright © 2021 ${author}", //版权信息

@@ -7,6 +7,7 @@ import { AccountInfo } from "@/store/models/account/types";
 
 import localStore from '@/localStore';
 import { OrderData } from "@/store/models/order/types";
+import headImg from "@/assets/headImg.png"
 
 // const AccountStore = namespace("account");
 @Component
@@ -24,9 +25,7 @@ export default class WorkPlaceHeader extends Vue {
 			<div class={style.pageHeaderContent}>
 				<div class={style.left}>
 					<div class={style.avatar}>
-						<Avatar icon={this.userInfo.headImg} size="large">
-							
-						</Avatar>
+						<img class={style.logoImg} src={headImg} />
 					</div>
 					<div class={style.content}>
 						<div class={style.contentTitle}>
