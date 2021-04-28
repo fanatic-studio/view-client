@@ -3,12 +3,17 @@ import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 import style from "./index.less";
 import {
 	ApplicationMode,
+	ApplicationUpdateMode,
 	ListApplicationUpdateParams,
 } from "@/store/models/application/types";
-import ApplicationApi from "@/api/application";
-
+import { namespace } from "vuex-class";
+const ApplicationStore = namespace("application");
 @Component
 export default class ApplicationUpdateList extends Vue {
+	@ApplicationStore.Getter("applicationUpdateList")
+	applicationUpdateList!: Array<ApplicationUpdateMode>;
+	@ApplicationStore.Action("getApplicationUpdateList")
+	getApplicationUpdateList!: Function;
 	@Prop(Object) readonly item!: ApplicationMode;
 
 	versionListColumns: Array<any> = [
@@ -31,7 +36,9 @@ export default class ApplicationUpdateList extends Vue {
 	];
 	versionListData: Array<any> = [];
 
-	async created() {}
+	async created() {
+		await this.getApplicationUpdateList();
+	}
 
 	render() {
 		return (

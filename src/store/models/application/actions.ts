@@ -59,7 +59,7 @@ const actions: ActionTree<ApplicationState, any> = {
 		store.commit("SET_EDIT_APPLICATION", p);
 	},
 
-	async getApplicationUpdateLsit(store, p: UpdateApplicationParams) {
+	async getApplicationUpdateList(store, p: UpdateApplicationParams) {
 		try {
 			let params: ListApplicationUpdateParams = {
 				applicationId: store.state.currEditApplication.applicationId,
