@@ -4,18 +4,8 @@ import style from "./index.less";
 import { ApplicationMode } from "@/store/models/application/types";
 
 @Component
-export default class ApplicationItem extends Vue {
+export default class ApplicationVersion extends Vue {
 	@Prop(Object) readonly item!: ApplicationMode;
-
-	@Emit()
-	itemClick() {
-		this.$emit("itemClick", this.item);
-	}
-
-	@Emit()
-	applicationVersion() {
-		this.$emit("applicationVersionClick", this.item);
-	}
 	render() {
 		return (
 			<Card class={style.applicationItem} hoverable style="">
@@ -41,24 +31,6 @@ export default class ApplicationItem extends Vue {
 						</div>
 					</div>
 				</div>
-				<template slot="actions">
-					<Tooltip placement="top">
-						<div slot="title">版本管理</div>
-						<Icon
-							key="setting"
-							type="setting"
-							on-click={this.applicationVersion}
-						/>
-					</Tooltip>
-					<Tooltip placement="top">
-						<div slot="title">编辑</div>
-						<Icon key="edit" type="edit" />
-					</Tooltip>
-					<Tooltip placement="top">
-						<div slot="title">更多</div>
-						<Icon key="ellipsis" type="ellipsis" />
-					</Tooltip>
-				</template>
 			</Card>
 		);
 	}

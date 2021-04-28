@@ -22,6 +22,7 @@ import { ApplicationMode } from "@/store/models/application/types";
 import ApplicationItem from "@/components/Application/ApplicationItem";
 import ApplicationAdd from "@/components/Application/ApplicationAdd";
 import ApplicationInfo from "@/components/Application/ApplicationInfo";
+import ApplicationVersion from "@/components/Application/ApplicationVersion";
 
 @Component
 export default class Application extends Vue {
@@ -36,6 +37,7 @@ export default class Application extends Vue {
 
 	addModal: boolean = false;
 	controlDrawer: boolean = false;
+	versionControlDrawer: boolean = false;
 	pageIndex: number = 1;
 	pageSize: number = 10;
 
@@ -52,6 +54,10 @@ export default class Application extends Vue {
 
 		this.updateEditApplication(item);
 		this.controlDrawer = !this.controlDrawer;
+	}
+
+	applicationVersionClick() {
+		this.versionControlDrawer = !this.versionControlDrawer;
 	}
 
 	async tabClick(e: string) {
@@ -112,9 +118,19 @@ export default class Application extends Vue {
 					on-close={() => {
 						this.controlDrawer = !this.controlDrawer;
 					}}
-					width={1100}
+					width={800}
 				>
 					<ApplicationInfo on-updateAppList={this.updateAppList} />
+				</Drawer>
+				<Drawer
+					title="版本列表"
+					visible={this.versionControlDrawer}
+					on-close={() => {
+						this.versionControlDrawer = !this.versionControlDrawer;
+					}}
+					width={800}
+				>
+					<ApplicationVersion on-updateAppList={this.updateAppList} />
 				</Drawer>
 			</div>
 		);
@@ -122,7 +138,13 @@ export default class Application extends Vue {
 
 	protected renderAppList() {
 		return this.applicationList.map((item, index) => {
-			return <ApplicationItem item={item} on-itemClick={this.AppItemClick} />;
+			return (
+				<ApplicationItem
+					item={item}
+					on-itemClick={this.AppItemClick}
+					on-applicationVersionClick={this.applicationVersionClick}
+				/>
+			);
 		});
 	}
 }
