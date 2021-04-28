@@ -6,6 +6,7 @@ import {
 	ApplicationMode,
 	ApplicationState,
 	UpdateApplicationParams,
+	ListApplicationUpdateParams,
 } from "./types";
 
 const actions: ActionTree<ApplicationState, any> = {
@@ -56,6 +57,16 @@ const actions: ActionTree<ApplicationState, any> = {
 	},
 	updateEditApplication(store, p: any) {
 		store.commit("SET_EDIT_APPLICATION", p);
+	},
+
+	async getApplicationUpdateLsit(store, p: UpdateApplicationParams) {
+		try {
+			let params: ListApplicationUpdateParams = {
+				applicationId: store.state.currEditApplication.applicationId,
+			};
+			const result = await ApplicationApi.ListApplicationUpdate(params);
+			store.commit("SET_APPLICATION_UPDATE_LIST", result.list);
+		} catch (error) {}
 	},
 };
 

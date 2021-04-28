@@ -5,6 +5,7 @@ export interface ApplicationState {
 	applicationList: Array<ApplicationMode>;
 	applicationListCount: number;
 	currEditApplication: any;
+	currApplicationUpdateList: Array<ApplicationUpdateMode>;
 }
 
 export interface ApplicationMode {
@@ -30,6 +31,32 @@ export interface ApplicationMode {
 	platform: string;
 	package: string;
 	debug: number;
+	launchTotal?: number;
+	allInstall?: number;
+	status?: string;
+}
+
+export interface ApplicationUpdateMode {
+	id?: number;
+	teamId?: string;
+	projectId?: string;
+	accountId?: string;
+	appId?: string;
+	appType: string;
+	title: string;
+	package: string;
+	version: string;
+	platform: string;
+	reboot: string;
+	rebootTitle: string;
+	rebootMessage: number;
+	rebootConfirmReboot: number;
+	fileUrl: number;
+	fileSize: number;
+	valid: string;
+	updateMode: string;
+	clearCache: string;
+	debug: string;
 	launchTotal?: number;
 	allInstall?: number;
 	status?: string;
@@ -122,6 +149,99 @@ export interface ListApplicationParams {
 }
 
 export interface ListApplicationResponse {
+	list: Array<ApplicationMode>;
+	count: number;
+	pageIndex: number;
+	pageSize: number;
+	ret: number;
+}
+
+//-------
+export interface AddApplicationUpdateParams {
+	teamId?: string;
+	projectId?: string;
+	appType: string;
+	name: string;
+	cName: string;
+	desc: string;
+	assignee: string;
+	package: string;
+}
+export interface AddApplicationUpdateResponse extends IResponse {
+	data: {
+		id: number;
+		teamId: string;
+		projectId: string;
+		accountId: string;
+		applicationId: string;
+		gitLabApplicationId: number;
+		assignee: string;
+		name: string;
+		desc: string;
+		content: string;
+		startAt: string;
+		ductTime: string;
+		onlineAt: string;
+		status: string;
+	};
+}
+
+export interface GetApplicationUpdateParams {
+	applicationId: string;
+}
+export interface GetApplicationUpdateResponse extends IResponse {
+	data: {
+		id: number;
+		teamId: string;
+		projectId: string;
+		accountId: string;
+		applicationId: string;
+		gitLabApplicationId: number;
+		assignee: string;
+		name: string;
+		desc: string;
+		content: string;
+		startAt: string;
+		ductTime: string;
+		onlineAt: string;
+		status: string;
+	};
+}
+
+export interface UpdateApplicationUpdateParams {
+	applicationId: string;
+	name: string;
+	desc: string;
+	content: string;
+	assignee: string;
+	startAt: string;
+	onlineAt: string;
+	status: string;
+}
+export interface UpdateApplicationUpdateResponse extends IResponse {
+	data: {
+		id: number;
+		teamId: string;
+		projectId: string;
+		accountId: string;
+		applicationId: string;
+		gitLabApplicationId: number;
+		assignee: string;
+		name: string;
+		desc: string;
+		content: string;
+		startAt: string;
+		ductTime: string;
+		onlineAt: string;
+		status: string;
+	};
+}
+
+export interface ListApplicationUpdateParams {
+	applicationId: string;
+}
+
+export interface ListApplicationUpdateResponse {
 	list: Array<ApplicationMode>;
 	count: number;
 	pageIndex: number;
