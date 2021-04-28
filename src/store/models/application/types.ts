@@ -238,7 +238,7 @@ export interface UpdateApplicationUpdateResponse extends IResponse {
 }
 
 export interface ListApplicationUpdateParams {
-	applicationId: string;
+	appId: string;
 }
 
 export interface ListApplicationUpdateResponse {

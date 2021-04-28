@@ -62,8 +62,10 @@ const actions: ActionTree<ApplicationState, any> = {
 	async getApplicationUpdateList(store, p: UpdateApplicationParams) {
 		try {
 			let params: ListApplicationUpdateParams = {
-				applicationId: store.state.currEditApplication.applicationId,
+				appId: store.state.currEditApplication.appId,
 			};
+			console.log("params", params);
+
 			const result = await ApplicationApi.ListApplicationUpdate(params);
 			store.commit("SET_APPLICATION_UPDATE_LIST", result.list);
 		} catch (error) {}

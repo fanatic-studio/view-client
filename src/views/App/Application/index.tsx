@@ -58,10 +58,12 @@ export default class Application extends Vue {
 		this.controlDrawer = !this.controlDrawer;
 	}
 
-	applicationVersionClick() {
+	applicationVersionClick(item: ApplicationMode) {
+		this.updateEditApplication(item);
 		this.versionControlDrawer = !this.versionControlDrawer;
 	}
-	applicationUpdateClick() {
+	applicationUpdateClick(item: ApplicationMode) {
+		this.updateEditApplication(item);
 		this.updateControlDrawer = !this.updateControlDrawer;
 	}
 
