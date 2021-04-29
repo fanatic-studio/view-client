@@ -3,9 +3,11 @@ import {
 	Avatar,
 	Button,
 	Card,
+	Col,
 	Divider,
 	Icon,
 	Modal,
+	Row,
 	Table,
 	Tabs,
 	Tag,
@@ -76,6 +78,7 @@ export default class ApplicationUpdateList extends Vue {
 			title: "重启模式",
 			dataIndex: "reboot",
 			key: "reboot",
+			width: "200px",
 			customRender: this.rednerReboot,
 		},
 		{
@@ -136,14 +139,19 @@ export default class ApplicationUpdateList extends Vue {
 		await this.getApplicationUpdateList(params);
 	}
 
+	checkUpdateBtnLoading: boolean = false;
 	private async checkAppUpdate() {
+		this.checkUpdateBtnLoading = true;
 		const res = await this.checkApplicationUpdate();
+		this.checkUpdateBtnLoading = false;
 		if (res.uplists.length > 0) {
-			this.$notification.open({
-				message: "发现新的热更新",
-				duration: 10,
-				description: this.renderCheckAppUpdateTips(res.uplists[0]),
-				icon: <Icon type="smile" style="color: #108ee9" />,
+			this.$success({
+				title: "发现热更新成功",
+				content: this.renderCheckAppUpdateTips(res.uplists[0]),
+			});
+		} else {
+			this.$error({
+				title: "当前没有可用热更新",
 			});
 		}
 	}
@@ -163,6 +171,7 @@ export default class ApplicationUpdateList extends Vue {
 						slot="tabBarExtraContent"
 						type="danger"
 						style={{ marginLeft: "8px" }}
+						loading={this.checkUpdateBtnLoading}
 						on-click={this.checkAppUpdate}
 					>
 						热更新测试
@@ -269,14 +278,20 @@ export default class ApplicationUpdateList extends Vue {
 		}
 		if (record.reboot === "2") {
 			return (
-				<div>
-					<div>提示重启</div>
-					<div>重启title：{record.rebootTitle}</div>
-					<div>重启说明：{record.rebootMessage}</div>
-					<div>
-						确认按钮行为:{record.rebootConfirmReboot === "0" ? "静默" : "重启"}
-					</div>
-				</div>
+				<Row>
+					<Tag color="red">提示重启</Tag>
+					<Card style={{ marginTop: "8px" }} title={record.rebootTitle}>
+						<div>{record.rebootMessage}</div>
+						<div slot="actions">
+							确认按钮行为:
+							{record.rebootConfirmReboot === "0" ? (
+								<Tag color="blue">静默</Tag>
+							) : (
+								<Tag color="orange">自动重启</Tag>
+							)}
+						</div>
+					</Card>
+				</Row>
 			);
 		}
 	}
@@ -344,27 +359,31 @@ export default class ApplicationUpdateList extends Vue {
 		return (
 			<Alert type="info">
 				<div slot="message">
-					<div>
-						重启类型
-						{this.rednerReboot(
-							null,
-							{
-								reboot: updateData.reboot,
-								rebootTitle: updateData.reboot_info.title,
-								rebootMessage: updateData.reboot_info.message,
-								rebootConfirmReboot: updateData.reboot_info.confirm_reboot,
-							},
-							0
-						)}
-					</div>
-					<div>
-						是否清楚缓存
-						{this.rednerUpdateAction(
-							null,
-							{ clearCache: updateData.clear_cache },
-							0
-						)}
-					</div>
+					<Row gutter={8}>
+						<Col span="8">重启类型:</Col>
+						<Col span="16">
+							{this.rednerReboot(
+								null,
+								{
+									reboot: updateData.reboot,
+									rebootTitle: updateData.reboot_info.title,
+									rebootMessage: updateData.reboot_info.message,
+									rebootConfirmReboot: updateData.reboot_info.confirm_reboot,
+								},
+								0
+							)}
+						</Col>
+					</Row>
+					<Row gutter={8} style={{ marginTop: "8px" }}>
+						<Col span="8">是否清除缓存:</Col>
+						<Col span="16">
+							{this.rednerUpdateAction(
+								null,
+								{ clearCache: updateData.clear_cache },
+								0
+							)}
+						</Col>
+					</Row>
 				</div>
 			</Alert>
 		);

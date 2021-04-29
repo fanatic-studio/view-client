@@ -17,6 +17,9 @@ Vue.config.productionTip = false;
 // 全局message绑定
 Vue.prototype.$message = message;
 Vue.prototype.$notification = notification;
+Vue.prototype.$confirm = Modal.confirm;
+Vue.prototype.$success = Modal.success;
+Vue.prototype.$error = Modal.error;
 
 const initAPP = async () => {
 	// 本地储存的key长度
