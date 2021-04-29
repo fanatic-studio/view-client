@@ -7,6 +7,7 @@ export interface ApplicationState {
 	currEditApplication: any;
 	currApplicationUpdateListCount: number;
 	currApplicationUpdateList: Array<ApplicationUpdateMode>;
+	currEditApplicationUpdate: any;
 }
 
 export interface ApplicationMode {
@@ -45,18 +46,18 @@ export interface ApplicationUpdateMode {
 	package: string;
 	version: string;
 	platform: string;
-	reboot: number;
+	reboot: string;
 	rebootTitle: string;
 	rebootMessage: string;
-	rebootConfirmReboot: number;
+	rebootConfirmReboot: string;
 	fileUrl: string;
 	fileSize: string;
-	valid: number;
-	updateMode: number;
-	clearCache: number;
-	debug: number;
-	launchTotal?: number;
-	allInstall?: number;
+	valid: string;
+	updateMode: string;
+	clearCache: string;
+	debug: string;
+	launchTotal?: string;
+	allInstall?: string;
 	status?: string;
 }
 
@@ -161,16 +162,16 @@ export interface AddApplicationUpdateParams {
 	package?: string;
 	version: string;
 	platform: string;
-	reboot: number;
+	reboot: string;
 	rebootTitle: string;
 	rebootMessage: string;
-	rebootConfirmReboot: number;
+	rebootConfirmReboot: string;
 	fileUrl: string;
 	fileSize?: string;
-	valid: number;
-	updateMode: number;
-	clearCache: number;
-	debug: number;
+	valid: string;
+	updateMode: string;
+	clearCache: string;
+	debug: string;
 }
 export interface AddApplicationUpdateResponse extends IResponse {
 	data: {

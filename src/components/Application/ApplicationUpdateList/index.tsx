@@ -19,6 +19,7 @@ import {
 import { namespace } from "vuex-class";
 const ApplicationStore = namespace("application");
 import ApplicationUpdateAdd from "@/components/Application/ApplicationUpdateAdd";
+import ApplicationUpdateEdit from "@/components/Application/ApplicationUpdateEdit";
 @Component
 export default class ApplicationUpdateList extends Vue {
 	@ApplicationStore.Getter("currApplicationUpdateList")
@@ -27,10 +28,14 @@ export default class ApplicationUpdateList extends Vue {
 	currApplicationUpdateListCount!: number;
 	@ApplicationStore.Action("getApplicationUpdateList")
 	getApplicationUpdateList!: Function;
+	@ApplicationStore.Action("updateEditApplicationUpdate")
+	updateEditApplicationUpdate!: Function;
+
 	@Prop(Object) readonly item!: ApplicationMode;
 
 	addUpdateModal: boolean = false;
-
+	editUpdateModal: boolean = false;
+	editorApplicationUpdateItem!: ApplicationUpdateMode;
 	updateListColumns: Array<any> = [
 		{
 			dataIndex: "title",
@@ -104,17 +109,20 @@ export default class ApplicationUpdateList extends Vue {
 		await this.__getApplicationUpdateList();
 	}
 
-	addUpdateModalHandle() {
+	private addUpdateModalHandle() {
 		this.addUpdateModal = !this.addUpdateModal;
 	}
-
-	async pageChange(e: any) {
-		console.log("e", e);
-		this.currentPage = e;
-		await this.__getApplicationUpdateList();
+	private editUpdateModalHandle() {
+		this.editUpdateModal = !this.editUpdateModal;
 	}
 
-	async __getApplicationUpdateList() {
+	private async pageChange(e: any) {
+		console.log("e", e);
+		this.currentPage = e;
+		// await this.__getApplicationUpdateList();
+	}
+
+	private async __getApplicationUpdateList() {
 		const params = {
 			pageIndex: this.currentPage,
 			pageSize: this.pageSize,
@@ -124,11 +132,11 @@ export default class ApplicationUpdateList extends Vue {
 		await this.getApplicationUpdateList(params);
 	}
 
-	async updateAppUpdateList() {
+	private async addToUpdateAppUpdateList() {
 		await this.__getApplicationUpdateList();
 	}
 
-	updateTest() {}
+	private updateTest() {}
 
 	render() {
 		return (
@@ -172,8 +180,20 @@ export default class ApplicationUpdateList extends Vue {
 					maskClosable={false}
 					footer={null}
 				>
-					<ApplicationUpdateAdd
-						on-updateAppUpdateList={this.updateAppUpdateList()}
+					<ApplicationUpdateAdd on-updateAPL={this.addToUpdateAppUpdateList} />
+				</Modal>
+				<Modal
+					title="编辑热更新"
+					visible={this.editUpdateModal}
+					width={1000}
+					dialog-style={{ top: "20px" }}
+					on-cancel={this.editUpdateModalHandle}
+					maskClosable={false}
+					footer={null}
+				>
+					<ApplicationUpdateEdit
+						editorApplicationUpdateItem={this.editorApplicationUpdateItem}
+						// on-updateAppUpdateList={this.updateAppUpdateList()}
 					/>
 				</Modal>
 			</div>
@@ -195,8 +215,6 @@ export default class ApplicationUpdateList extends Vue {
 
 	private rednerPlatfrom(text: any, record: any, index: number) {
 		let platform = record.platform.split(",");
-		console.log("platform.length === 2", platform.length === 2);
-
 		if (platform.length > 1) {
 			return (
 				<div>
@@ -214,8 +232,6 @@ export default class ApplicationUpdateList extends Vue {
 		}
 	}
 	private rednerDebug(text: any, record: any, index: number) {
-		console.log("debug", record.debug);
-
 		if (record.debug === "0") {
 			return <Tag color="blue">排除Debug</Tag>;
 		}
@@ -290,7 +306,14 @@ export default class ApplicationUpdateList extends Vue {
 	private renderAction(text: any, record: any, index: number) {
 		return (
 			<div class={styles.actionButton}>
-				<Button type="primary" size="small">
+				<Button
+					type="primary"
+					size="small"
+					on-click={() => {
+						this.updateEditApplicationUpdate(record);
+						this.editUpdateModalHandle();
+					}}
+				>
 					编辑
 				</Button>
 				<Button type="danger" size="small">

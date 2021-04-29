@@ -10,6 +10,7 @@ const createState = (): ApplicationState => ({
 	currEditApplication: {},
 	currApplicationUpdateListCount: 0,
 	currApplicationUpdateList: [],
+	currEditApplicationUpdate: {},
 });
 
 const namespaced: boolean = true;

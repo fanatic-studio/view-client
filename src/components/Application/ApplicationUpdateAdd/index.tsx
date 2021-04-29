@@ -83,7 +83,7 @@ class ApplicationUpdateAdd extends Vue {
 
 	@Emit()
 	updateAppUpdateList() {
-		this.$emit("updateAppUpdateList");
+		this.$emit("updateAPL");
 	}
 
 	debugTipsMode = 0;
@@ -185,7 +185,7 @@ class ApplicationUpdateAdd extends Vue {
 					title: value.title,
 					version: value.version,
 					platform: value.platform.toString(),
-					reboot: parseInt(value.reboot),
+					reboot: value.reboot,
 					rebootTitle: value.rebootTitle,
 					rebootMessage: value.rebootMessage,
 					rebootConfirmReboot: value.rebootConfirmReboot,
@@ -197,7 +197,9 @@ class ApplicationUpdateAdd extends Vue {
 					debug: value.debug,
 				};
 				await this.addApplicationUpdate(params);
-				this.updateAppUpdateList();
+				console.log("开始更新");
+
+				// this.updateAppUpdateList();
 				this.btnLoading = false;
 			}
 		});
@@ -473,8 +475,4 @@ class ApplicationUpdateAdd extends Vue {
 		}
 	}
 }
-export default Form.create({
-	props: {
-		allMode: Boolean,
-	},
-})(ApplicationUpdateAdd);
+export default Form.create({})(ApplicationUpdateAdd);

@@ -100,6 +100,11 @@ const actions: ActionTree<ApplicationState, any> = {
 			return result;
 		} catch (error) {}
 	},
+	updateEditApplicationUpdate(store, p: any) {
+		console.log("123123", p);
+
+		store.commit("SET_EDIT_APPLICATION_UPDATE", p);
+	},
 };
 
 export default actions;

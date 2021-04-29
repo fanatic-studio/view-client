@@ -18,6 +18,9 @@ const mutations: MutationTree<ApplicationState> = {
 	SET_APPLICATION_UPDATE_LIST_COUNT(state, count) {
 		state.currApplicationUpdateListCount = count;
 	},
+	SET_EDIT_APPLICATION_UPDATE(state, applicationUpdate) {
+		state.currEditApplicationUpdate = applicationUpdate;
+	},
 };
 
 export default mutations;

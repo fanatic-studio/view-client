@@ -2,6 +2,7 @@ import {
 	AddApplicationParams,
 	AddApplicationUpdateParams,
 	ApplicationMode,
+	ApplicationUpdateMode,
 } from "@/store/models/application/types";
 import { ProjectMemberMode } from "@/store/models/project/types";
 import {
@@ -20,7 +21,7 @@ import {
 } from "ant-design-vue";
 import moment from "moment";
 moment.locale("zh-cn");
-import { Component, Emit, Prop, Vue } from "vue-property-decorator";
+import { Component, Emit, Prop, Vue, Watch } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 const ApplicationStore = namespace("application");
 import style from "./index.less";
@@ -33,10 +34,40 @@ import style from "./index.less";
 	},
 })
 class ApplicationUpdateEdit extends Vue {
-	@Prop({ default: true }) private allMode!: boolean;
-
 	@ApplicationStore.Action("addApplicationUpdate")
 	addApplicationUpdate!: Function;
+
+	@ApplicationStore.Getter("currEditApplicationUpdate")
+	currEditApplicationUpdate!: ApplicationUpdateMode;
+
+	@Watch("currEditApplicationUpdate", { immediate: true, deep: true })
+	watchCurrEditApplicationUpdate(
+		newValue: ApplicationUpdateMode,
+		oldValue: ApplicationUpdateMode
+	) {
+		console.log("newValue", newValue);
+
+		this.$nextTick(() => {
+			this.form.setFieldsValue({
+				title: this.currEditApplicationUpdate.title,
+				version: this.currEditApplicationUpdate.version,
+				platform: this.currEditApplicationUpdate.platform.split(","),
+				reboot: this.currEditApplicationUpdate.reboot,
+				fileUrl: this.currEditApplicationUpdate.fileUrl,
+				valid: this.currEditApplicationUpdate.valid,
+				updateMode: this.currEditApplicationUpdate.updateMode,
+				clearCache: this.currEditApplicationUpdate.clearCache,
+				debug: this.currEditApplicationUpdate.debug,
+			});
+			this.rebootTipsMode = this.currEditApplicationUpdate.reboot;
+		});
+	}
+
+	@Emit()
+	updateAppUpdateList() {
+		console.log("发射更新列表");
+		this.$emit("updateAppUpdateList");
+	}
 
 	form: any;
 	btnLoading: boolean = false;
@@ -46,129 +77,116 @@ class ApplicationUpdateEdit extends Vue {
 	];
 
 	debugOptions: Array<any> = [
-		{ label: "排除", value: 0 },
-		{ label: "包含", value: 1 },
-		{ label: "仅DEBUG", value: 2 },
+		{ label: "排除", value: "0" },
+		{ label: "包含", value: "1" },
+		{ label: "仅DEBUG", value: "2" },
 	];
 
 	updateModeOptions: Array<any> = [
-		{ label: "自动触发", value: 0 },
-		{ label: "客户端触发", value: 1 },
+		{ label: "自动触发", value: "0" },
+		{ label: "客户端触发", value: "1" },
 	];
 
 	rebootOptions: Array<any> = [
-		{ label: "静默", value: 0 },
-		{ label: "自动重启", value: 1 },
-		{ label: "提示重启", value: 2 },
+		{ label: "静默", value: "0" },
+		{ label: "自动重启", value: "1" },
+		{ label: "提示重启", value: "2" },
 	];
 
 	validOptions: Array<any> = [
-		{ label: "启用", value: 1 },
-		{ label: "暂停", value: 0 },
-		{ label: "撤回", value: 2 },
+		{ label: "启用", value: "1" },
+		{ label: "暂停", value: "0" },
+		{ label: "撤回", value: "2" },
 	];
 	clearCacheOptions: Array<any> = [
-		{ label: "保留缓存", value: 0 },
-		{ label: "清除缓存", value: 1 },
+		{ label: "保留缓存", value: "0" },
+		{ label: "清除缓存", value: "1" },
 	];
 
 	rebootConfirmRebootOptions = [
-		{ label: "静默", value: 0 },
-		{ label: "重启", value: 1 },
+		{ label: "静默", value: "0" },
+		{ label: "重启", value: "1" },
 	];
 
 	async created() {}
 
-	protected mounted() {}
-
-	@Emit()
-	updateAppUpdateList() {
-		this.$emit("updateAppUpdateList");
-	}
-
-	debugTipsMode = 0;
+	debugTipsMode = "0";
 	debugChange(e: any) {
 		this.debugTipsMode = e.target.value;
 	}
 	debugTips() {
 		console.log("debugTipsMode", this.debugTipsMode);
 
-		if (this.debugTipsMode === 0) {
+		if (this.debugTipsMode === "0") {
 			return "DEBUG版本无法收到此更新包。";
 		}
-		if (this.debugTipsMode === 1) {
+		if (this.debugTipsMode === "1") {
 			return "DEBUG版本可以收到此更新包。";
 		}
-		if (this.debugTipsMode === 2) {
+		if (this.debugTipsMode === "2") {
 			return "只有DEBUG版本可以收到此更新包（一般用于测试）。";
 		}
 	}
 
-	validTipsMode = 1;
+	validTipsMode = "1";
 	validChange(e: any) {
 		this.validTipsMode = e.target.value;
 	}
 	validTips() {
 		console.log("validTipsMode", this.validTipsMode);
 
-		if (this.validTipsMode === 0) {
+		if (this.validTipsMode === "0") {
 			return "暂停更新，用户收不到此更新，已更新的用户不影响。";
 		}
-		if (this.validTipsMode === 1) {
+		if (this.validTipsMode === "1") {
 			return "开启更新，所有用户都会收到此更新。";
 		}
-		if (this.validTipsMode === 2) {
+		if (this.validTipsMode === "2") {
 			return "回滚更新，用户收不到此更新，已更新的用户将撤回此更新。";
 		}
 	}
 
-	updateModeTipsMode = 0;
+	updateModeTipsMode = "0";
 	updateModeChange(e: any) {
 		this.updateModeTipsMode = e.target.value;
 	}
 	updateModeTips() {
-		console.log("updateModeTipsMode", this.updateModeTipsMode);
-
-		if (this.updateModeTipsMode === 0) {
+		if (this.updateModeTipsMode === "0") {
 			return "自动触发，APP自动检测更新。";
 		}
-		if (this.updateModeTipsMode === 1) {
+		if (this.updateModeTipsMode === "1") {
 			return "仅客户触发，通过执行方法 seui.checkUpdate() 触发更新。";
 		}
 	}
 
-	rebootTipsMode = 0;
+	rebootTipsMode = "0";
 	rebootChange(e: any) {
 		this.rebootTipsMode = e.target.value;
 	}
 	rebootTips() {
-		console.log("rebootTipsMode", this.rebootTipsMode);
-
-		if (this.rebootTipsMode === 0) {
+		if (this.rebootTipsMode === "0") {
 			return "更新完后没有任何提示，更新内容一般在用户下次使用app时生效。";
 		}
-		if (this.rebootTipsMode === 1) {
+		if (this.rebootTipsMode === "1") {
 			return "更新完所有包后app自动重启，更新内容即刻生效。";
 		}
-		if (this.rebootTipsMode === 2) {
+		if (this.rebootTipsMode === "2") {
 			return "更新完此包后提示设置内容，根据用户自己选择。";
 		}
 	}
 
-	clearCacheTipsMode = 0;
+	clearCacheTipsMode = "0";
 	clearCacheChange(e: any) {
 		this.clearCacheTipsMode = e.target.value;
 	}
 	clearCacheTips() {
-		console.log("clearCacherTipsMode", this.clearCacheTipsMode);
-
-		if (this.clearCacheTipsMode === 0) {
+		if (this.clearCacheTipsMode === "0") {
 			return "更新完后没有任何提示，更新内容一般在用户下次使用app时生效。";
 		}
-		if (this.clearCacheTipsMode === 1) {
+		if (this.clearCacheTipsMode === "1") {
 			return "更新完所有包后app自动重启，更新内容即刻生效。";
 		}
-		if (this.clearCacheTipsMode === 2) {
+		if (this.clearCacheTipsMode === "2") {
 			return "更新完此包后提示设置内容，根据用户自己选择。";
 		}
 	}
@@ -185,12 +203,11 @@ class ApplicationUpdateEdit extends Vue {
 					title: value.title,
 					version: value.version,
 					platform: value.platform.toString(),
-					reboot: parseInt(value.reboot),
+					reboot: value.reboot,
 					rebootTitle: value.rebootTitle,
 					rebootMessage: value.rebootMessage,
 					rebootConfirmReboot: value.rebootConfirmReboot,
 					fileUrl: value.fileUrl,
-					// fileSize: value.fileSize,
 					valid: value.valid,
 					updateMode: value.updateMode,
 					clearCache: value.clearCache,
@@ -229,7 +246,6 @@ class ApplicationUpdateEdit extends Vue {
 					<Col span="8">
 						<Form.Item label="更新平台">
 							{getFieldDecorator("platform", {
-								initialValue: ["ios", "android"],
 								rules: [
 									{
 										required: true,
@@ -247,7 +263,6 @@ class ApplicationUpdateEdit extends Vue {
 					<Col span="8">
 						<Form.Item label="DEBUG版本" help={this.debugTips()}>
 							{getFieldDecorator("debug", {
-								initialValue: 0,
 								rules: [
 									{
 										required: true,
@@ -306,7 +321,6 @@ class ApplicationUpdateEdit extends Vue {
 					<Col span="12">
 						<Form.Item label="启用状态" help={this.validTips()}>
 							{getFieldDecorator("valid", {
-								initialValue: 1,
 								rules: [
 									{
 										required: true,
@@ -325,7 +339,6 @@ class ApplicationUpdateEdit extends Vue {
 					<Col span="12">
 						<Form.Item label="更新模式" help={this.updateModeTips()}>
 							{getFieldDecorator("updateMode", {
-								initialValue: 0,
 								rules: [
 									{
 										required: true,
@@ -346,7 +359,6 @@ class ApplicationUpdateEdit extends Vue {
 					<Col span="12">
 						<Form.Item label="更新完成后-重启" help={this.rebootTips()}>
 							{getFieldDecorator("reboot", {
-								initialValue: 0,
 								rules: [
 									{
 										required: true,
@@ -365,7 +377,6 @@ class ApplicationUpdateEdit extends Vue {
 					<Col span="12">
 						<Form.Item label="更新完成后-缓存处理" help={this.clearCacheTips()}>
 							{getFieldDecorator("clearCache", {
-								initialValue: 0,
 								rules: [
 									{
 										required: true,
@@ -411,12 +422,13 @@ class ApplicationUpdateEdit extends Vue {
 
 	renderRebootConform() {
 		const { getFieldDecorator } = this.form;
-		if (this.rebootTipsMode === 2) {
+		if (this.rebootTipsMode === "2") {
 			return (
 				<Row gutter={8}>
 					<Col span="16">
 						<Form.Item label="重启提示标题">
 							{getFieldDecorator("rebootTitle", {
+								initialValue: this.currEditApplicationUpdate.rebootTitle,
 								rules: [
 									{
 										required: true,
@@ -435,6 +447,7 @@ class ApplicationUpdateEdit extends Vue {
 					<Col span="16">
 						<Form.Item label="更新模式">
 							{getFieldDecorator("rebootMessage", {
+								initialValue: this.currEditApplicationUpdate.rebootTitle,
 								rules: [
 									{
 										required: true,
@@ -453,7 +466,8 @@ class ApplicationUpdateEdit extends Vue {
 					<Col span="16">
 						<Form.Item label="点击确定行为">
 							{getFieldDecorator("rebootConfirmReboot", {
-								initialValue: 0,
+								initialValue: this.currEditApplicationUpdate
+									.rebootConfirmReboot,
 								rules: [
 									{
 										required: true,
@@ -473,8 +487,4 @@ class ApplicationUpdateEdit extends Vue {
 		}
 	}
 }
-export default Form.create({
-	props: {
-		allMode: Boolean,
-	},
-})(ApplicationUpdateEdit);
+export default Form.create({})(ApplicationUpdateEdit);
