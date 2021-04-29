@@ -30,6 +30,8 @@ export default class ApplicationUpdateList extends Vue {
 	getApplicationUpdateList!: Function;
 	@ApplicationStore.Action("updateEditApplicationUpdate")
 	updateEditApplicationUpdate!: Function;
+	@ApplicationStore.Action("checkApplicationUpdate")
+	checkApplicationUpdate!: Function;
 
 	@Prop(Object) readonly item!: ApplicationMode;
 
@@ -132,7 +134,10 @@ export default class ApplicationUpdateList extends Vue {
 		await this.getApplicationUpdateList(params);
 	}
 
-	private updateTest() {}
+	private async checkAppUpdate() {
+		const ddd = await this.checkApplicationUpdate();
+		console.log("ddd", ddd);
+	}
 
 	render() {
 		return (
@@ -149,7 +154,7 @@ export default class ApplicationUpdateList extends Vue {
 						slot="tabBarExtraContent"
 						type="danger"
 						style={{ marginLeft: "8px" }}
-						on-click={this.updateTest}
+						on-click={this.checkAppUpdate}
 					>
 						热更新测试
 					</Button>

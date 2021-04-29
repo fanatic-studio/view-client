@@ -15,6 +15,8 @@ import {
 	UpdateApplicationUpdateResponse,
 	ListApplicationUpdateParams,
 	ListApplicationUpdateResponse,
+	CheckApplicationUpdateParams,
+	CheckApplicationUpdateResponse,
 } from "@/store/models/application/types";
 import HttpRequest from "@/utils/network/HttpRequest";
 
@@ -28,6 +30,7 @@ export enum API {
 	Get_Application_Update = "/api/v1/app/update/get",
 	List_Application_Update = "/api/v1/app/update/list",
 	Update_Application_Update = "/api/v1/app/update/update",
+	Update_Application_Check = "/api/client/duration",
 }
 
 export default class ApplicationApi {
@@ -77,5 +80,10 @@ export default class ApplicationApi {
 		params: UpdateApplicationUpdateParams
 	): Promise<UpdateApplicationUpdateResponse> {
 		return await HttpRequest.postData(API.Update_Application_Update, params);
+	}
+	public static async CheckApplicationUpdate(
+		params: CheckApplicationUpdateParams
+	): Promise<CheckApplicationUpdateResponse> {
+		return await HttpRequest.postData(API.Update_Application_Check, params);
 	}
 }

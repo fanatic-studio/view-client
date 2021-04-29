@@ -30,6 +30,7 @@ export interface ApplicationMode {
 	welcomeWait: number;
 	version: string;
 	versionName: string;
+	hotFixCode: string;
 	platform: string;
 	package: string;
 	debug: number;
@@ -264,4 +265,29 @@ export interface ListApplicationUpdateResponse {
 	pageIndex: number;
 	pageSize: number;
 	ret: number;
+}
+
+export interface CheckApplicationUpdateParams {
+	appId: string;
+	package: string;
+	version: string;
+	platform: string;
+}
+export interface CheckApplicationUpdateResponse extends IResponse {
+	data: {
+		id: number;
+		teamId: string;
+		projectId: string;
+		accountId: string;
+		applicationId: string;
+		gitLabApplicationId: number;
+		assignee: string;
+		name: string;
+		desc: string;
+		content: string;
+		startAt: string;
+		ductTime: string;
+		onlineAt: string;
+		status: string;
+	};
 }

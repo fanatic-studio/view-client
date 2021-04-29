@@ -10,6 +10,7 @@ import {
 	ApplicationUpdateMode,
 	AddApplicationUpdateParams,
 	UpdateApplicationUpdateParams,
+	CheckApplicationUpdateParams,
 } from "./types";
 
 const actions: ActionTree<ApplicationState, any> = {
@@ -129,6 +130,19 @@ const actions: ActionTree<ApplicationState, any> = {
 			console.log("updateApplication - params", params);
 			const result = await ApplicationApi.UpdateApplicationUpdate(params);
 			store.commit("SET_EDIT_APPLICATION_UPDATE", result.data);
+		} catch (error) {}
+	},
+	async checkApplicationUpdate(store) {
+		const params: CheckApplicationUpdateParams = {
+			appId: store.state.currEditApplication.appId,
+			package: store.state.currEditApplication.package,
+			version: store.state.currEditApplication.version,
+			platform: store.state.currEditApplication.platform,
+		};
+		try {
+			console.log("updateApplication - params", params);
+			const result = await ApplicationApi.CheckApplicationUpdate(params);
+			return result;
 		} catch (error) {}
 	},
 };

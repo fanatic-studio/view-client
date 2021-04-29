@@ -39,7 +39,10 @@ export default class ApplicationItem extends Vue {
 						<div class={style.version}>
 							<Tooltip placement="top">
 								<div slot="title">版本号</div>
-								<Tag>1.0 - 20200101</Tag>
+								<Tag>
+									{this.item.versionName} - {this.item.version} -
+									{this.item.hotFixCode}
+								</Tag>
 							</Tooltip>
 						</div>
 					</div>
