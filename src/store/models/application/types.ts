@@ -44,16 +44,16 @@ export interface ApplicationUpdateMode {
 	package: string;
 	version: string;
 	platform: string;
-	reboot: string;
+	reboot: number;
 	rebootTitle: string;
 	rebootMessage: string;
-	rebootConfirmReboot: string;
+	rebootConfirmReboot: number;
 	fileUrl: string;
 	fileSize: string;
-	valid: string;
-	updateMode: string;
-	clearCache: string;
-	debug: string;
+	valid: number;
+	updateMode: number;
+	clearCache: number;
+	debug: number;
 	launchTotal?: number;
 	allInstall?: number;
 	status?: string;
@@ -160,16 +160,16 @@ export interface AddApplicationUpdateParams {
 	package?: string;
 	version: string;
 	platform: string;
-	reboot: string;
+	reboot: number;
 	rebootTitle: string;
 	rebootMessage: string;
-	rebootConfirmReboot: string;
+	rebootConfirmReboot: number;
 	fileUrl: string;
-	fileSize: string;
-	valid: string;
-	updateMode: string;
-	clearCache: string;
-	debug: string;
+	fileSize?: string;
+	valid: number;
+	updateMode: number;
+	clearCache: number;
+	debug: number;
 }
 export interface AddApplicationUpdateResponse extends IResponse {
 	data: {

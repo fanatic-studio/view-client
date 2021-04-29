@@ -184,21 +184,19 @@ class ApplicationUpdateAdd extends Vue {
 				const params: AddApplicationUpdateParams = {
 					title: value.title,
 					version: value.version,
-					platform: value.platform,
-					reboot: value.reboot,
+					platform: value.platform.toString(),
+					reboot: parseInt(value.reboot),
 					rebootTitle: value.rebootTitle,
 					rebootMessage: value.rebootMessage,
 					rebootConfirmReboot: value.rebootConfirmReboot,
 					fileUrl: value.fileUrl,
-					fileSize: value.fileSize,
+					// fileSize: value.fileSize,
 					valid: value.valid,
 					updateMode: value.updateMode,
 					clearCache: value.clearCache,
 					debug: value.debug,
 				};
-				console.log("123123", params);
-
-				// await this.addApplicationUpdate(params);
+				await this.addApplicationUpdate(params);
 				this.btnLoading = false;
 			}
 		});
@@ -285,6 +283,22 @@ class ApplicationUpdateAdd extends Vue {
 						>
 							<Select.Option key="native">前端-原生</Select.Option>
 						</Select>
+					)}
+				</Form.Item>
+				<Form.Item label="更新包URL">
+					{getFieldDecorator("fileUrl", {
+						rules: [
+							{
+								required: true,
+								message: "更新包URL",
+							},
+						],
+					})(
+						<Input
+							type="text"
+							name="fileUrl"
+							placeholder="输入更新包URL"
+						></Input>
 					)}
 				</Form.Item>
 				<Row gutter={8}>
