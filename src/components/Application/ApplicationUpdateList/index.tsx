@@ -108,10 +108,6 @@ export default class ApplicationUpdateList extends Vue {
 		this.addUpdateModal = !this.addUpdateModal;
 	}
 
-	async tabClick(e: string) {
-		console.log("e", e);
-		await this.__getApplicationUpdateList();
-	}
 	async pageChange(e: any) {
 		console.log("e", e);
 		this.currentPage = e;
@@ -132,21 +128,12 @@ export default class ApplicationUpdateList extends Vue {
 		await this.__getApplicationUpdateList();
 	}
 
+	updateTest() {}
+
 	render() {
 		return (
 			<div class={styles.applicationUpdateList}>
-				<Tabs
-					slot="content"
-					defaultActiveKey="doing"
-					tabBarStyle={{
-						padding: "0 24px",
-					}}
-					on-tabClick={this.tabClick}
-				>
-					<Tabs.TabPane key="all" tab="所有"></Tabs.TabPane>
-					<Tabs.TabPane key="1" tab="正常"></Tabs.TabPane>
-					<Tabs.TabPane key="0" tab="暂停"></Tabs.TabPane>
-					<Tabs.TabPane key="2" tab="撤回"></Tabs.TabPane>
+				<div class={styles.buttonGroups}>
 					<Button
 						slot="tabBarExtraContent"
 						type="primary"
@@ -154,7 +141,16 @@ export default class ApplicationUpdateList extends Vue {
 					>
 						添加热更新
 					</Button>
-				</Tabs>
+					<Button
+						slot="tabBarExtraContent"
+						type="danger"
+						style={{ marginLeft: "8px" }}
+						on-click={this.updateTest}
+					>
+						热更新测试
+					</Button>
+				</div>
+
 				<Table
 					rowKey="id"
 					columns={this.updateListColumns}
