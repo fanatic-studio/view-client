@@ -36,6 +36,11 @@ class ApplicationUpdateAdd extends Vue {
 	@ApplicationStore.Action("addApplicationUpdate")
 	addApplicationUpdate!: Function;
 
+	@Emit()
+	private emitUpdateApplicationUpdateList() {
+		this.$emit("emitUpdateApplicationUpdateList");
+	}
+
 	form: any;
 	btnLoading: boolean = false;
 	planformOptions: Array<any> = [
@@ -78,11 +83,6 @@ class ApplicationUpdateAdd extends Vue {
 	async created() {}
 
 	protected mounted() {}
-
-	@Emit()
-	updateAUL() {
-		this.$emit("updateAUL");
-	}
 
 	debugTipsMode = 0;
 	debugChange(e: any) {
@@ -194,7 +194,7 @@ class ApplicationUpdateAdd extends Vue {
 					debug: value.debug,
 				};
 				await this.addApplicationUpdate(params);
-				this.updateAUL();
+				this.emitUpdateApplicationUpdateList();
 				this.btnLoading = false;
 			}
 		});

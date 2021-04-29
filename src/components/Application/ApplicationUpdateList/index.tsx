@@ -119,7 +119,7 @@ export default class ApplicationUpdateList extends Vue {
 	private async pageChange(e: any) {
 		console.log("e", e);
 		this.currentPage = e;
-		// await this.__getApplicationUpdateList();
+		await this.__getApplicationUpdateList();
 	}
 
 	private async __getApplicationUpdateList() {
@@ -130,10 +130,6 @@ export default class ApplicationUpdateList extends Vue {
 		console.log("params", params);
 
 		await this.getApplicationUpdateList(params);
-	}
-
-	private async addToUpdateAppUpdateList() {
-		await this.__getApplicationUpdateList();
 	}
 
 	private updateTest() {}
@@ -180,7 +176,11 @@ export default class ApplicationUpdateList extends Vue {
 					maskClosable={false}
 					footer={null}
 				>
-					<ApplicationUpdateAdd on-updateAPL={this.addToUpdateAppUpdateList} />
+					<ApplicationUpdateAdd
+						on-emitUpdateApplicationUpdateList={async () => {
+							await this.__getApplicationUpdateList();
+						}}
+					/>
 				</Modal>
 				<Modal
 					title="编辑热更新"
@@ -192,8 +192,9 @@ export default class ApplicationUpdateList extends Vue {
 					footer={null}
 				>
 					<ApplicationUpdateEdit
-						editorApplicationUpdateItem={this.editorApplicationUpdateItem}
-						// on-updateAppUpdateList={this.updateAppUpdateList()}
+						on-emitUpdateApplicationUpdateList={async () => {
+							await this.__getApplicationUpdateList();
+						}}
 					/>
 				</Modal>
 			</div>

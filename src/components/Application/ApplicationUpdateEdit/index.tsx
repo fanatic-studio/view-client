@@ -41,6 +41,11 @@ class ApplicationUpdateEdit extends Vue {
 	@ApplicationStore.Getter("currEditApplicationUpdate")
 	currEditApplicationUpdate!: ApplicationUpdateMode;
 
+	@Emit()
+	private emitUpdateApplicationUpdateList() {
+		this.$emit("emitUpdateApplicationUpdateList");
+	}
+
 	@Watch("currEditApplicationUpdate", { immediate: true, deep: true })
 	watchCurrEditApplicationUpdate(
 		newValue: ApplicationUpdateMode,
@@ -62,12 +67,6 @@ class ApplicationUpdateEdit extends Vue {
 			});
 			this.rebootTipsMode = this.currEditApplicationUpdate.reboot;
 		});
-	}
-
-	@Emit()
-	updateAUL() {
-		console.log("发射更新列表");
-		this.$emit("updateAUL");
 	}
 
 	form: any;
@@ -192,7 +191,7 @@ class ApplicationUpdateEdit extends Vue {
 		}
 	}
 
-	async handleSubmit(event: Event) {
+	private async handleSubmit(event: Event) {
 		event.preventDefault();
 		const {
 			form: { validateFields },
@@ -216,7 +215,7 @@ class ApplicationUpdateEdit extends Vue {
 					debug: value.debug,
 				};
 				await this.updateApplicationUpdate(params);
-				this.updateAUL();
+				this.emitUpdateApplicationUpdateList();
 				this.btnLoading = false;
 			}
 		});
