@@ -3,6 +3,7 @@ import {
 	AddApplicationUpdateParams,
 	ApplicationMode,
 	ApplicationUpdateMode,
+	UpdateApplicationUpdateParams,
 } from "@/store/models/application/types";
 import { ProjectMemberMode } from "@/store/models/project/types";
 import {
@@ -34,8 +35,8 @@ import style from "./index.less";
 	},
 })
 class ApplicationUpdateEdit extends Vue {
-	@ApplicationStore.Action("addApplicationUpdate")
-	addApplicationUpdate!: Function;
+	@ApplicationStore.Action("updateApplicationUpdate")
+	updateApplicationUpdate!: Function;
 
 	@ApplicationStore.Getter("currEditApplicationUpdate")
 	currEditApplicationUpdate!: ApplicationUpdateMode;
@@ -64,9 +65,9 @@ class ApplicationUpdateEdit extends Vue {
 	}
 
 	@Emit()
-	updateAppUpdateList() {
+	updateAUL() {
 		console.log("发射更新列表");
-		this.$emit("updateAppUpdateList");
+		this.$emit("updateAUL");
 	}
 
 	form: any;
@@ -199,7 +200,8 @@ class ApplicationUpdateEdit extends Vue {
 		validateFields(async (err: string, value: any) => {
 			if (!err) {
 				this.btnLoading = true;
-				const params: AddApplicationUpdateParams = {
+				const params: UpdateApplicationUpdateParams = {
+					updateId: this.currEditApplicationUpdate.updateId,
 					title: value.title,
 					version: value.version,
 					platform: value.platform.toString(),
@@ -213,8 +215,8 @@ class ApplicationUpdateEdit extends Vue {
 					clearCache: value.clearCache,
 					debug: value.debug,
 				};
-				await this.addApplicationUpdate(params);
-				this.updateAppUpdateList();
+				await this.updateApplicationUpdate(params);
+				this.updateAUL();
 				this.btnLoading = false;
 			}
 		});

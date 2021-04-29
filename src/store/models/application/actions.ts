@@ -9,6 +9,7 @@ import {
 	ListApplicationUpdateParams,
 	ApplicationUpdateMode,
 	AddApplicationUpdateParams,
+	UpdateApplicationUpdateParams,
 } from "./types";
 
 const actions: ActionTree<ApplicationState, any> = {
@@ -104,6 +105,31 @@ const actions: ActionTree<ApplicationState, any> = {
 		console.log("123123", p);
 
 		store.commit("SET_EDIT_APPLICATION_UPDATE", p);
+	},
+	async updateApplicationUpdate(store, p: UpdateApplicationUpdateParams) {
+		const params: UpdateApplicationUpdateParams = {
+			appId: store.state.currEditApplication.appId,
+			updateId: p.updateId,
+			title: p.title,
+			package: store.state.currEditApplication.package,
+			version: p.version,
+			platform: p.platform,
+			reboot: p.reboot,
+			rebootTitle: p.rebootTitle,
+			rebootMessage: p.rebootMessage,
+			rebootConfirmReboot: p.rebootConfirmReboot,
+			fileUrl: p.fileUrl,
+			fileSize: p.fileSize,
+			valid: p.valid,
+			updateMode: p.updateMode,
+			clearCache: p.clearCache,
+			debug: p.debug,
+		};
+		try {
+			console.log("updateApplication - params", params);
+			const result = await ApplicationApi.UpdateApplicationUpdate(params);
+			store.commit("SET_EDIT_APPLICATION_UPDATE", result.data);
+		} catch (error) {}
 	},
 };
 

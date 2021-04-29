@@ -39,7 +39,8 @@ export interface ApplicationMode {
 }
 
 export interface ApplicationUpdateMode {
-	id?: number;
+	id?: string;
+	updateId?: string;
 	appId?: string;
 	appType: string;
 	title: string;
@@ -215,14 +216,22 @@ export interface GetApplicationUpdateResponse extends IResponse {
 }
 
 export interface UpdateApplicationUpdateParams {
-	applicationId: string;
-	name: string;
-	desc: string;
-	content: string;
-	assignee: string;
-	startAt: string;
-	onlineAt: string;
-	status: string;
+	appId?: string;
+	updateId?: string;
+	title: string;
+	package?: string;
+	version: string;
+	platform: string;
+	reboot: string;
+	rebootTitle: string;
+	rebootMessage: string;
+	rebootConfirmReboot: string;
+	fileUrl: string;
+	fileSize?: string;
+	valid: string;
+	updateMode: string;
+	clearCache: string;
+	debug: string;
 }
 export interface UpdateApplicationUpdateResponse extends IResponse {
 	data: {

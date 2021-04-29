@@ -33,8 +33,6 @@ import style from "./index.less";
 	},
 })
 class ApplicationUpdateAdd extends Vue {
-	@Prop({ default: true }) private allMode!: boolean;
-
 	@ApplicationStore.Action("addApplicationUpdate")
 	addApplicationUpdate!: Function;
 
@@ -82,8 +80,8 @@ class ApplicationUpdateAdd extends Vue {
 	protected mounted() {}
 
 	@Emit()
-	updateAppUpdateList() {
-		this.$emit("updateAPL");
+	updateAUL() {
+		this.$emit("updateAUL");
 	}
 
 	debugTipsMode = 0;
@@ -190,16 +188,13 @@ class ApplicationUpdateAdd extends Vue {
 					rebootMessage: value.rebootMessage,
 					rebootConfirmReboot: value.rebootConfirmReboot,
 					fileUrl: value.fileUrl,
-					// fileSize: value.fileSize,
 					valid: value.valid,
 					updateMode: value.updateMode,
 					clearCache: value.clearCache,
 					debug: value.debug,
 				};
 				await this.addApplicationUpdate(params);
-				console.log("开始更新");
-
-				// this.updateAppUpdateList();
+				this.updateAUL();
 				this.btnLoading = false;
 			}
 		});
