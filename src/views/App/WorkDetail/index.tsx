@@ -69,6 +69,8 @@ export default class OrderDetail extends Vue {
                 userCode: orderItem.userCode
             }
 			const result = await OrderApi.GetOrderDetail(params);
+            console.log(result);
+            
 			this.orderDetailInfo = result;
 		} catch (error) {
             this.$message.error(error.msg);
@@ -198,7 +200,7 @@ export default class OrderDetail extends Vue {
                                 <span class={style.sortStyle}>{this.orderDetailInfo.nickName}</span>
                                 <span class={style.phoneStyle}>{this.orderDetailInfo.phoneNum}</span>
                             </div>
-                            <span class={style.phoneStyle}>普通卡</span>
+                            <span class={style.phoneStyle}>{this.userLevel()}</span>
                         </div>
                         <div class={style.botLogo}>
                             <img class={style.logoImg} src={comSrc} />
@@ -224,6 +226,18 @@ export default class OrderDetail extends Vue {
                     </Card>
                 </div>
             )       
+    }
+
+    userLevel() {
+        if (this.orderDetailInfo.userLevel === "1") {
+            return "普通卡";
+        } else if (this.orderDetailInfo.userLevel === "2") {
+            return "银卡";
+        } else if (this.orderDetailInfo.userLevel === "3") {
+            return "金卡";
+        } else {
+            return "普通卡";
+        }
     }
 
     actionBtn() {
