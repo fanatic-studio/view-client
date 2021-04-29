@@ -142,7 +142,7 @@ const actions: ActionTree<ApplicationState, any> = {
 		try {
 			console.log("updateApplication - params", params);
 			const result = await ApplicationApi.CheckApplicationUpdate(params);
-			return result;
+			return result.data;
 		} catch (error) {}
 	},
 };

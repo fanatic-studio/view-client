@@ -1,7 +1,9 @@
 import {
+	Alert,
 	Avatar,
 	Button,
 	Card,
+	Divider,
 	Icon,
 	Modal,
 	Table,
@@ -135,8 +137,15 @@ export default class ApplicationUpdateList extends Vue {
 	}
 
 	private async checkAppUpdate() {
-		const ddd = await this.checkApplicationUpdate();
-		console.log("ddd", ddd);
+		const res = await this.checkApplicationUpdate();
+		if (res.uplists.length > 0) {
+			this.$notification.open({
+				message: "发现新的热更新",
+				duration: 10,
+				description: this.renderCheckAppUpdateTips(res.uplists[0]),
+				icon: <Icon type="smile" style="color: #108ee9" />,
+			});
+		}
 	}
 
 	render() {
@@ -252,13 +261,13 @@ export default class ApplicationUpdateList extends Vue {
 	}
 
 	private rednerReboot(text: any, record: any, index: number) {
-		if (record.debug === "0") {
+		if (record.reboot === "0") {
 			return <Tag color="blue">静默</Tag>;
 		}
-		if (record.debug === "1") {
+		if (record.reboot === "1") {
 			return <Tag color="orange">自动重启</Tag>;
 		}
-		if (record.debug === "2") {
+		if (record.reboot === "2") {
 			return (
 				<div>
 					<div>提示重启</div>
@@ -328,6 +337,36 @@ export default class ApplicationUpdateList extends Vue {
 					删除
 				</Button>
 			</div>
+		);
+	}
+
+	private renderCheckAppUpdateTips(updateData: any) {
+		return (
+			<Alert type="info">
+				<div slot="message">
+					<div>
+						重启类型
+						{this.rednerReboot(
+							null,
+							{
+								reboot: updateData.reboot,
+								rebootTitle: updateData.reboot_info.title,
+								rebootMessage: updateData.reboot_info.message,
+								rebootConfirmReboot: updateData.reboot_info.confirm_reboot,
+							},
+							0
+						)}
+					</div>
+					<div>
+						是否清楚缓存
+						{this.rednerUpdateAction(
+							null,
+							{ clearCache: updateData.clear_cache },
+							0
+						)}
+					</div>
+				</div>
+			</Alert>
 		);
 	}
 }

@@ -1,6 +1,6 @@
 import Vue from "vue";
 import localStore from "@/localStore";
-import { message, Modal } from "ant-design-vue";
+import { message, Modal, notification } from "ant-design-vue";
 import App from "./App";
 import router from "./router";
 import store from "./store";
@@ -16,6 +16,7 @@ Vue.use(mavonEditor);
 Vue.config.productionTip = false;
 // 全局message绑定
 Vue.prototype.$message = message;
+Vue.prototype.$notification = notification;
 
 const initAPP = async () => {
 	// 本地储存的key长度
