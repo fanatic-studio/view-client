@@ -131,6 +131,42 @@ class ApplicationUpdateAdd extends Vue {
 		}
 	}
 
+	rebootTipsMode = 0;
+	rebootChange(e: any) {
+		this.rebootTipsMode = e.target.value;
+	}
+	rebootTips() {
+		console.log("rebootTipsMode", this.rebootTipsMode);
+
+		if (this.rebootTipsMode === 0) {
+			return "更新完后没有任何提示，更新内容一般在用户下次使用app时生效。";
+		}
+		if (this.rebootTipsMode === 1) {
+			return "更新完所有包后app自动重启，更新内容即刻生效。";
+		}
+		if (this.rebootTipsMode === 2) {
+			return "更新完此包后提示设置内容，根据用户自己选择。";
+		}
+	}
+
+	clearCacheTipsMode = 0;
+	clearCacheChange(e: any) {
+		this.clearCacheTipsMode = e.target.value;
+	}
+	clearCacheTips() {
+		console.log("clearCacherTipsMode", this.clearCacheTipsMode);
+
+		if (this.clearCacheTipsMode === 0) {
+			return "更新完后没有任何提示，更新内容一般在用户下次使用app时生效。";
+		}
+		if (this.clearCacheTipsMode === 1) {
+			return "更新完所有包后app自动重启，更新内容即刻生效。";
+		}
+		if (this.clearCacheTipsMode === 2) {
+			return "更新完此包后提示设置内容，根据用户自己选择。";
+		}
+	}
+
 	async handleSubmit(event: Event) {
 		event.preventDefault();
 		const {
@@ -283,7 +319,7 @@ class ApplicationUpdateAdd extends Vue {
 				</Row>
 				<Row gutter={8}>
 					<Col span="12">
-						<Form.Item label="更新完成后-重启">
+						<Form.Item label="更新完成后-重启" help={this.rebootTips()}>
 							{getFieldDecorator("reboot", {
 								initialValue: 0,
 								rules: [
@@ -296,12 +332,13 @@ class ApplicationUpdateAdd extends Vue {
 								<Radio.Group
 									name="reboot"
 									options={this.rebootOptions}
+									on-change={this.rebootChange}
 								></Radio.Group>
 							)}
 						</Form.Item>
 					</Col>
 					<Col span="12">
-						<Form.Item label="更新完成后-缓存处理">
+						<Form.Item label="更新完成后-缓存处理" help={this.clearCacheTips()}>
 							{getFieldDecorator("clear_cache", {
 								initialValue: 0,
 								rules: [
@@ -314,6 +351,7 @@ class ApplicationUpdateAdd extends Vue {
 								<Radio.Group
 									name="clear_cache"
 									options={this.clearCacheOptions}
+									on-change={this.clearCacheChange}
 								></Radio.Group>
 							)}
 						</Form.Item>

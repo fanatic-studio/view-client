@@ -67,7 +67,7 @@ export default class ApplicationUpdateList extends Vue {
 				<Modal
 					title="新增热更新"
 					visible={this.addUpdateModal}
-					width={800}
+					width={1000}
 					dialog-style={{ top: "20px" }}
 					on-cancel={this.addUpdateModalHandle}
 					maskClosable={false}
