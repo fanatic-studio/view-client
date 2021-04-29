@@ -6,6 +6,8 @@ const getters: GetterTree<ApplicationState, any> = {
 	applicationListCount: (state) => state.applicationListCount,
 	currEditApplication: (state) => state.currEditApplication,
 	currApplicationUpdateList: (state) => state.currApplicationUpdateList,
+	currApplicationUpdateListCount: (state) =>
+		state.currApplicationUpdateListCount,
 };
 
 export default getters;

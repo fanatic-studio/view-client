@@ -5,6 +5,7 @@ export interface ApplicationState {
 	applicationList: Array<ApplicationMode>;
 	applicationListCount: number;
 	currEditApplication: any;
+	currApplicationUpdateListCount: number;
 	currApplicationUpdateList: Array<ApplicationUpdateMode>;
 }
 
@@ -243,6 +244,8 @@ export interface UpdateApplicationUpdateResponse extends IResponse {
 
 export interface ListApplicationUpdateParams {
 	appId: string;
+	pageIndex: string;
+	pageSize: string;
 }
 
 export interface ListApplicationUpdateResponse {

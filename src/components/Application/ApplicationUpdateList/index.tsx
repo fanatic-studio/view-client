@@ -5,6 +5,7 @@ import {
 	Icon,
 	Modal,
 	Table,
+	Tabs,
 	Tag,
 	Tooltip,
 } from "ant-design-vue";
@@ -22,6 +23,8 @@ import ApplicationUpdateAdd from "@/components/Application/ApplicationUpdateAdd"
 export default class ApplicationUpdateList extends Vue {
 	@ApplicationStore.Getter("currApplicationUpdateList")
 	currApplicationUpdateList!: Array<ApplicationUpdateMode>;
+	@ApplicationStore.Getter("currApplicationUpdateListCount")
+	currApplicationUpdateListCount!: number;
 	@ApplicationStore.Action("getApplicationUpdateList")
 	getApplicationUpdateList!: Function;
 	@Prop(Object) readonly item!: ApplicationMode;
@@ -94,22 +97,71 @@ export default class ApplicationUpdateList extends Vue {
 			customRender: this.renderAction,
 		},
 	];
+
+	currentPage: number = 1;
+	pageSize: number = 5;
 	async created() {
-		await this.getApplicationUpdateList();
+		await this.__getApplicationUpdateList();
 	}
 
 	addUpdateModalHandle() {
 		this.addUpdateModal = !this.addUpdateModal;
 	}
 
+	async tabClick(e: string) {
+		console.log("e", e);
+		await this.__getApplicationUpdateList();
+	}
+	async pageChange(e: any) {
+		console.log("e", e);
+		this.currentPage = e;
+		await this.__getApplicationUpdateList();
+	}
+
+	async __getApplicationUpdateList() {
+		const params = {
+			pageIndex: this.currentPage,
+			pageSize: this.pageSize,
+		};
+		console.log("params", params);
+
+		await this.getApplicationUpdateList(params);
+	}
+
 	render() {
 		return (
 			<div class={styles.applicationUpdateList}>
-				<Button on-click={this.addUpdateModalHandle}>添加热更新</Button>
+				<Tabs
+					slot="content"
+					defaultActiveKey="doing"
+					tabBarStyle={{
+						padding: "0 24px",
+					}}
+					on-tabClick={this.tabClick}
+				>
+					<Tabs.TabPane key="all" tab="所有"></Tabs.TabPane>
+					<Tabs.TabPane key="1" tab="正常"></Tabs.TabPane>
+					<Tabs.TabPane key="0" tab="暂停"></Tabs.TabPane>
+					<Tabs.TabPane key="2" tab="撤回"></Tabs.TabPane>
+					<Button
+						slot="tabBarExtraContent"
+						type="primary"
+						on-click={this.addUpdateModalHandle}
+					>
+						添加热更新
+					</Button>
+				</Tabs>
 				<Table
 					rowKey="id"
 					columns={this.updateListColumns}
 					data-source={this.currApplicationUpdateList}
+					pagination={{
+						pageSize: this.pageSize,
+						current: this.currentPage,
+						total: this.currApplicationUpdateListCount,
+						onChange: this.pageChange,
+						showTotal: (total: number) => `总共${total}条`,
+					}}
 				></Table>
 				<Modal
 					title="新增热更新"

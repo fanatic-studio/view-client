@@ -8,6 +8,7 @@ const createState = (): ApplicationState => ({
 	applicationList: [],
 	applicationListCount: 0,
 	currEditApplication: {},
+	currApplicationUpdateListCount: 0,
 	currApplicationUpdateList: [],
 });
 

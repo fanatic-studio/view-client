@@ -61,15 +61,18 @@ const actions: ActionTree<ApplicationState, any> = {
 		store.commit("SET_EDIT_APPLICATION", p);
 	},
 
-	async getApplicationUpdateList(store, p: UpdateApplicationParams) {
+	async getApplicationUpdateList(store, p: ListApplicationUpdateParams) {
 		try {
 			let params: ListApplicationUpdateParams = {
 				appId: store.state.currEditApplication.appId,
+				pageIndex: p.pageIndex,
+				pageSize: p.pageSize,
 			};
 			console.log("params", params);
 
 			const result = await ApplicationApi.ListApplicationUpdate(params);
 			store.commit("SET_APPLICATION_UPDATE_LIST", result.list);
+			store.commit("SET_APPLICATION_UPDATE_LIST_COUNT", result.count);
 		} catch (error) {}
 	},
 	async addApplicationUpdate(store, p: ApplicationUpdateMode) {
