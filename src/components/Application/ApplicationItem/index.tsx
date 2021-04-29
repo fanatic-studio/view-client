@@ -49,20 +49,12 @@ export default class ApplicationItem extends Vue {
 				</div>
 				<template slot="actions">
 					<Tooltip placement="top">
-						<div slot="title">版本</div>
-						<Icon
-							key="setting"
-							type="setting"
-							on-click={this.applicationVersion}
-						/>
+						<div slot="title">版本管理</div>
+						<Icon type="tags" on-click={this.applicationVersion} />
 					</Tooltip>
 					<Tooltip placement="top">
-						<div slot="title">热更新</div>
-						<Icon
-							key="setting"
-							type="setting"
-							on-click={this.applicationUpdate}
-						/>
+						<div slot="title">热更新管理</div>
+						<Icon type="thunderbolt" on-click={this.applicationUpdate} />
 					</Tooltip>
 					<Tooltip placement="top">
 						<div slot="title">编辑</div>
