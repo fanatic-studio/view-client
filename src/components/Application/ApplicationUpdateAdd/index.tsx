@@ -16,6 +16,7 @@ import {
 	Select,
 	Checkbox,
 	Radio,
+	Switch,
 } from "ant-design-vue";
 import moment from "moment";
 moment.locale("zh-cn");
@@ -69,6 +70,11 @@ class ApplicationUpdateAdd extends Vue {
 	clearCacheOptions: Array<any> = [
 		{ label: "保留缓存", value: 0 },
 		{ label: "清除缓存", value: 1 },
+	];
+
+	rebootConfirmRebootOptions = [
+		{ label: "静默", value: 0 },
+		{ label: "重启", value: 1 },
 	];
 
 	async created() {}
@@ -357,6 +363,7 @@ class ApplicationUpdateAdd extends Vue {
 						</Form.Item>
 					</Col>
 				</Row>
+				{this.renderRebootConform()}
 				<Form.Item>
 					<Button
 						type="primary"
@@ -382,6 +389,70 @@ class ApplicationUpdateAdd extends Vue {
 		<Select.Option key="go">后端-Go</Select.Option>
 		<Select.Option key="ai">ai</Select.Option> */
 		};
+	}
+
+	renderRebootConform() {
+		const { getFieldDecorator } = this.form;
+		if (this.rebootTipsMode === 2) {
+			return (
+				<Row gutter={8}>
+					<Col span="16">
+						<Form.Item label="重启提示标题">
+							{getFieldDecorator("rebootTitle", {
+								rules: [
+									{
+										required: true,
+										message: "请选择更新模式",
+									},
+								],
+							})(
+								<Input
+									type="text"
+									name="rebootTitle"
+									placeholder="输入热更新重启提示标题"
+								></Input>
+							)}
+						</Form.Item>
+					</Col>
+					<Col span="16">
+						<Form.Item label="更新模式">
+							{getFieldDecorator("rebootMessage", {
+								rules: [
+									{
+										required: true,
+										message: "请选择更新模式",
+									},
+								],
+							})(
+								<Input.TextArea
+									type="text"
+									name="rebootMessage"
+									placeholder="输入热更新重启提示说明"
+								></Input.TextArea>
+							)}
+						</Form.Item>
+					</Col>
+					<Col span="16">
+						<Form.Item label="点击确定行为">
+							{getFieldDecorator("rebootConfirmReboot", {
+								initialValue: 0,
+								rules: [
+									{
+										required: true,
+										message: "点击确定行为",
+									},
+								],
+							})(
+								<Radio.Group
+									name="rebootConfirmReboot"
+									options={this.rebootConfirmRebootOptions}
+								></Radio.Group>
+							)}
+						</Form.Item>
+					</Col>
+				</Row>
+			);
+		}
 	}
 }
 export default Form.create({
