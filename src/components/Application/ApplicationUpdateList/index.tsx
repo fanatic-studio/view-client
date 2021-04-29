@@ -86,12 +86,12 @@ export default class ApplicationUpdateList extends Vue {
 			key: "valid",
 			customRender: this.rednerValid,
 		},
-		{
-			title: "状态",
-			dataIndex: "status",
-			key: "status",
-			customRender: this.rednerStatus,
-		},
+		// {
+		// 	title: "状态",
+		// 	dataIndex: "status",
+		// 	key: "status",
+		// 	customRender: this.rednerStatus,
+		// },
 		{
 			title: "操作",
 			customRender: this.renderAction,
@@ -126,6 +126,10 @@ export default class ApplicationUpdateList extends Vue {
 		console.log("params", params);
 
 		await this.getApplicationUpdateList(params);
+	}
+
+	async updateAppUpdateList() {
+		await this.__getApplicationUpdateList();
 	}
 
 	render() {
@@ -172,7 +176,9 @@ export default class ApplicationUpdateList extends Vue {
 					maskClosable={false}
 					footer={null}
 				>
-					<ApplicationUpdateAdd />
+					<ApplicationUpdateAdd
+						on-updateAppUpdateList={this.updateAppUpdateList()}
+					/>
 				</Modal>
 			</div>
 		);
@@ -265,10 +271,10 @@ export default class ApplicationUpdateList extends Vue {
 	}
 
 	private rednerValid(text: any, record: any, index: number) {
-		if (record.valid === "0") {
+		if (record.valid === "1") {
 			return <Tag color="blue">启用</Tag>;
 		}
-		if (record.valid === "1") {
+		if (record.valid === "0") {
 			return <Tag color="orange">暂停</Tag>;
 		}
 		if (record.valid === "2") {

@@ -37,8 +37,6 @@ class ApplicationUpdateAdd extends Vue {
 
 	@ApplicationStore.Action("addApplicationUpdate")
 	addApplicationUpdate!: Function;
-	@ApplicationStore.Action("getApplicationUpdateList")
-	getApplicationUpdateList!: Function;
 
 	form: any;
 	btnLoading: boolean = false;
@@ -84,8 +82,8 @@ class ApplicationUpdateAdd extends Vue {
 	protected mounted() {}
 
 	@Emit()
-	updateMilsList() {
-		this.$emit("updateMilsList");
+	updateAppUpdateList() {
+		this.$emit("updateAppUpdateList");
 	}
 
 	debugTipsMode = 0;
@@ -199,7 +197,7 @@ class ApplicationUpdateAdd extends Vue {
 					debug: value.debug,
 				};
 				await this.addApplicationUpdate(params);
-				await this.getApplicationUpdateList();
+				this.updateAppUpdateList();
 				this.btnLoading = false;
 			}
 		});
