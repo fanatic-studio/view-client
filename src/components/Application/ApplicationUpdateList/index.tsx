@@ -1,4 +1,13 @@
-import { Avatar, Card, Icon, Table, Tag, Tooltip } from "ant-design-vue";
+import {
+	Avatar,
+	Button,
+	Card,
+	Icon,
+	Modal,
+	Table,
+	Tag,
+	Tooltip,
+} from "ant-design-vue";
 import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 import style from "./index.less";
 import {
@@ -8,6 +17,7 @@ import {
 } from "@/store/models/application/types";
 import { namespace } from "vuex-class";
 const ApplicationStore = namespace("application");
+import ApplicationUpdateAdd from "@/components/Application/ApplicationUpdateAdd";
 @Component
 export default class ApplicationUpdateList extends Vue {
 	@ApplicationStore.Getter("applicationUpdateList")
@@ -15,6 +25,8 @@ export default class ApplicationUpdateList extends Vue {
 	@ApplicationStore.Action("getApplicationUpdateList")
 	getApplicationUpdateList!: Function;
 	@Prop(Object) readonly item!: ApplicationMode;
+
+	addUpdateModal: boolean = false;
 
 	versionListColumns: Array<any> = [
 		{
@@ -40,12 +52,30 @@ export default class ApplicationUpdateList extends Vue {
 		await this.getApplicationUpdateList();
 	}
 
+	addUpdateModalHandle() {
+		this.addUpdateModal = !this.addUpdateModal;
+	}
+
 	render() {
 		return (
-			<Table
-				columns={this.versionListColumns}
-				data-source={this.versionListData}
-			></Table>
+			<div>
+				<Button on-click={this.addUpdateModalHandle}>添加热更新</Button>
+				<Table
+					columns={this.versionListColumns}
+					data-source={this.versionListData}
+				></Table>
+				<Modal
+					title="新增热更新"
+					visible={this.addUpdateModal}
+					width={800}
+					dialog-style={{ top: "20px" }}
+					on-cancel={this.addUpdateModalHandle}
+					maskClosable={false}
+					footer={null}
+				>
+					<ApplicationUpdateAdd />
+				</Modal>
+			</div>
 		);
 	}
 
