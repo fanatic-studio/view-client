@@ -82,7 +82,7 @@ class Login extends Vue {
 		validateFields(async (err: string, value: PhoenLoginParams) => {
 			// 获取验证码结果
 			try {
-				const result = AccountApi.getVerifyCode({
+				const result = await AccountApi.getVerifyCode({
 					phoneNum: value.phoneNum,
 				})
 				console.log('getVerifyCode ------', result);

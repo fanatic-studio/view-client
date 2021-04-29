@@ -46,6 +46,9 @@ export default class WorkPlaceHeader extends Vue {
 					<div class={style.statItem}>
 						<Statistic title="交易金额" value={this.orderData.orderTotalPrice} />
 					</div>
+					<div class={style.statItem}>
+						<Statistic title="已退款" value={this.orderData.refundTotalPrice} />
+					</div>
 				</div>
 			</div>
 		);

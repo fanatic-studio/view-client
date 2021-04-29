@@ -1,0 +1,96 @@
+.workPlace .content {
+  padding: 24px;
+  height: 100vh;
+}
+.workPlace .content .dragIssueItem {
+  width: 100%;
+}
+.workPlace .projectContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+.workPlace .projectContent .projectContentLeft {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1e1e1e;
+}
+.workPlace .orderList {
+  background-color: #fff;
+  padding: 10px;
+}
+.workPlace .orderList .leftItemNormal,
+.workPlace .orderList .leftItem {
+  height: 100px;
+  background-color: #12B8AD;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.workPlace .orderList .leftItemNormal {
+  background-color: #f3f4f6;
+  color: #111111;
+}
+.workPlace .orderList .orderListRight {
+  border-width: 5px;
+  border-style: solid;
+  border-color: #12B8AD;
+  padding: 20px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  min-height: 400px;
+}
+.workPlace .orderList .orderListRight .rightItem {
+  background-color: #f3f4f6;
+  margin-bottom: 10px;
+  padding: 20px;
+  width: 100%;
+}
+.workPlace .orderList .orderListRight .rightItem .rightItemContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.workPlace .orderList .orderListRight .rightItem .rightItemContent .verStyle {
+  display: flex;
+  flex-direction: column;
+  margin-right: 80px;
+}
+.workPlace .orderList .orderListRight .rightItem .rightItemContent .verStyle2 {
+  display: none;
+}
+.workPlace .orderList .orderListRight .rightItem .rightItemContent .payBtn {
+  width: 90px;
+  height: 40px;
+  background-color: #12B8AD;
+  color: #fff;
+  font-size: 16px;
+}
+.workPlace .orderList .orderListRight .rightItem .rightItemContent .sortStyle {
+  font-size: 16px;
+  color: #1f1f1f;
+  font-weight: bold;
+}
+.workPlace .orderList .orderListRight .rightItem .rightItemContent .sortStyle2 {
+  font-size: 16px;
+  color: #1f1f1f;
+  font-weight: bold;
+  margin-right: 80px;
+}
+.workPlace .orderList .orderListRight .rightItem .rightItemContent .moneyStyle {
+  font-size: 20px;
+  color: #F94B4B;
+  font-weight: bold;
+}
+.workPlace .orderList .orderListRight .rightItem .rightItemContent2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

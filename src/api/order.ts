@@ -5,7 +5,12 @@ export enum API {
     ORDER_INFO = "/packingDeviceInfo/getDailyStatistics",
     ORDER_DETAIL = "/packingRecycleOrderInfo/detail",
     CANCEL_ORDER = "/packingRecycleOrderInfo/cancleOrder",
-    ORDER_PAY = "/userCardInfo/order/pay"
+    ORDER_PAY = "/userCardInfo/order/pay",
+	// 确认退款
+    ORDER_REFUND = "/refundOrder/confirmRefund",
+	// 取消退款
+    CANCEL_REFUND_ORDER = "/refundOrder/cancelRefund",
+
 }
 
 export default class IssuesApi {
@@ -37,5 +42,17 @@ export default class IssuesApi {
 		params: any
 	): Promise<any> {
 		return await HttpRequest.postData(API.ORDER_PAY, params);
+	}
+	// 确认退款
+    public static async OrderRefund(
+		params: any
+	): Promise<any> {
+		return await HttpRequest.postData(API.ORDER_REFUND, params);
+	}
+	// 取消退款
+    public static async CancelOrderRefund(
+		params: any
+	): Promise<any> {
+		return await HttpRequest.postData(API.CANCEL_REFUND_ORDER, params);
 	}
 }

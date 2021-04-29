@@ -22,16 +22,22 @@ import { app, protocol, BrowserWindow } from 'electron';
 export default class OrderDetail extends Vue {
     LODOP:any;
     public pointResult:any = {};
-    orderData: OrderData = {unOrderTotalPrice: 76.24, orderTotalPrice: 0, unCount: 0, count: 0};
+    orderData: OrderData = {unOrderTotalPrice: 76.24, orderTotalPrice: 0, unCount: 0, count: 0,refundTotalPrice:0};
     simpleItem: any = {}
     orderDetailInfo: any = {
         list: [{item: []}, {item: []}]
     }
 
     isModalVisible: Boolean = false
-    modalTitle: string = "确认支付"
+    refundCode:any
+    refundPrice:any
+    isModalVisible2: Boolean = false
+    modalTitle: string = "确认支付"    
 
     async created() {
+        this.refundCode = this.$route.query.refundCode;
+        this.refundPrice = this.$route.query.refundPrice;
+        console.log("refundCode",this.refundCode);
         await this.getDataInfo();
         await this.getOrderDetail();
     }
@@ -116,6 +122,36 @@ export default class OrderDetail extends Vue {
             this.$message.error(error.msg ? error.msg : "请求失败");
 		}
     }
+    // 确认退款
+    async completeOrder2() {
+        try {
+            // const orderItem:any = await localStore.getItem("orderItem")
+            // this.simpleItem = orderItem;
+            let params = {
+                refundCode: this.refundCode,
+            };
+            console.log("退款params",params)
+			const result = await OrderApi.OrderRefund(params);
+			this.$message.success('退款已完成');
+            this.$router.go(-1)
+		} catch (error) {
+            this.$message.error(error.msg ? error.msg : "请求失败");
+		}
+    }
+    // 取消退款
+    async cancelOrder2() {
+        try {
+            let params = {
+                refundCode: this.refundCode,
+            }
+			const result = await OrderApi.CancelOrderRefund(params);
+			// this.orderDetailInfo = result;
+            this.$message.success('取消退款成功');
+            this.$router.go(-1)
+		} catch (error) {
+            this.$message.error(error.msg ? error.msg : "请求失败");
+		}
+    }
 
     async handleOk() {
         this.isModalVisible = false
@@ -126,8 +162,20 @@ export default class OrderDetail extends Vue {
         }
     }
 
+    async handleOk2() {
+        this.isModalVisible2 = false
+        if (this.modalTitle === "确认退款？") {
+            await this.completeOrder2()
+        } else {
+            await this.cancelOrder2()
+        }
+    }
+
     handleCancel() {
         this.isModalVisible = false
+    }
+    handleCancel2() {
+        this.isModalVisible2 = false
     }
 
     protected render() {
@@ -149,6 +197,12 @@ export default class OrderDetail extends Vue {
                     await this.handleOk()
                 }} onCancel={() => {
                     this.handleCancel()
+                    }}>请确认无误并继续您的操作
+                </Modal>
+                <Modal title={this.modalTitle} visible={this.isModalVisible2} onOk={async ()=> {
+                    await this.handleOk2()
+                }} onCancel={() => {
+                    this.handleCancel2()
                     }}>请确认无误并继续您的操作
                 </Modal>
             </div>
@@ -222,6 +276,14 @@ export default class OrderDetail extends Vue {
                             <span class={style.priceItemsLeft}>{this.orderDetailInfo.orderStatus === 39 ? "需支付" : "已支付"}</span>
                             <span class={style.resultPayPrice}>{this.orderDetailInfo.totalPrice}元</span>
                         </div>
+                        <div class={this.orderDetailInfo.orderStatus === 60 ?style.resultPay:style.resultPay2}>
+                            <span class={style.priceItemsLeft}>退款金额</span>
+                            <span class={style.priceItemsRight}>{this.refundPrice}元</span>
+                        </div>
+                        <div class={this.refundPrice > 0 && this.orderDetailInfo.orderStatus === 40 ?style.resultPay:style.resultPay2}>
+                            <span class={style.priceItemsLeft}>已退款</span>
+                            <span class={style.priceItemsRight}>{this.refundPrice}元</span>
+                        </div>
                         {this.actionBtn()}
                     </Card>
                 </div>
@@ -256,7 +318,21 @@ export default class OrderDetail extends Vue {
                     }}>确认支付</Button>
                 </div>
             )
-        } else {
+        } else if(this.orderDetailInfo.orderStatus === 60) {
+            return (
+                <div class={style.actionBtn}>
+                    <Button class={style.cancelBtn} onClick={(event: Event) => {
+                        this.modalTitle = "确认取消退款？"
+                        this.isModalVisible2 = true;
+                    }}>取消退款</Button>
+                    <Button class={style.confirmBtn} onClick={(event: Event) => {
+                        this.modalTitle = "确认退款？"
+                        this.isModalVisible2 = true;
+                    }}>确认退款</Button>
+                </div>
+            )
+        }
+        else {
             return(
                 <div></div>
             )

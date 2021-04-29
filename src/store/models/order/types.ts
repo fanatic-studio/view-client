@@ -6,5 +6,6 @@ export interface OrderData {
 	orderTotalPrice: number;
 	unCount: number;
 	count: number;
+	refundTotalPrice:number;
 }
 

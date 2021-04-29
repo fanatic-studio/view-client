@@ -1,0 +1,124 @@
+.orderDetail .orderDetailContent {
+  padding: 20px;
+  margin-top: -10px;
+  min-height: 500px;
+}
+.orderDetail .leftTopCard {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.orderDetail .titleContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.orderDetail .titleDiv {
+  display: flex;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+.orderDetail .logoImg {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+}
+.orderDetail .titleContentRight {
+  margin-top: 8px;
+  margin-right: 20px;
+}
+.orderDetail .goodsItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.orderDetail .goodsItemLeft {
+  font-size: 16px;
+  color: #101029;
+}
+.orderDetail .goodsItemRight {
+  font-size: 16px;
+  color: #F94B4B;
+}
+.orderDetail .sortStyle {
+  font-size: 16px;
+  color: #1f1f1f;
+  font-weight: bold;
+}
+.orderDetail .phoneStyle {
+  font-size: 16px;
+  color: #999999;
+}
+.orderDetail .topUserInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f3f4f6;
+}
+.orderDetail .topUserInfoCenter {
+  display: flex;
+  flex-direction: column;
+}
+.orderDetail .botLogo {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.orderDetail .priceItems {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.orderDetail .priceItemsLeft {
+  font-size: 16px;
+  color: #1f1f1f;
+  font-weight: bold;
+}
+.orderDetail .priceItemsRight {
+  font-size: 16px;
+  color: #1f1f1f;
+}
+.orderDetail .resultPay {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  margin-top: 20px;
+  border-top: 1px solid #f3f4f6;
+}
+.orderDetail .resultPay2 {
+  display: none;
+}
+.orderDetail .resultPayPrice {
+  font-size: 32px;
+  color: #F94B4B;
+  font-weight: bold;
+}
+.orderDetail .actionBtn {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.orderDetail .cancelBtn {
+  width: 40%;
+  height: 50px;
+  background-color: #EAE8EB;
+  border: none;
+  border-radius: 0;
+  font-size: 20px;
+}
+.orderDetail .confirmBtn {
+  width: 60%;
+  height: 50px;
+  background-color: #12B8AD;
+  border: none;
+  border-radius: 0;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+}

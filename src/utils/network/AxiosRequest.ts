@@ -60,10 +60,10 @@ export default class AxiosRequest {
 
     private apiToUrl(api: string): string {
         if (api === "/login/phone" || api==="/login/verifyCode") {
-			const url = "http://cs.daieco.com" + api; // http://cs.daieco.com http://192.168.11.168:7018
+			const url = "http://192.168.11.168:7018" + api; // http://cs.daieco.com http://192.168.11.168:7018
 			return url;
 		} else {
-			const url = 'http://packing.daieco.com' + api;  // http://packing.daieco.com http://192.168.11.168:7020
+			const url = 'http://192.168.11.168:7020' + api;  // http://packing.daieco.com http://192.168.11.168:7020
 			return url;
 		}
         return this.url + api;
@@ -83,6 +83,7 @@ export default class AxiosRequest {
         ];
         hData = {
 			appKey: "ABBBD884A51C42D87099AFE63453141E",
+            packingStationCode:"001"
 		};
 		let checkApiAuth = noAuthApi.indexOf(api) > -1;
 		if (!checkApiAuth) {
