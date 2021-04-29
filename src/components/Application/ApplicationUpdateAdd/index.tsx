@@ -196,7 +196,9 @@ class ApplicationUpdateAdd extends Vue {
 					clearCache: value.clearCache,
 					debug: value.debug,
 				};
-				await this.addApplicationUpdate(params);
+				console.log("123123", params);
+
+				// await this.addApplicationUpdate(params);
 				this.btnLoading = false;
 			}
 		});
@@ -280,7 +282,9 @@ class ApplicationUpdateAdd extends Vue {
 							allowClear
 							name="version"
 							placeholder="请选择更新版本（如果对多个版本进行更新请选择多个）"
-						></Select>
+						>
+							<Select.Option key="native">前端-原生</Select.Option>
+						</Select>
 					)}
 				</Form.Item>
 				<Row gutter={8}>
@@ -345,17 +349,17 @@ class ApplicationUpdateAdd extends Vue {
 					</Col>
 					<Col span="12">
 						<Form.Item label="更新完成后-缓存处理" help={this.clearCacheTips()}>
-							{getFieldDecorator("clear_cache", {
+							{getFieldDecorator("clearCache", {
 								initialValue: 0,
 								rules: [
 									{
 										required: true,
-										message: "请确定clear_cache类型",
+										message: "请确定clearCache类型",
 									},
 								],
 							})(
 								<Radio.Group
-									name="clear_cache"
+									name="clearCache"
 									options={this.clearCacheOptions}
 									on-change={this.clearCacheChange}
 								></Radio.Group>
@@ -381,8 +385,7 @@ class ApplicationUpdateAdd extends Vue {
 
 	renderVersion() {
 		return {
-			/* <Select.Option key="native">前端-原生</Select.Option>
-		<Select.Option key="h5">前端-H5</Select.Option>
+			/* <Select.Option key="h5">前端-H5</Select.Option>
 		<Select.Option key="xcx">前端-小程序</Select.Option>
 		<Select.Option key="web">前端-后台</Select.Option>
 		<Select.Option key="java">后端-JAVA</Select.Option>
