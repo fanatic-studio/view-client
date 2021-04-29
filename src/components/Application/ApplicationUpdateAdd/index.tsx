@@ -98,7 +98,7 @@ class ApplicationUpdateAdd extends Vue {
 		}
 	}
 
-	validTipsMode = 0;
+	validTipsMode = 1;
 	validChange(e: any) {
 		this.validTipsMode = e.target.value;
 	}
@@ -113,6 +113,21 @@ class ApplicationUpdateAdd extends Vue {
 		}
 		if (this.validTipsMode === 2) {
 			return "回滚更新，用户收不到此更新，已更新的用户将撤回此更新。";
+		}
+	}
+
+	updateModeTipsMode = 0;
+	updateModeChange(e: any) {
+		this.updateModeTipsMode = e.target.value;
+	}
+	updateModeTips() {
+		console.log("updateModeTipsMode", this.updateModeTipsMode);
+
+		if (this.updateModeTipsMode === 0) {
+			return "自动触发，APP自动检测更新。";
+		}
+		if (this.updateModeTipsMode === 1) {
+			return "仅客户触发，通过执行方法 seui.checkUpdate() 触发更新。";
 		}
 	}
 
@@ -247,9 +262,9 @@ class ApplicationUpdateAdd extends Vue {
 						</Form.Item>
 					</Col>
 					<Col span="12">
-						<Form.Item label="更新模式">
+						<Form.Item label="更新模式" help={this.updateModeTips()}>
 							{getFieldDecorator("updateMode", {
-								initialValue: 1,
+								initialValue: 0,
 								rules: [
 									{
 										required: true,
@@ -260,6 +275,7 @@ class ApplicationUpdateAdd extends Vue {
 								<Radio.Group
 									name="updateMode"
 									options={this.updateModeOptions}
+									on-change={this.updateModeChange}
 								></Radio.Group>
 							)}
 						</Form.Item>
