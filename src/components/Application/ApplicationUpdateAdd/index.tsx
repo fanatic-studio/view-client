@@ -80,6 +80,42 @@ class ApplicationUpdateAdd extends Vue {
 		this.$emit("updateMilsList");
 	}
 
+	debugTipsMode = 0;
+	debugChange(e: any) {
+		this.debugTipsMode = e.target.value;
+	}
+	debugTips() {
+		console.log("debugTipsMode", this.debugTipsMode);
+
+		if (this.debugTipsMode === 0) {
+			return "DEBUG版本无法收到此更新包。";
+		}
+		if (this.debugTipsMode === 1) {
+			return "DEBUG版本可以收到此更新包。";
+		}
+		if (this.debugTipsMode === 2) {
+			return "只有DEBUG版本可以收到此更新包（一般用于测试）。";
+		}
+	}
+
+	validTipsMode = 0;
+	validChange(e: any) {
+		this.validTipsMode = e.target.value;
+	}
+	validTips() {
+		console.log("validTipsMode", this.validTipsMode);
+
+		if (this.validTipsMode === 0) {
+			return "暂停更新，用户收不到此更新，已更新的用户不影响。";
+		}
+		if (this.validTipsMode === 1) {
+			return "开启更新，所有用户都会收到此更新。";
+		}
+		if (this.validTipsMode === 2) {
+			return "回滚更新，用户收不到此更新，已更新的用户将撤回此更新。";
+		}
+	}
+
 	async handleSubmit(event: Event) {
 		event.preventDefault();
 		const {
@@ -151,7 +187,7 @@ class ApplicationUpdateAdd extends Vue {
 						</Form.Item>
 					</Col>
 					<Col span="8">
-						<Form.Item label="DEBUG版本">
+						<Form.Item label="DEBUG版本" help={this.debugTips()}>
 							{getFieldDecorator("debug", {
 								initialValue: 0,
 								rules: [
@@ -164,12 +200,16 @@ class ApplicationUpdateAdd extends Vue {
 								<Radio.Group
 									name="debug"
 									options={this.debugOptions}
+									on-change={this.debugChange}
 								></Radio.Group>
 							)}
 						</Form.Item>
 					</Col>
 				</Row>
-				<Form.Item label="热更新版本">
+				<Form.Item
+					label="热更新版本"
+					help="iOS为Build编译版本号，安卓为versionCode应用版本号。（注：多个版本半角逗号分隔，如：12,13）"
+				>
 					{getFieldDecorator("version", {
 						rules: [
 							{
@@ -178,31 +218,18 @@ class ApplicationUpdateAdd extends Vue {
 							},
 						],
 					})(
-						<div>
-							<Select
-								show-search
-								allowClear
-								name="version"
-								placeholder="请选择更新版本（如果对多个版本进行更新请选择多个）"
-							>
-								{/* <Select.Option key="native">前端-原生</Select.Option>
-							<Select.Option key="h5">前端-H5</Select.Option>
-							<Select.Option key="xcx">前端-小程序</Select.Option>
-							<Select.Option key="web">前端-后台</Select.Option>
-							<Select.Option key="java">后端-JAVA</Select.Option>
-							<Select.Option key="go">后端-Go</Select.Option>
-							<Select.Option key="ai">ai</Select.Option> */}
-							</Select>
-							<div>
-								iOS为Build编译版本号，安卓为versionCode应用版本号。（注：多个版本半角逗号分隔，如：12,13）
-							</div>
-						</div>
+						<Select
+							show-search
+							allowClear
+							name="version"
+							placeholder="请选择更新版本（如果对多个版本进行更新请选择多个）"
+						></Select>
 					)}
 				</Form.Item>
 				<Row gutter={8}>
 					<Col span="12">
-						<Form.Item label="启用状态">
-							{getFieldDecorator("updateMode", {
+						<Form.Item label="启用状态" help={this.validTips()}>
+							{getFieldDecorator("valid", {
 								initialValue: 1,
 								rules: [
 									{
@@ -212,8 +239,9 @@ class ApplicationUpdateAdd extends Vue {
 								],
 							})(
 								<Radio.Group
-									name="updateMode"
+									name="valid"
 									options={this.validOptions}
+									on-change={this.validChange}
 								></Radio.Group>
 							)}
 						</Form.Item>
@@ -221,7 +249,7 @@ class ApplicationUpdateAdd extends Vue {
 					<Col span="12">
 						<Form.Item label="更新模式">
 							{getFieldDecorator("updateMode", {
-								initialValue: 0,
+								initialValue: 1,
 								rules: [
 									{
 										required: true,
@@ -288,6 +316,18 @@ class ApplicationUpdateAdd extends Vue {
 				</Form.Item>
 			</Form>
 		);
+	}
+
+	renderVersion() {
+		return {
+			/* <Select.Option key="native">前端-原生</Select.Option>
+		<Select.Option key="h5">前端-H5</Select.Option>
+		<Select.Option key="xcx">前端-小程序</Select.Option>
+		<Select.Option key="web">前端-后台</Select.Option>
+		<Select.Option key="java">后端-JAVA</Select.Option>
+		<Select.Option key="go">后端-Go</Select.Option>
+		<Select.Option key="ai">ai</Select.Option> */
+		};
 	}
 }
 export default Form.create({
