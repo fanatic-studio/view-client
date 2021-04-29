@@ -403,7 +403,7 @@ class ApplicationUpdateEdit extends Vue {
 						html-type="submit"
 						loading={this.btnLoading}
 					>
-						新增工程
+						更新
 					</Button>
 				</Form.Item>
 			</Form>

@@ -178,6 +178,7 @@ export default class ApplicationUpdateList extends Vue {
 				>
 					<ApplicationUpdateAdd
 						on-emitUpdateApplicationUpdateList={async () => {
+							this.addUpdateModal = !this.addUpdateModal;
 							await this.__getApplicationUpdateList();
 						}}
 					/>
@@ -193,6 +194,7 @@ export default class ApplicationUpdateList extends Vue {
 				>
 					<ApplicationUpdateEdit
 						on-emitUpdateApplicationUpdateList={async () => {
+							this.editUpdateModal = !this.editUpdateModal;
 							await this.__getApplicationUpdateList();
 						}}
 					/>

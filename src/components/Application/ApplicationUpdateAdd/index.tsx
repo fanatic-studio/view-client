@@ -388,7 +388,7 @@ class ApplicationUpdateAdd extends Vue {
 						html-type="submit"
 						loading={this.btnLoading}
 					>
-						新增工程
+						新增
 					</Button>
 				</Form.Item>
 			</Form>
