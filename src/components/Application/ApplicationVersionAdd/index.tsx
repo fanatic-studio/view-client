@@ -122,14 +122,14 @@ class ApplicationVersionAdd extends Vue {
 					platform: value.platform.toString(),
 					title: value.title,
 					content: value.content,
-					iosUrl: value.iosUrl,
+					iOSUrl: value.iOSUrl,
 					androidUrl: value.androidUrl,
 					templateId: value.templateId,
 					forced: value.forced,
 					debug: value.debug,
 				};
 				await this.addApplicationVersion(params);
-				this.emitVersionApplicationVersionList();
+				// this.emitVersionApplicationVersionList();
 				this.btnLoading = false;
 			}
 		});

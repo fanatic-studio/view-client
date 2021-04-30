@@ -305,7 +305,7 @@ export interface ApplicationVersionMode {
 	package: string;
 	title: string;
 	content: string;
-	iosUrl: string;
+	iOSUrl: string;
 	androidUrl: string;
 	platform: string;
 	debug: string;
@@ -322,7 +322,7 @@ export interface AddApplicationVersionParams {
 	package?: string;
 	title: string;
 	content: string;
-	iosUrl: string;
+	iOSUrl: string;
 	androidUrl: string;
 	platform: string;
 	debug: string;
@@ -338,7 +338,7 @@ export interface AddApplicationVersionResponse extends IResponse {
 		isPublic: string;
 		title: string;
 		content: string;
-		iosUrl: string;
+		iOSUrl: string;
 		androidUrl: string;
 		androidMode: string;
 		platform: string;
@@ -361,7 +361,7 @@ export interface GetApplicationVersionResponse extends IResponse {
 		isPublic: string;
 		title: string;
 		content: string;
-		iosUrl: string;
+		iOSUrl: string;
 		androidUrl: string;
 		androidMode: string;
 		platform: string;
@@ -381,7 +381,7 @@ export interface UpdateApplicationVersionParams {
 	isPublic: string;
 	title: string;
 	content: string;
-	iosUrl: string;
+	iOSUrl: string;
 	androidUrl: string;
 	androidMode: string;
 	platform: string;
