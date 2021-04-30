@@ -138,7 +138,7 @@ class ApplicationVersionEdit extends Vue {
 	protected render() {
 		const { getFieldDecorator } = this.form;
 		return (
-			<Form class={styles.applicationVersionAdd} onSubmit={this.handleSubmit}>
+			<Form class={styles.applicationVersionEdit} onSubmit={this.handleSubmit}>
 				<Row gutter={8}>
 					<Col span="12">
 						<Form.Item
