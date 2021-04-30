@@ -24,6 +24,11 @@ import { namespace } from "vuex-class";
 const ApplicationStore = namespace("application");
 import ApplicationVersionAdd from "@/components/Application/ApplicationVersionAdd";
 import ApplicationVersionEdit from "@/components/Application/ApplicationVersionEdit";
+import templateImg1 from "@/assets/image/version/1b.png";
+import templateImg2 from "@/assets/image/version/2b.png";
+import templateImg3 from "@/assets/image/version/3b.png";
+import templateImg4 from "@/assets/image/version/4b.png";
+import templateImg5 from "@/assets/image/version/5b.png";
 @Component
 export default class ApplicationVersionList extends Vue {
 	@ApplicationStore.Getter("currApplicationVersionList")
@@ -110,7 +115,7 @@ export default class ApplicationVersionList extends Vue {
 						版本发版测试
 					</Button>
 				</div>
-				<Timeline>{this.renderTimeLineItem()}</Timeline>
+				<Timeline class={styles.itemLine}>{this.renderTimeLineItem()}</Timeline>
 				<Modal
 					title="新增版本"
 					visible={this.addVersionModal}
@@ -152,8 +157,8 @@ export default class ApplicationVersionList extends Vue {
 			return (
 				<Timeline.Item>
 					<Icon slot="dot" type="tag" />
-					<Card>
-						<div slot="title">
+					<Card class={styles.timelineItemCard}>
+						<div slot="title" class={styles.title}>
 							<div>
 								<Icon type="tag" />
 								<Tag color="blue">{item.versionName}</Tag>
@@ -172,9 +177,12 @@ export default class ApplicationVersionList extends Vue {
 							{this.rednerForced(item.forced)}
 							{this.renderAction(item)}
 						</div>
-						<div slot="cover">
-							<div>{item.title}</div>
-							<div>{item.content}</div>
+						<div slot="cover" class={styles.versionUI}>
+							{this.rendertemplateIdImg(item.templateId)}
+							<div class={styles.versionInfo}>
+								<div>{item.title}</div>
+								<div>{item.content}</div>
+							</div>
 						</div>
 						<Card.Meta>
 							<div>{item.forced}</div>
@@ -186,13 +194,6 @@ export default class ApplicationVersionList extends Vue {
 					</Card>
 				</Timeline.Item>
 			);
-		});
-	}
-
-	private rednerVersion(text: any, record: any, index: number) {
-		const verson: Array<string> = record.version.split(",");
-		return verson.map((item) => {
-			return <Tag color="blue">{item}</Tag>;
 		});
 	}
 
@@ -270,5 +271,23 @@ export default class ApplicationVersionList extends Vue {
 				</div>
 			</Alert>
 		);
+	}
+
+	protected rendertemplateIdImg(templateId: string) {
+		if (templateId === "1") {
+			return <img class={styles.templateImg} src={templateImg1}></img>;
+		}
+		if (templateId === "2") {
+			return <img class={styles.templateImg} src={templateImg2}></img>;
+		}
+		if (templateId === "3") {
+			return <img class={styles.templateImg} src={templateImg3}></img>;
+		}
+		if (templateId === "4") {
+			return <img class={styles.templateImg} src={templateImg4}></img>;
+		}
+		if (templateId === "5") {
+			return <img class={styles.templateImg} src={templateImg5}></img>;
+		}
 	}
 }
