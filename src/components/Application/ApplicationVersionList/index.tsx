@@ -42,6 +42,8 @@ export default class ApplicationVersionList extends Vue {
 	updateEditApplicationVersion!: Function;
 	@ApplicationStore.Action("checkApplicationUpdate")
 	checkApplicationUpdate!: Function;
+	@ApplicationStore.Action("updateApplicationVersion")
+	updateApplicationVersion!: Function;
 
 	@Prop(Object) readonly item!: ApplicationMode;
 
@@ -93,6 +95,14 @@ export default class ApplicationVersionList extends Vue {
 				title: "当前没有可用热更新",
 			});
 		}
+	}
+
+	private async stopVersionHandle(record: any) {
+		let params = {
+			status: record.status === "0" ? "1" : "0",
+		};
+		await this.updateApplicationVersion(params);
+		await this.__getApplicationVersionList();
 	}
 
 	render() {
@@ -269,7 +279,7 @@ export default class ApplicationVersionList extends Vue {
 		return (
 			<div class={styles.actionButton}>
 				<Button
-					type="primary"
+					type="dashed"
 					size="small"
 					on-click={() => {
 						this.updateEditApplicationVersion(record);
@@ -278,8 +288,15 @@ export default class ApplicationVersionList extends Vue {
 				>
 					编辑
 				</Button>
-				<Button type="danger" size="small">
-					删除
+				<Button
+					type={record.status === "1" ? "primary" : "danger"}
+					size="small"
+					on-click={() => {
+						this.updateEditApplicationVersion(record);
+						this.stopVersionHandle(record);
+					}}
+				>
+					{record.status === "1" ? "启用" : "停用"}
 				</Button>
 			</div>
 		);

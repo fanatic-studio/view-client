@@ -188,8 +188,6 @@ const actions: ActionTree<ApplicationState, any> = {
 		} catch (error) {}
 	},
 	updateEditApplicationVersion(store, p: any) {
-		console.log("123123", p);
-
 		store.commit("SET_EDIT_APPLICATION_VERSION", p);
 	},
 	async updateApplicationVersion(store, p: UpdateApplicationVersionParams) {
@@ -210,6 +208,7 @@ const actions: ActionTree<ApplicationState, any> = {
 			forced: p.forced,
 			debug: p.debug,
 			canCancel: p.canCancel,
+			status: p.status,
 		};
 		try {
 			console.log("updateApplication - params", params);

@@ -156,7 +156,7 @@ class ApplicationVersionEdit extends Vue {
 					debug: value.debug,
 				};
 				await this.updateApplicationVersion(params);
-				// this.emitVersionApplicationVersionList();
+				this.emitVersionApplicationVersionList();
 				this.btnLoading = false;
 			}
 		});

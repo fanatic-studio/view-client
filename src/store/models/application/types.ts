@@ -389,6 +389,7 @@ export interface UpdateApplicationVersionParams {
 	templateId: string;
 	forced: string;
 	canCancel: string;
+	status: string;
 }
 export interface UpdateApplicationVersionResponse extends IResponse {
 	data: {

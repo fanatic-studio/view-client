@@ -129,7 +129,7 @@ class ApplicationVersionAdd extends Vue {
 					debug: value.debug,
 				};
 				await this.addApplicationVersion(params);
-				// this.emitVersionApplicationVersionList();
+				this.emitVersionApplicationVersionList();
 				this.btnLoading = false;
 			}
 		});
@@ -329,17 +329,6 @@ class ApplicationVersionAdd extends Vue {
 				</Form.Item>
 			</Form>
 		);
-	}
-
-	renderVersion() {
-		return {
-			/* <Select.Option key="h5">前端-H5</Select.Option>
-		<Select.Option key="xcx">前端-小程序</Select.Option>
-		<Select.Option key="web">前端-后台</Select.Option>
-		<Select.Option key="java">后端-JAVA</Select.Option>
-		<Select.Option key="go">后端-Go</Select.Option>
-		<Select.Option key="ai">ai</Select.Option> */
-		};
 	}
 
 	protected rendertemplateIdImg() {
