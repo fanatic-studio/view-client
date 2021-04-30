@@ -293,81 +293,105 @@ export interface CheckApplicationUpdateResponse extends IResponse {
 }
 
 //-------version
+export interface ApplicationVersionMode {
+	id?: string;
+	appId?: string;
+	versionId?: string;
+	version: string;
+	versionName: string;
+	package: string;
+	isPublic: string;
+	title: string;
+	content: string;
+	iosUrl: string;
+	androidUrl: string;
+	androidMode: string;
+	platform: string;
+	debug: string;
+	templateId: string;
+	forced: string;
+	canCancel: string;
+	number: string;
+	status: string;
+}
+
 export interface AddApplicationVersionParams {
 	appId?: string;
-	title: string;
-	package?: string;
 	version: string;
+	versionName: string;
+	package: string;
+	isPublic: string;
+	title: string;
+	content: string;
+	iosUrl: string;
+	androidUrl: string;
+	androidMode: string;
 	platform: string;
-	reboot: string;
-	rebootTitle: string;
-	rebootMessage: string;
-	rebootConfirmReboot: string;
-	fileUrl: string;
-	fileSize?: string;
-	valid: string;
-	updateMode: string;
-	clearCache: string;
 	debug: string;
+	templateId: string;
+	forced: string;
+	canCancel: string;
 }
 export interface AddApplicationVersionResponse extends IResponse {
 	data: {
-		id: number;
-		teamId: string;
-		projectId: string;
-		accountId: string;
-		applicationId: string;
-		gitLabApplicationId: number;
-		assignee: string;
-		name: string;
-		desc: string;
+		appId: string;
+		version: string;
+		versionName: string;
+		package: string;
+		isPublic: string;
+		title: string;
 		content: string;
-		startAt: string;
-		ductTime: string;
-		onlineAt: string;
-		status: string;
+		iosUrl: string;
+		androidUrl: string;
+		androidMode: string;
+		platform: string;
+		debug: string;
+		templateId: string;
+		forced: string;
+		canCancel: string;
 	};
 }
 
 export interface GetApplicationVersionParams {
-	applicationId: string;
+	appId: string;
 }
 export interface GetApplicationVersionResponse extends IResponse {
 	data: {
-		id: number;
-		teamId: string;
-		projectId: string;
-		accountId: string;
-		applicationId: string;
-		gitLabApplicationId: number;
-		assignee: string;
-		name: string;
-		desc: string;
+		appId: string;
+		version: string;
+		versionName: string;
+		package: string;
+		isPublic: string;
+		title: string;
 		content: string;
-		startAt: string;
-		ductTime: string;
-		onlineAt: string;
-		status: string;
+		iosUrl: string;
+		androidUrl: string;
+		androidMode: string;
+		platform: string;
+		debug: string;
+		templateId: string;
+		forced: string;
+		canCancel: string;
 	};
 }
 
 export interface UpdateApplicationVersionParams {
 	appId?: string;
-	updateId?: string;
-	title: string;
-	package?: string;
+	versionId?: string;
 	version: string;
+	versionName: string;
+	package: string;
+	isPublic: string;
+	title: string;
+	content: string;
+	iosUrl: string;
+	androidUrl: string;
+	androidMode: string;
 	platform: string;
-	reboot: string;
-	rebootTitle: string;
-	rebootMessage: string;
-	rebootConfirmReboot: string;
-	fileUrl: string;
-	fileSize?: string;
-	valid: string;
-	updateMode: string;
-	clearCache: string;
 	debug: string;
+	templateId: string;
+	forced: string;
+	canCancel: string;
 }
 export interface UpdateApplicationVersionResponse extends IResponse {
 	data: {

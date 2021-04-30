@@ -11,6 +11,10 @@ import {
 	AddApplicationUpdateParams,
 	UpdateApplicationUpdateParams,
 	CheckApplicationUpdateParams,
+	ListApplicationVersionParams,
+	AddApplicationVersionParams,
+	UpdateApplicationVersionParams,
+	ApplicationVersionMode,
 } from "./types";
 
 const actions: ActionTree<ApplicationState, any> = {
@@ -143,6 +147,77 @@ const actions: ActionTree<ApplicationState, any> = {
 			console.log("updateApplication - params", params);
 			const result = await ApplicationApi.CheckApplicationUpdate(params);
 			return result.data;
+		} catch (error) {}
+	},
+	//-------version
+
+	async getApplicationVersionList(store, p: ListApplicationVersionParams) {
+		try {
+			let params: ListApplicationVersionParams = {
+				appId: store.state.currEditApplication.appId,
+				pageIndex: p.pageIndex,
+				pageSize: p.pageSize,
+			};
+			console.log("params", params);
+
+			const result = await ApplicationApi.ListApplicationVersion(params);
+			store.commit("SET_APPLICATION_UPDATE_LIST", result.list);
+			store.commit("SET_APPLICATION_UPDATE_LIST_COUNT", result.count);
+		} catch (error) {}
+	},
+	async addApplicationVersion(store, p: ApplicationVersionMode) {
+		const params: AddApplicationVersionParams = {
+			appId: store.state.currEditApplication.appId,
+			version: p.version,
+			versionName: p.versionName,
+			package: store.state.currEditApplication.package,
+			isPublic: p.isPublic,
+			title: p.title,
+			content: p.content,
+			platform: p.platform,
+			iosUrl: p.iosUrl,
+			androidUrl: p.androidUrl,
+			androidMode: p.androidMode,
+			templateId: p.templateId,
+			forced: p.forced,
+			debug: p.debug,
+			canCancel: p.canCancel,
+		};
+		try {
+			console.log("addApplicationVersion - params", params);
+			const result = await ApplicationApi.AddApplicationVersion(params);
+			console.log("addApplication - result", result);
+			return result;
+		} catch (error) {}
+	},
+	updateEditApplicationVersion(store, p: any) {
+		console.log("123123", p);
+
+		store.commit("SET_EDIT_APPLICATION_UPDATE", p);
+	},
+	async updateApplicationVersion(store, p: UpdateApplicationVersionParams) {
+		const params: UpdateApplicationVersionParams = {
+			appId: store.state.currEditApplication.appId,
+			versionId: p.versionId,
+			version: p.version,
+			versionName: p.versionName,
+			package: store.state.currEditApplication.package,
+			isPublic: p.isPublic,
+			title: p.title,
+			content: p.content,
+			platform: p.platform,
+			iosUrl: p.iosUrl,
+			androidUrl: p.androidUrl,
+			androidMode: p.androidMode,
+			templateId: p.templateId,
+			forced: p.forced,
+			debug: p.debug,
+			canCancel: p.canCancel,
+		};
+		try {
+			console.log("updateApplication - params", params);
+			const result = await ApplicationApi.UpdateApplicationVersion(params);
+			store.commit("SET_EDIT_APPLICATION_UPDATE", result.data);
 		} catch (error) {}
 	},
 };
