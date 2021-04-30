@@ -177,20 +177,19 @@ export default class ApplicationVersionList extends Vue {
 							{this.rednerForced(item.forced)}
 							{this.renderAction(item)}
 						</div>
-						<div slot="cover" class={styles.versionUI}>
-							{this.rendertemplateIdImg(item.templateId)}
-							<div class={styles.versionInfo}>
-								<div>{item.title}</div>
-								<div>{item.content}</div>
+						<div slot="cover" class={styles.versionContent}>
+							<div class={styles.versionUI}>
+								{this.rendertemplateIdImg(item.templateId)}
+								<div class={styles.versionInfo}>
+									<div>{item.title}</div>
+									<div>{item.content}</div>
+								</div>
+							</div>
+							<div>
+								<div>{item.iOSUrl}</div>
+								<div>{item.androidUrl}</div>
 							</div>
 						</div>
-						<Card.Meta>
-							<div>{item.forced}</div>
-						</Card.Meta>
-						<template slot="actions" class="ant-card-actions">
-							<div>{item.iOSUrl}</div>
-							<div>{item.androidUrl}</div>
-						</template>
 					</Card>
 				</Timeline.Item>
 			);
