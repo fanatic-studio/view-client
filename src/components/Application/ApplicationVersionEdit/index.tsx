@@ -351,7 +351,7 @@ class ApplicationVersionEdit extends Vue {
 						html-type="submit"
 						loading={this.btnLoading}
 					>
-						新增
+						更新
 					</Button>
 				</Form.Item>
 			</Form>
