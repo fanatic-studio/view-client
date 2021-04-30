@@ -11719,6 +11719,11 @@ vue-property-decorator@^8.1.0:
   dependencies:
     vue-class-component "^7.1.0"
 
+vue-qr@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.npm.taobao.org/vue-qr/download/vue-qr-2.3.0.tgz#d659ee9db2bc717a2b46bd0e7a5414e75a7a3bba"
+  integrity sha1-1lnunbK8cXorRr0OelQU51p6O7o=
+
 vue-ref@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/vue-ref/download/vue-ref-2.0.0.tgz#483084d732abed11da796778a8266a3af0ea1a9c"

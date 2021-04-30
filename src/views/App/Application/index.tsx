@@ -135,7 +135,7 @@ export default class Application extends Vue {
 					on-close={() => {
 						this.versionControlDrawer = !this.versionControlDrawer;
 					}}
-					width={800}
+					width={1000}
 				>
 					<ApplicationVersionList on-updateAppList={this.updateAppList} />
 				</Drawer>

@@ -181,13 +181,35 @@ export default class ApplicationVersionList extends Vue {
 							<div class={styles.versionUI}>
 								{this.rendertemplateIdImg(item.templateId)}
 								<div class={styles.versionInfo}>
-									<div>{item.title}</div>
-									<div>{item.content}</div>
+									<div class={styles.title}>{item.title}</div>
+									<mavon-editor
+										class={styles.mavonEditorPreview}
+										value={item.content}
+										style={{
+											zIndex: 1,
+											cursor: "pointer",
+											minWidth: "260px",
+											minHeight: "120px",
+										}}
+										defaultOpen="preview"
+										boxShadow={false}
+										editable={false}
+										subfield={false}
+										toolbarsFlag={false}
+									></mavon-editor>
 								</div>
 							</div>
-							<div>
-								<div>{item.iOSUrl}</div>
-								<div>{item.androidUrl}</div>
+							<div class={styles.qrcodes}>
+								<div class={styles.qrcode}>
+									<div>iOS下载地址</div>
+									<vue-qr text={item.iOSUrl} size={200}></vue-qr>
+									<div>请使用微信扫码</div>
+								</div>
+								<div class={styles.qrcode}>
+									<div>安卓下载地址</div>
+									<vue-qr text={item.androidUrl} size={200}></vue-qr>
+									<div>请使用自带浏览器扫码</div>
+								</div>
 							</div>
 						</div>
 					</Card>
