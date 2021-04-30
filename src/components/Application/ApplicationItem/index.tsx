@@ -19,6 +19,12 @@ export default class ApplicationItem extends Vue {
 	applicationUpdate() {
 		this.$emit("applicationUpdateClick", this.item);
 	}
+
+	@Emit()
+	applicationWelcome() {
+		this.$emit("applicationWelcome", this.item);
+	}
+
 	render() {
 		return (
 			<Card class={style.applicationItem} hoverable style="">
@@ -57,8 +63,8 @@ export default class ApplicationItem extends Vue {
 						<Icon type="thunderbolt" on-click={this.applicationUpdate} />
 					</Tooltip>
 					<Tooltip placement="top">
-						<div slot="title">编辑</div>
-						<Icon key="edit" type="edit" />
+						<div slot="title">欢迎页管理</div>
+						<Icon type="picture" on-click={this.applicationWelcome} />
 					</Tooltip>
 					<Tooltip placement="top">
 						<div slot="title">更多</div>

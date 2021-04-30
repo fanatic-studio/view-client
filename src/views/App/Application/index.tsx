@@ -24,6 +24,7 @@ import ApplicationAdd from "@/components/Application/ApplicationAdd";
 import ApplicationInfo from "@/components/Application/ApplicationInfo";
 import ApplicationVersionList from "@/components/Application/ApplicationVersionList";
 import ApplicationUpdateList from "@/components/Application/ApplicationUpdateList";
+import ApplicationWelcomeSetting from "@/components/Application/ApplicationWelcomeSetting";
 
 @Component
 export default class Application extends Vue {
@@ -40,6 +41,7 @@ export default class Application extends Vue {
 	controlDrawer: boolean = false;
 	versionControlDrawer: boolean = false;
 	updateControlDrawer: boolean = false;
+	welcomeSettingModal: boolean = false;
 	pageIndex: number = 1;
 	pageSize: number = 10;
 
@@ -65,6 +67,11 @@ export default class Application extends Vue {
 	applicationUpdateClick(item: ApplicationMode) {
 		this.updateEditApplication(item);
 		this.updateControlDrawer = !this.updateControlDrawer;
+	}
+
+	applicationWelcome(item: ApplicationMode) {
+		this.updateEditApplication(item);
+		this.welcomeSettingModal = !this.welcomeSettingModal;
 	}
 
 	async tabClick(e: string) {
@@ -113,11 +120,26 @@ export default class Application extends Vue {
 					visible={this.addModal}
 					width={800}
 					dialog-style={{ top: "20px" }}
-					on-cancel={this.addModalHandle}
+					on-cancel={() => {
+						this.addModal = !this.addModal;
+					}}
 					maskClosable={false}
 					footer={null}
 				>
 					<ApplicationAdd on-updateAppList={this.updateAppList} />
+				</Modal>
+				<Modal
+					title="欢迎页(welcome)设置"
+					visible={this.welcomeSettingModal}
+					width={800}
+					dialog-style={{ top: "20px" }}
+					on-cancel={() => {
+						this.welcomeSettingModal = !this.welcomeSettingModal;
+					}}
+					maskClosable={false}
+					footer={null}
+				>
+					<ApplicationWelcomeSetting on-updateAppList={this.updateAppList} />
 				</Modal>
 				<Drawer
 					title="工程信息"
@@ -161,6 +183,7 @@ export default class Application extends Vue {
 					on-itemClick={this.AppItemClick}
 					on-applicationVersionClick={this.applicationVersionClick}
 					on-applicationUpdateClick={this.applicationUpdateClick}
+					on-applicationWelcome={this.applicationWelcome}
 				/>
 			);
 		});
