@@ -274,6 +274,7 @@ class ApplicationVersionAdd extends Vue {
 								<Input.TextArea
 									type="text"
 									name="content"
+									auto-size={{ minRows: 2, maxRows: 6 }}
 									placeholder="输入版本更新内容"
 								></Input.TextArea>
 							)}
