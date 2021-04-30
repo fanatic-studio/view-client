@@ -159,22 +159,23 @@ export default class ApplicationVersionList extends Vue {
 					<Icon slot="dot" type="tag" />
 					<Card class={styles.timelineItemCard}>
 						<div slot="title" class={styles.title}>
-							<div>
-								<Icon type="tag" />
-								<Tag color="blue">{item.versionName}</Tag>
-							</div>
-							<div>
-								<Icon type="appstore" />
-								<Tag color="green">{item.version}</Tag>
-							</div>
-							<div>
+							<div class={styles.titleLeft}>
+								<Tag color="blue">
+									<Icon type="tag" style={{ marginRight: "4px" }} />
+									{item.versionName}
+								</Tag>
+
+								<Tag color="green">
+									<Icon type="appstore" style={{ marginRight: "4px" }} />
+									{item.version}
+								</Tag>
 								<Tag color="purple">
 									{item.versionName} - {item.version}
 								</Tag>
+								{this.rednerPlatfrom(item.platform)}
+								{this.rednerDebug(item.debug)}
+								{this.rednerForced(item.forced)}
 							</div>
-							{this.rednerPlatfrom(item.platform)}
-							{this.rednerDebug(item.debug)}
-							{this.rednerForced(item.forced)}
 							{this.renderAction(item)}
 						</div>
 						<div slot="cover" class={styles.versionContent}>
@@ -222,7 +223,7 @@ export default class ApplicationVersionList extends Vue {
 		let platform = platformParams.split(",");
 		if (platform.length > 1) {
 			return (
-				<div>
+				<div style={{ marginRight: "8px" }}>
 					<Icon type="android" theme="filled" style={{ color: "#2def0a" }} />
 					<Icon type="apple" theme="filled" />
 				</div>
