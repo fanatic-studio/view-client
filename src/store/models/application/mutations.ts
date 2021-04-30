@@ -21,6 +21,15 @@ const mutations: MutationTree<ApplicationState> = {
 	SET_EDIT_APPLICATION_UPDATE(state, applicationUpdate) {
 		state.currEditApplicationUpdate = applicationUpdate;
 	},
+	SET_APPLICATION_VERSION_LIST(state, versionList) {
+		state.currApplicationVersionList = versionList;
+	},
+	SET_APPLICATION_VERSION_LIST_COUNT(state, count) {
+		state.currApplicationVersionListCount = count;
+	},
+	SET_EDIT_APPLICATION_VERSION(state, applicationVersion) {
+		state.currEditApplicationVersion = applicationVersion;
+	},
 };
 
 export default mutations;

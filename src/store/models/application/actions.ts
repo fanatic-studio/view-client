@@ -161,8 +161,8 @@ const actions: ActionTree<ApplicationState, any> = {
 			console.log("params", params);
 
 			const result = await ApplicationApi.ListApplicationVersion(params);
-			store.commit("SET_APPLICATION_UPDATE_LIST", result.list);
-			store.commit("SET_APPLICATION_UPDATE_LIST_COUNT", result.count);
+			store.commit("SET_APPLICATION_VERSION_LIST", result.list);
+			store.commit("SET_APPLICATION_VERSION_LIST_COUNT", result.count);
 		} catch (error) {}
 	},
 	async addApplicationVersion(store, p: ApplicationVersionMode) {
@@ -193,7 +193,7 @@ const actions: ActionTree<ApplicationState, any> = {
 	updateEditApplicationVersion(store, p: any) {
 		console.log("123123", p);
 
-		store.commit("SET_EDIT_APPLICATION_UPDATE", p);
+		store.commit("SET_EDIT_APPLICATION_VERSION", p);
 	},
 	async updateApplicationVersion(store, p: UpdateApplicationVersionParams) {
 		const params: UpdateApplicationVersionParams = {
@@ -217,7 +217,7 @@ const actions: ActionTree<ApplicationState, any> = {
 		try {
 			console.log("updateApplication - params", params);
 			const result = await ApplicationApi.UpdateApplicationVersion(params);
-			store.commit("SET_EDIT_APPLICATION_UPDATE", result.data);
+			store.commit("SET_EDIT_APPLICATION_VERSION", result.data);
 		} catch (error) {}
 	},
 };

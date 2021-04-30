@@ -17,30 +17,30 @@ import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 import styles from "./index.less";
 import {
 	ApplicationMode,
-	ApplicationUpdateMode,
+	ApplicationVersionMode,
 } from "@/store/models/application/types";
 import { namespace } from "vuex-class";
 const ApplicationStore = namespace("application");
-import ApplicationUpdateAdd from "@/components/Application/ApplicationUpdateAdd";
-import ApplicationUpdateEdit from "@/components/Application/ApplicationUpdateEdit";
+import ApplicationVersionAdd from "@/components/Application/ApplicationVersionAdd";
+import ApplicationVersionEdit from "@/components/Application/ApplicationVersionEdit";
 @Component
 export default class ApplicationVersionList extends Vue {
-	@ApplicationStore.Getter("currApplicationUpdateList")
-	currApplicationUpdateList!: Array<ApplicationUpdateMode>;
-	@ApplicationStore.Getter("currApplicationUpdateListCount")
-	currApplicationUpdateListCount!: number;
-	@ApplicationStore.Action("getApplicationUpdateList")
-	getApplicationUpdateList!: Function;
-	@ApplicationStore.Action("updateEditApplicationUpdate")
-	updateEditApplicationUpdate!: Function;
+	@ApplicationStore.Getter("currApplicationVersionList")
+	currApplicationVersionList!: Array<ApplicationVersionMode>;
+	@ApplicationStore.Getter("currApplicationVersionListCount")
+	currApplicationVersionListCount!: number;
+	@ApplicationStore.Action("getApplicationVersionList")
+	getApplicationVersionList!: Function;
+	@ApplicationStore.Action("updateEditApplicationVersion")
+	updateEditApplicationVersion!: Function;
 	@ApplicationStore.Action("checkApplicationUpdate")
 	checkApplicationUpdate!: Function;
 
 	@Prop(Object) readonly item!: ApplicationMode;
 
-	addUpdateModal: boolean = false;
-	editUpdateModal: boolean = false;
-	editorApplicationUpdateItem!: ApplicationUpdateMode;
+	addVersionModal: boolean = false;
+	editVersionModal: boolean = false;
+	editorApplicationVersionItem!: ApplicationVersionMode;
 	updateListColumns: Array<any> = [
 		{
 			dataIndex: "title",
@@ -71,7 +71,7 @@ export default class ApplicationVersionList extends Vue {
 			title: "更新模式",
 			dataIndex: "updateMode",
 			key: "updateMode",
-			customRender: this.rednerUpdateMode,
+			customRender: this.rednerVersionMode,
 		},
 		{
 			title: "重启模式",
@@ -84,7 +84,7 @@ export default class ApplicationVersionList extends Vue {
 			title: "缓存处理",
 			dataIndex: "clearCache",
 			key: "clearCache",
-			customRender: this.rednerUpdateAction,
+			customRender: this.rednerVersionAction,
 		},
 		// {
 		// 	title: "已更新数量",
@@ -112,41 +112,41 @@ export default class ApplicationVersionList extends Vue {
 	currentPage: number = 1;
 	pageSize: number = 5;
 	async created() {
-		await this.__getApplicationUpdateList();
+		await this.__getApplicationVersionList();
 	}
 
-	private addUpdateModalHandle() {
-		this.addUpdateModal = !this.addUpdateModal;
+	private addVersionModalHandle() {
+		this.addVersionModal = !this.addVersionModal;
 	}
-	private editUpdateModalHandle() {
-		this.editUpdateModal = !this.editUpdateModal;
+	private editVersionModalHandle() {
+		this.editVersionModal = !this.editVersionModal;
 	}
 
 	private async pageChange(e: any) {
 		console.log("e", e);
 		this.currentPage = e;
-		await this.__getApplicationUpdateList();
+		await this.__getApplicationVersionList();
 	}
 
-	private async __getApplicationUpdateList() {
+	private async __getApplicationVersionList() {
 		const params = {
 			pageIndex: this.currentPage,
 			pageSize: this.pageSize,
 		};
 		console.log("params", params);
 
-		await this.getApplicationUpdateList(params);
+		await this.getApplicationVersionList(params);
 	}
 
-	checkUpdateBtnLoading: boolean = false;
-	private async checkAppUpdate() {
-		this.checkUpdateBtnLoading = true;
+	checkVersionBtnLoading: boolean = false;
+	private async checkAppVersion() {
+		this.checkVersionBtnLoading = true;
 		const res = await this.checkApplicationUpdate();
-		this.checkUpdateBtnLoading = false;
+		this.checkVersionBtnLoading = false;
 		if (res.uplists.length > 0) {
 			this.$success({
 				title: "发现热更新成功",
-				content: this.renderCheckAppUpdateTips(res.uplists[0]),
+				content: this.renderCheckAppVersionTips(res.uplists[0]),
 			});
 		} else {
 			this.$error({
@@ -157,12 +157,12 @@ export default class ApplicationVersionList extends Vue {
 
 	render() {
 		return (
-			<div class={styles.applicationUpdateList}>
+			<div class={styles.applicationVersionList}>
 				<div class={styles.buttonGroups}>
 					<Button
 						slot="tabBarExtraContent"
 						type="primary"
-						on-click={this.addUpdateModalHandle}
+						on-click={this.addVersionModalHandle}
 					>
 						添加版本
 					</Button>
@@ -170,8 +170,8 @@ export default class ApplicationVersionList extends Vue {
 						slot="tabBarExtraContent"
 						type="danger"
 						style={{ marginLeft: "8px" }}
-						loading={this.checkUpdateBtnLoading}
-						on-click={this.checkAppUpdate}
+						loading={this.checkVersionBtnLoading}
+						on-click={this.checkAppVersion}
 					>
 						版本发版测试
 					</Button>
@@ -180,44 +180,44 @@ export default class ApplicationVersionList extends Vue {
 				<Table
 					rowKey="id"
 					columns={this.updateListColumns}
-					data-source={this.currApplicationUpdateList}
+					data-source={this.currApplicationVersionList}
 					pagination={{
 						pageSize: this.pageSize,
 						current: this.currentPage,
-						total: this.currApplicationUpdateListCount,
+						total: this.currApplicationVersionListCount,
 						onChange: this.pageChange,
 						showTotal: (total: number) => `总共${total}条`,
 					}}
 				></Table>
 				<Modal
 					title="新增版本"
-					visible={this.addUpdateModal}
+					visible={this.addVersionModal}
 					width={1000}
 					dialog-style={{ top: "20px" }}
-					on-cancel={this.addUpdateModalHandle}
+					on-cancel={this.addVersionModalHandle}
 					maskClosable={false}
 					footer={null}
 				>
-					<ApplicationUpdateAdd
-						on-emitUpdateApplicationUpdateList={async () => {
-							this.addUpdateModal = !this.addUpdateModal;
-							await this.__getApplicationUpdateList();
+					<ApplicationVersionAdd
+						on-emitVersionApplicationVersionList={async () => {
+							this.addVersionModal = !this.addVersionModal;
+							await this.__getApplicationVersionList();
 						}}
 					/>
 				</Modal>
 				<Modal
 					title="编辑版本"
-					visible={this.editUpdateModal}
+					visible={this.editVersionModal}
 					width={1000}
 					dialog-style={{ top: "20px" }}
-					on-cancel={this.editUpdateModalHandle}
+					on-cancel={this.editVersionModalHandle}
 					maskClosable={false}
 					footer={null}
 				>
-					<ApplicationUpdateEdit
-						on-emitUpdateApplicationUpdateList={async () => {
-							this.editUpdateModal = !this.editUpdateModal;
-							await this.__getApplicationUpdateList();
+					<ApplicationVersionEdit
+						on-emitVersionApplicationVersionList={async () => {
+							this.editVersionModal = !this.editVersionModal;
+							await this.__getApplicationVersionList();
 						}}
 					/>
 				</Modal>
@@ -295,7 +295,7 @@ export default class ApplicationVersionList extends Vue {
 		}
 	}
 
-	private rednerUpdateMode(text: any, record: any, index: number) {
+	private rednerVersionMode(text: any, record: any, index: number) {
 		if (record.updateMode === "0") {
 			return <Tag color="blue">自动触发</Tag>;
 		}
@@ -304,7 +304,7 @@ export default class ApplicationVersionList extends Vue {
 		}
 	}
 
-	private rednerUpdateAction(text: any, record: any, index: number) {
+	private rednerVersionAction(text: any, record: any, index: number) {
 		if (record.clearCache === "0") {
 			return <Tag color="blue">保留缓存</Tag>;
 		}
@@ -341,8 +341,8 @@ export default class ApplicationVersionList extends Vue {
 					type="primary"
 					size="small"
 					on-click={() => {
-						this.updateEditApplicationUpdate(record);
-						this.editUpdateModalHandle();
+						this.updateEditApplicationVersion(record);
+						this.editVersionModalHandle();
 					}}
 				>
 					编辑
@@ -354,7 +354,7 @@ export default class ApplicationVersionList extends Vue {
 		);
 	}
 
-	private renderCheckAppUpdateTips(updateData: any) {
+	private renderCheckAppVersionTips(updateData: any) {
 		return (
 			<Alert type="info">
 				<div slot="message">
@@ -376,7 +376,7 @@ export default class ApplicationVersionList extends Vue {
 					<Row gutter={8} style={{ marginTop: "8px" }}>
 						<Col span="8">是否清除缓存:</Col>
 						<Col span="16">
-							{this.rednerUpdateAction(
+							{this.rednerVersionAction(
 								null,
 								{ clearCache: updateData.clear_cache },
 								0

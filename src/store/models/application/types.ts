@@ -8,6 +8,9 @@ export interface ApplicationState {
 	currApplicationUpdateListCount: number;
 	currApplicationUpdateList: Array<ApplicationUpdateMode>;
 	currEditApplicationUpdate: any;
+	currApplicationVersionListCount: number;
+	currApplicationVersionList: Array<ApplicationVersionMode>;
+	currEditApplicationVersion: any;
 }
 
 export interface ApplicationMode {
