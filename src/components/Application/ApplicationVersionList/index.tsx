@@ -291,15 +291,67 @@ export default class ApplicationVersionList extends Vue {
 				<div slot="message">
 					<Row gutter={8}>
 						<Col span="8">重启类型:</Col>
-						<Col span="16"></Col>
+						<Col span="16">
+							{this.rednerReboot(
+								null,
+								{
+									reboot: updateData.reboot,
+									rebootTitle: updateData.reboot_info.title,
+									rebootMessage: updateData.reboot_info.message,
+									rebootConfirmReboot: updateData.reboot_info.confirm_reboot,
+								},
+								0
+							)}
+						</Col>
 					</Row>
 					<Row gutter={8} style={{ marginTop: "8px" }}>
 						<Col span="8">是否清除缓存:</Col>
-						<Col span="16"></Col>
+						<Col span="16">
+							{this.rednerUpdateAction(
+								null,
+								{ clearCache: updateData.clear_cache },
+								0
+							)}
+						</Col>
 					</Row>
+					<div>有大版本更新</div>
 				</div>
 			</Alert>
 		);
+	}
+	private rednerUpdateAction(text: any, record: any, index: number) {
+		if (record.clearCache === "0") {
+			return <Tag color="blue">保留缓存</Tag>;
+		}
+		if (record.clearCache === "1") {
+			return <Tag color="red">清除缓存</Tag>;
+		}
+	}
+	private rednerReboot(text: any, record: any, index: number) {
+		if (record.reboot === "0") {
+			return <Tag color="blue">静默</Tag>;
+		}
+		if (record.reboot === "1") {
+			return <Tag color="orange">自动重启</Tag>;
+		}
+		if (record.reboot === "2") {
+			return (
+				<Row>
+					<Tag color="red">提示重启</Tag>
+					<Card style={{ marginTop: "8px" }} title={record.rebootTitle}>
+						<div>{record.rebootMessage}</div>
+						<div slot="actions">
+							确认按钮行为:
+							{record.rebootConfirmReboot === "0" ? (
+								<Tag color="blue">静默</Tag>
+							) : (
+								<Tag color="orange">自动重启</Tag>
+							)}
+						</div>
+					</Card>
+				</Row>
+			);
+		}
 	}
 
 	protected rendertemplateIdImg(templateId: string) {
