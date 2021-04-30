@@ -9,6 +9,10 @@ const getters: GetterTree<ApplicationState, any> = {
 	currApplicationUpdateListCount: (state) =>
 		state.currApplicationUpdateListCount,
 	currEditApplicationUpdate: (state) => state.currEditApplicationUpdate,
+	currApplicationVersionList: (state) => state.currApplicationVersionList,
+	currApplicationVersionListCount: (state) =>
+		state.currApplicationVersionListCount,
+	currEditApplicationVersion: (state) => state.currEditApplicationVersion,
 };
 
 export default getters;
