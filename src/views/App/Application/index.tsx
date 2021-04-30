@@ -129,7 +129,7 @@ export default class Application extends Vue {
 					<ApplicationAdd on-updateAppList={this.updateAppList} />
 				</Modal>
 				<Modal
-					title="欢迎页(welcome)设置"
+					title="欢迎页(welcome)闪屏广告设置"
 					visible={this.welcomeSettingModal}
 					width={800}
 					dialog-style={{ top: "20px" }}
