@@ -7,6 +7,7 @@ import {
 	Divider,
 	Icon,
 	Modal,
+	Pagination,
 	Row,
 	Table,
 	Tabs,
@@ -116,6 +117,12 @@ export default class ApplicationVersionList extends Vue {
 					</Button>
 				</div>
 				<Timeline class={styles.itemLine}>{this.renderTimeLineItem()}</Timeline>
+				<Pagination
+					total={this.currApplicationVersionListCount}
+					pageSize={this.pageSize}
+					current={this.currentPage}
+					onChange={this.pageChange}
+				/>
 				<Modal
 					title="新增版本"
 					visible={this.addVersionModal}
