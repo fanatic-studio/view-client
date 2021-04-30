@@ -17,6 +17,14 @@ import {
 	ListApplicationUpdateResponse,
 	CheckApplicationUpdateParams,
 	CheckApplicationUpdateResponse,
+	AddApplicationVersionParams,
+	AddApplicationVersionResponse,
+	GetApplicationVersionParams,
+	GetApplicationVersionResponse,
+	ListApplicationVersionParams,
+	ListApplicationVersionResponse,
+	UpdateApplicationVersionParams,
+	UpdateApplicationVersionResponse,
 } from "@/store/models/application/types";
 import HttpRequest from "@/utils/network/HttpRequest";
 
@@ -31,6 +39,11 @@ export enum API {
 	List_Application_Update = "/api/v1/app/update/list",
 	Update_Application_Update = "/api/v1/app/update/update",
 	Update_Application_Check = "/api/client/duration",
+
+	Add_Application_Version = "/api/v1/app/version/add",
+	Get_Application_Version = "/api/v1/app/version/get",
+	List_Application_Version = "/api/v1/app/version/list",
+	Update_Application_Version = "/api/v1/app/version/update",
 }
 
 export default class ApplicationApi {
@@ -58,6 +71,7 @@ export default class ApplicationApi {
 		return await HttpRequest.postData(API.Update_Application, params);
 	}
 
+	// update
 	public static async AddApplicationUpdate(
 		params: AddApplicationUpdateParams
 	): Promise<AddApplicationUpdateResponse> {
@@ -85,5 +99,30 @@ export default class ApplicationApi {
 		params: CheckApplicationUpdateParams
 	): Promise<CheckApplicationUpdateResponse> {
 		return await HttpRequest.postData(API.Update_Application_Check, params);
+	}
+
+	//version
+	public static async AddApplicationVersion(
+		params: AddApplicationVersionParams
+	): Promise<AddApplicationVersionResponse> {
+		return await HttpRequest.postData(API.Add_Application_Version, params);
+	}
+
+	public static async GetApplicationVersion(
+		params: GetApplicationVersionParams
+	): Promise<GetApplicationVersionResponse> {
+		return await HttpRequest.getData(API.Get_Application_Version, params);
+	}
+
+	public static async ListApplicationVersion(
+		params: ListApplicationVersionParams
+	): Promise<ListApplicationVersionResponse> {
+		return await HttpRequest.getData(API.List_Application_Version, params);
+	}
+
+	public static async UpdateApplicationVersion(
+		params: UpdateApplicationVersionParams
+	): Promise<UpdateApplicationVersionResponse> {
+		return await HttpRequest.postData(API.Update_Application_Version, params);
 	}
 }

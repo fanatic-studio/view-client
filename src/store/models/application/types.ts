@@ -291,3 +291,113 @@ export interface CheckApplicationUpdateResponse extends IResponse {
 		status: string;
 	};
 }
+
+//-------version
+export interface AddApplicationVersionParams {
+	appId?: string;
+	title: string;
+	package?: string;
+	version: string;
+	platform: string;
+	reboot: string;
+	rebootTitle: string;
+	rebootMessage: string;
+	rebootConfirmReboot: string;
+	fileUrl: string;
+	fileSize?: string;
+	valid: string;
+	updateMode: string;
+	clearCache: string;
+	debug: string;
+}
+export interface AddApplicationVersionResponse extends IResponse {
+	data: {
+		id: number;
+		teamId: string;
+		projectId: string;
+		accountId: string;
+		applicationId: string;
+		gitLabApplicationId: number;
+		assignee: string;
+		name: string;
+		desc: string;
+		content: string;
+		startAt: string;
+		ductTime: string;
+		onlineAt: string;
+		status: string;
+	};
+}
+
+export interface GetApplicationVersionParams {
+	applicationId: string;
+}
+export interface GetApplicationVersionResponse extends IResponse {
+	data: {
+		id: number;
+		teamId: string;
+		projectId: string;
+		accountId: string;
+		applicationId: string;
+		gitLabApplicationId: number;
+		assignee: string;
+		name: string;
+		desc: string;
+		content: string;
+		startAt: string;
+		ductTime: string;
+		onlineAt: string;
+		status: string;
+	};
+}
+
+export interface UpdateApplicationVersionParams {
+	appId?: string;
+	updateId?: string;
+	title: string;
+	package?: string;
+	version: string;
+	platform: string;
+	reboot: string;
+	rebootTitle: string;
+	rebootMessage: string;
+	rebootConfirmReboot: string;
+	fileUrl: string;
+	fileSize?: string;
+	valid: string;
+	updateMode: string;
+	clearCache: string;
+	debug: string;
+}
+export interface UpdateApplicationVersionResponse extends IResponse {
+	data: {
+		id: number;
+		teamId: string;
+		projectId: string;
+		accountId: string;
+		applicationId: string;
+		gitLabApplicationId: number;
+		assignee: string;
+		name: string;
+		desc: string;
+		content: string;
+		startAt: string;
+		ductTime: string;
+		onlineAt: string;
+		status: string;
+	};
+}
+
+export interface ListApplicationVersionParams {
+	appId: string;
+	pageIndex: string;
+	pageSize: string;
+}
+
+export interface ListApplicationVersionResponse {
+	list: Array<ApplicationMode>;
+	count: number;
+	pageIndex: number;
+	pageSize: number;
+	ret: number;
+}

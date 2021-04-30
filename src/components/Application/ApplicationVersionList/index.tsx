@@ -164,7 +164,7 @@ export default class ApplicationVersionList extends Vue {
 						type="primary"
 						on-click={this.addUpdateModalHandle}
 					>
-						添加热更新
+						添加版本
 					</Button>
 					<Button
 						slot="tabBarExtraContent"
@@ -173,7 +173,7 @@ export default class ApplicationVersionList extends Vue {
 						loading={this.checkUpdateBtnLoading}
 						on-click={this.checkAppUpdate}
 					>
-						热更新测试
+						版本发版测试
 					</Button>
 				</div>
 
@@ -190,7 +190,7 @@ export default class ApplicationVersionList extends Vue {
 					}}
 				></Table>
 				<Modal
-					title="新增热更新"
+					title="新增版本"
 					visible={this.addUpdateModal}
 					width={1000}
 					dialog-style={{ top: "20px" }}
@@ -206,7 +206,7 @@ export default class ApplicationVersionList extends Vue {
 					/>
 				</Modal>
 				<Modal
-					title="编辑热更新"
+					title="编辑版本"
 					visible={this.editUpdateModal}
 					width={1000}
 					dialog-style={{ top: "20px" }}
