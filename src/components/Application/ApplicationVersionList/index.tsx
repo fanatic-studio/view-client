@@ -18,7 +18,6 @@ import styles from "./index.less";
 import {
 	ApplicationMode,
 	ApplicationUpdateMode,
-	ListApplicationUpdateParams,
 } from "@/store/models/application/types";
 import { namespace } from "vuex-class";
 const ApplicationStore = namespace("application");
