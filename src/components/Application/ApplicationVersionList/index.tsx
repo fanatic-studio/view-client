@@ -181,13 +181,13 @@ export default class ApplicationVersionList extends Vue {
 					rowKey="id"
 					columns={this.updateListColumns}
 					data-source={this.currApplicationVersionList}
-					pagination={{
-						pageSize: this.pageSize,
-						current: this.currentPage,
-						total: this.currApplicationVersionListCount,
-						onChange: this.pageChange,
-						showTotal: (total: number) => `总共${total}条`,
-					}}
+					// pagination={{
+					// 	pageSize: this.pageSize,
+					// 	current: this.currentPage,
+					// 	total: this.currApplicationVersionListCount,
+					// 	onChange: this.pageChange,
+					// 	showTotal: (total: number) => `总共${total}条`,
+					// }}
 				></Table>
 				<Modal
 					title="新增版本"

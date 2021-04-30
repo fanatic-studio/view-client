@@ -1,6 +1,6 @@
 import {
 	AddApplicationParams,
-	AddApplicationUpdateParams,
+	AddApplicationVersionParams,
 	ApplicationMode,
 } from "@/store/models/application/types";
 import { ProjectMemberMode } from "@/store/models/project/types";
@@ -23,8 +23,12 @@ moment.locale("zh-cn");
 import { Component, Emit, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 const ApplicationStore = namespace("application");
-import style from "./index.less";
-
+import styles from "./index.less";
+import templateImg1 from "@/assets/image/version/1.png";
+import templateImg2 from "@/assets/image/version/2.png";
+import templateImg3 from "@/assets/image/version/3.png";
+import templateImg4 from "@/assets/image/version/4.png";
+import templateImg5 from "@/assets/image/version/5.png";
 @Component({
 	props: {
 		form: {
@@ -33,12 +37,12 @@ import style from "./index.less";
 	},
 })
 class ApplicationVersionAdd extends Vue {
-	@ApplicationStore.Action("addApplicationUpdate")
-	addApplicationUpdate!: Function;
+	@ApplicationStore.Action("addApplicationVersion")
+	addApplicationVersion!: Function;
 
 	@Emit()
-	private emitUpdateApplicationUpdateList() {
-		this.$emit("emitUpdateApplicationUpdateList");
+	private emitVersionApplicationVersionList() {
+		this.$emit("emitVersionApplicationVersionList");
 	}
 
 	form: any;
@@ -53,37 +57,6 @@ class ApplicationVersionAdd extends Vue {
 		{ label: "包含", value: 1 },
 		{ label: "仅DEBUG", value: 2 },
 	];
-
-	updateModeOptions: Array<any> = [
-		{ label: "自动触发", value: 0 },
-		{ label: "客户端触发", value: 1 },
-	];
-
-	rebootOptions: Array<any> = [
-		{ label: "静默", value: 0 },
-		{ label: "自动重启", value: 1 },
-		{ label: "提示重启", value: 2 },
-	];
-
-	validOptions: Array<any> = [
-		{ label: "启用", value: 1 },
-		{ label: "暂停", value: 0 },
-		{ label: "撤回", value: 2 },
-	];
-	clearCacheOptions: Array<any> = [
-		{ label: "保留缓存", value: 0 },
-		{ label: "清除缓存", value: 1 },
-	];
-
-	rebootConfirmRebootOptions = [
-		{ label: "静默", value: 0 },
-		{ label: "重启", value: 1 },
-	];
-
-	async created() {}
-
-	protected mounted() {}
-
 	debugTipsMode = 0;
 	debugChange(e: any) {
 		this.debugTipsMode = e.target.value;
@@ -102,74 +75,38 @@ class ApplicationVersionAdd extends Vue {
 		}
 	}
 
-	validTipsMode = 1;
-	validChange(e: any) {
-		this.validTipsMode = e.target.value;
-	}
-	validTips() {
-		console.log("validTipsMode", this.validTipsMode);
-
-		if (this.validTipsMode === 0) {
-			return "暂停更新，用户收不到此更新，已更新的用户不影响。";
-		}
-		if (this.validTipsMode === 1) {
-			return "开启更新，所有用户都会收到此更新。";
-		}
-		if (this.validTipsMode === 2) {
-			return "回滚更新，用户收不到此更新，已更新的用户将撤回此更新。";
-		}
+	templateIdOptions: Array<any> = [
+		{ label: "模板1", value: 1 },
+		{ label: "模板2", value: 2 },
+		{ label: "模板3", value: 3 },
+		{ label: "模板4", value: 4 },
+		{ label: "模板5", value: 5 },
+	];
+	templateIdMode = 1;
+	templateIdChange(e: any) {
+		this.templateIdMode = e.target.value;
 	}
 
-	updateModeTipsMode = 0;
-	updateModeChange(e: any) {
-		this.updateModeTipsMode = e.target.value;
+	forcedOptions: Array<any> = [
+		{ label: "自由更新", value: 0 },
+		{ label: "强制更新", value: 1 },
+	];
+	forcedMode = 0;
+	forcedChange(e: any) {
+		this.forcedMode = e.target.value;
 	}
-	updateModeTips() {
-		console.log("updateModeTipsMode", this.updateModeTipsMode);
-
-		if (this.updateModeTipsMode === 0) {
-			return "自动触发，APP自动检测更新。";
+	forcedTips() {
+		if (this.forcedMode === 0) {
+			return "自由更新：显示【以后再说】关闭提示按钮。";
 		}
-		if (this.updateModeTipsMode === 1) {
-			return "仅客户触发，通过执行方法 seui.checkUpdate() 触发更新。";
+		if (this.forcedMode === 1) {
+			return "强制更新：隐藏【以后再说】关闭提示按钮。";
 		}
 	}
 
-	rebootTipsMode = 0;
-	rebootChange(e: any) {
-		this.rebootTipsMode = e.target.value;
-	}
-	rebootTips() {
-		console.log("rebootTipsMode", this.rebootTipsMode);
+	async created() {}
 
-		if (this.rebootTipsMode === 0) {
-			return "更新完后没有任何提示，更新内容一般在用户下次使用app时生效。";
-		}
-		if (this.rebootTipsMode === 1) {
-			return "更新完所有包后app自动重启，更新内容即刻生效。";
-		}
-		if (this.rebootTipsMode === 2) {
-			return "更新完此包后提示设置内容，根据用户自己选择。";
-		}
-	}
-
-	clearCacheTipsMode = 0;
-	clearCacheChange(e: any) {
-		this.clearCacheTipsMode = e.target.value;
-	}
-	clearCacheTips() {
-		console.log("clearCacherTipsMode", this.clearCacheTipsMode);
-
-		if (this.clearCacheTipsMode === 0) {
-			return "更新完后没有任何提示，更新内容一般在用户下次使用app时生效。";
-		}
-		if (this.clearCacheTipsMode === 1) {
-			return "更新完所有包后app自动重启，更新内容即刻生效。";
-		}
-		if (this.clearCacheTipsMode === 2) {
-			return "更新完此包后提示设置内容，根据用户自己选择。";
-		}
-	}
+	protected mounted() {}
 
 	async handleSubmit(event: Event) {
 		event.preventDefault();
@@ -179,22 +116,20 @@ class ApplicationVersionAdd extends Vue {
 		validateFields(async (err: string, value: any) => {
 			if (!err) {
 				this.btnLoading = true;
-				const params: AddApplicationUpdateParams = {
-					title: value.title,
+				const params: AddApplicationVersionParams = {
 					version: value.version,
+					versionName: value.versionName,
 					platform: value.platform.toString(),
-					reboot: value.reboot,
-					rebootTitle: value.rebootTitle,
-					rebootMessage: value.rebootMessage,
-					rebootConfirmReboot: value.rebootConfirmReboot,
-					fileUrl: value.fileUrl,
-					valid: value.valid,
-					updateMode: value.updateMode,
-					clearCache: value.clearCache,
+					title: value.title,
+					content: value.content,
+					iosUrl: value.iosUrl,
+					androidUrl: value.androidUrl,
+					templateId: value.templateId,
+					forced: value.forced,
 					debug: value.debug,
 				};
-				await this.addApplicationUpdate(params);
-				this.emitUpdateApplicationUpdateList();
+				await this.addApplicationVersion(params);
+				this.emitVersionApplicationVersionList();
 				this.btnLoading = false;
 			}
 		});
@@ -203,27 +138,47 @@ class ApplicationVersionAdd extends Vue {
 	protected render() {
 		const { getFieldDecorator } = this.form;
 		return (
-			<Form onSubmit={this.handleSubmit}>
+			<Form class={styles.applicationVersionAdd} onSubmit={this.handleSubmit}>
 				<Row gutter={8}>
-					<Col span="8">
-						<Form.Item label="热更新名称">
-							{getFieldDecorator("title", {
+					<Col span="12">
+						<Form.Item
+							label="Tag名称，版本名称"
+							help="大版本号规范：xx.xx.xx,热更新版本号:xx.xx.xx,热更新版本不发班"
+						>
+							{getFieldDecorator("versionName", {
 								rules: [
 									{
 										required: true,
-										message: "热更新名称",
+										message: "请输入Tag名称，版本名称",
 									},
 								],
 							})(
 								<Input
 									type="text"
-									name="title"
-									placeholder="输入热更新名称"
+									name="version"
+									placeholder="请输入Tag名称，版本名称"
 								></Input>
 							)}
 						</Form.Item>
-					</Col>
-					<Col span="8">
+						<Form.Item
+							label="版本号"
+							help="要更新的版本号：iOS为Build编译版本号，安卓为versionCode应用版本号"
+						>
+							{getFieldDecorator("version", {
+								rules: [
+									{
+										required: true,
+										message: "请输入版本号，例如：20210403",
+									},
+								],
+							})(
+								<Input
+									type="text"
+									name="version"
+									placeholder="请输入版本号，例如：20210403"
+								></Input>
+							)}
+						</Form.Item>
 						<Form.Item label="更新平台">
 							{getFieldDecorator("platform", {
 								initialValue: ["ios", "android"],
@@ -240,8 +195,6 @@ class ApplicationVersionAdd extends Vue {
 								></Checkbox.Group>
 							)}
 						</Form.Item>
-					</Col>
-					<Col span="8">
 						<Form.Item label="DEBUG版本" help={this.debugTips()}>
 							{getFieldDecorator("debug", {
 								initialValue: 0,
@@ -259,127 +212,109 @@ class ApplicationVersionAdd extends Vue {
 								></Radio.Group>
 							)}
 						</Form.Item>
+						<Form.Item label="iOSUrl">
+							{getFieldDecorator("iOSUrl", {
+								rules: [
+									{
+										required: true,
+										message: "更新包URL",
+									},
+								],
+							})(
+								<Input
+									type="text"
+									name="iOSUrl"
+									placeholder="输入苹果的更新包地址"
+								></Input>
+							)}
+						</Form.Item>
+						<Form.Item label="AndroidUrl">
+							{getFieldDecorator("androidUrl", {
+								rules: [
+									{
+										required: true,
+										message: "更新包URL",
+									},
+								],
+							})(
+								<Input
+									type="text"
+									name="androidUrl"
+									placeholder="请输入安卓的更新包地址"
+								></Input>
+							)}
+						</Form.Item>
 					</Col>
-				</Row>
-				<Form.Item
-					label="热更新版本"
-					help="iOS为Build编译版本号，安卓为versionCode应用版本号。（注：多个版本半角逗号分隔，如：12,13）"
-				>
-					{getFieldDecorator("version", {
-						rules: [
-							{
-								required: true,
-								message: "更新版本不能为空",
-							},
-						],
-					})(
-						<Select
-							show-search
-							allowClear
-							name="version"
-							placeholder="请选择更新版本（如果对多个版本进行更新请选择多个）"
-						>
-							<Select.Option key="native">前端-原生</Select.Option>
-						</Select>
-					)}
-				</Form.Item>
-				<Form.Item label="更新包URL">
-					{getFieldDecorator("fileUrl", {
-						rules: [
-							{
-								required: true,
-								message: "更新包URL",
-							},
-						],
-					})(
-						<Input
-							type="text"
-							name="fileUrl"
-							placeholder="输入更新包URL"
-						></Input>
-					)}
-				</Form.Item>
-				<Row gutter={8}>
 					<Col span="12">
-						<Form.Item label="启用状态" help={this.validTips()}>
-							{getFieldDecorator("valid", {
+						<Form.Item label="版本更新标题">
+							{getFieldDecorator("title", {
+								rules: [
+									{
+										required: true,
+										message: "热更新名称",
+									},
+								],
+							})(
+								<Input
+									type="text"
+									name="title"
+									placeholder="输入热更新名称"
+								></Input>
+							)}
+						</Form.Item>
+						<Form.Item label="版本更新内容">
+							{getFieldDecorator("content", {
+								rules: [
+									{
+										required: true,
+										message: "版本更新内容不能为空",
+									},
+								],
+							})(
+								<Input.TextArea
+									type="text"
+									name="content"
+									placeholder="输入版本更新内容"
+								></Input.TextArea>
+							)}
+						</Form.Item>
+						<Form.Item label="更新模板">
+							{getFieldDecorator("templateId", {
 								initialValue: 1,
 								rules: [
 									{
 										required: true,
-										message: "请选择更新模式",
+										message: "请选择更新末班",
 									},
 								],
 							})(
 								<Radio.Group
-									name="valid"
-									options={this.validOptions}
-									on-change={this.validChange}
+									name="templateId"
+									options={this.templateIdOptions}
+									on-change={this.templateIdChange}
 								></Radio.Group>
 							)}
 						</Form.Item>
-					</Col>
-					<Col span="12">
-						<Form.Item label="更新模式" help={this.updateModeTips()}>
-							{getFieldDecorator("updateMode", {
+						{this.rendertemplateIdImg()}
+						<Form.Item label="强制更新" help={this.forcedTips()}>
+							{getFieldDecorator("forced", {
 								initialValue: 0,
 								rules: [
 									{
 										required: true,
-										message: "请选择更新模式",
+										message: "是否强制更新",
 									},
 								],
 							})(
 								<Radio.Group
-									name="updateMode"
-									options={this.updateModeOptions}
-									on-change={this.updateModeChange}
+									name="forced"
+									options={this.forcedOptions}
+									on-change={this.forcedChange}
 								></Radio.Group>
 							)}
 						</Form.Item>
 					</Col>
 				</Row>
-				<Row gutter={8}>
-					<Col span="12">
-						<Form.Item label="更新完成后-重启" help={this.rebootTips()}>
-							{getFieldDecorator("reboot", {
-								initialValue: 0,
-								rules: [
-									{
-										required: true,
-										message: "工程名称不能为空",
-									},
-								],
-							})(
-								<Radio.Group
-									name="reboot"
-									options={this.rebootOptions}
-									on-change={this.rebootChange}
-								></Radio.Group>
-							)}
-						</Form.Item>
-					</Col>
-					<Col span="12">
-						<Form.Item label="更新完成后-缓存处理" help={this.clearCacheTips()}>
-							{getFieldDecorator("clearCache", {
-								initialValue: 0,
-								rules: [
-									{
-										required: true,
-										message: "请确定clearCache类型",
-									},
-								],
-							})(
-								<Radio.Group
-									name="clearCache"
-									options={this.clearCacheOptions}
-									on-change={this.clearCacheChange}
-								></Radio.Group>
-							)}
-						</Form.Item>
-					</Col>
-				</Row>
-				{this.renderRebootConform()}
 				<Form.Item>
 					<Button
 						type="primary"
@@ -406,67 +341,21 @@ class ApplicationVersionAdd extends Vue {
 		};
 	}
 
-	renderRebootConform() {
-		const { getFieldDecorator } = this.form;
-		if (this.rebootTipsMode === 2) {
-			return (
-				<Row gutter={8}>
-					<Col span="16">
-						<Form.Item label="重启提示标题">
-							{getFieldDecorator("rebootTitle", {
-								rules: [
-									{
-										required: true,
-										message: "请选择更新模式",
-									},
-								],
-							})(
-								<Input
-									type="text"
-									name="rebootTitle"
-									placeholder="输入热更新重启提示标题"
-								></Input>
-							)}
-						</Form.Item>
-					</Col>
-					<Col span="16">
-						<Form.Item label="更新模式">
-							{getFieldDecorator("rebootMessage", {
-								rules: [
-									{
-										required: true,
-										message: "请选择更新模式",
-									},
-								],
-							})(
-								<Input.TextArea
-									type="text"
-									name="rebootMessage"
-									placeholder="输入热更新重启提示说明"
-								></Input.TextArea>
-							)}
-						</Form.Item>
-					</Col>
-					<Col span="16">
-						<Form.Item label="点击确定行为">
-							{getFieldDecorator("rebootConfirmReboot", {
-								initialValue: 0,
-								rules: [
-									{
-										required: true,
-										message: "点击确定行为",
-									},
-								],
-							})(
-								<Radio.Group
-									name="rebootConfirmReboot"
-									options={this.rebootConfirmRebootOptions}
-								></Radio.Group>
-							)}
-						</Form.Item>
-					</Col>
-				</Row>
-			);
+	protected rendertemplateIdImg() {
+		if (this.templateIdMode === 1) {
+			return <img class={styles.templateImg} src={templateImg1}></img>;
+		}
+		if (this.templateIdMode === 2) {
+			return <img class={styles.templateImg} src={templateImg2}></img>;
+		}
+		if (this.templateIdMode === 3) {
+			return <img class={styles.templateImg} src={templateImg3}></img>;
+		}
+		if (this.templateIdMode === 4) {
+			return <img class={styles.templateImg} src={templateImg4}></img>;
+		}
+		if (this.templateIdMode === 5) {
+			return <img class={styles.templateImg} src={templateImg5}></img>;
 		}
 	}
 }

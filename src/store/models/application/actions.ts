@@ -171,17 +171,14 @@ const actions: ActionTree<ApplicationState, any> = {
 			version: p.version,
 			versionName: p.versionName,
 			package: store.state.currEditApplication.package,
-			isPublic: p.isPublic,
 			title: p.title,
 			content: p.content,
 			platform: p.platform,
 			iosUrl: p.iosUrl,
 			androidUrl: p.androidUrl,
-			androidMode: p.androidMode,
 			templateId: p.templateId,
 			forced: p.forced,
 			debug: p.debug,
-			canCancel: p.canCancel,
 		};
 		try {
 			console.log("addApplicationVersion - params", params);

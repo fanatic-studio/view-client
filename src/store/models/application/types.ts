@@ -303,17 +303,14 @@ export interface ApplicationVersionMode {
 	version: string;
 	versionName: string;
 	package: string;
-	isPublic: string;
 	title: string;
 	content: string;
 	iosUrl: string;
 	androidUrl: string;
-	androidMode: string;
 	platform: string;
 	debug: string;
 	templateId: string;
 	forced: string;
-	canCancel: string;
 	number: string;
 	status: string;
 }
@@ -322,18 +319,15 @@ export interface AddApplicationVersionParams {
 	appId?: string;
 	version: string;
 	versionName: string;
-	package: string;
-	isPublic: string;
+	package?: string;
 	title: string;
 	content: string;
 	iosUrl: string;
 	androidUrl: string;
-	androidMode: string;
 	platform: string;
 	debug: string;
 	templateId: string;
 	forced: string;
-	canCancel: string;
 }
 export interface AddApplicationVersionResponse extends IResponse {
 	data: {
