@@ -308,7 +308,6 @@ class ApplicationVersionEdit extends Vue {
 						</Form.Item>
 						<Form.Item label="更新模板">
 							{getFieldDecorator("templateId", {
-								initialValue: 1,
 								rules: [
 									{
 										required: true,
