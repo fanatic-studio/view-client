@@ -195,7 +195,7 @@ const actions: ActionTree<ApplicationState, any> = {
 	async updateApplicationVersion(store, p: UpdateApplicationVersionParams) {
 		const params: UpdateApplicationVersionParams = {
 			appId: store.state.currEditApplication.appId,
-			versionId: p.versionId,
+			versionId: store.state.currEditApplicationVersion.versionId,
 			version: p.version,
 			versionName: p.versionName,
 			package: store.state.currEditApplication.package,

@@ -2,6 +2,7 @@ import {
 	AddApplicationParams,
 	AddApplicationVersionParams,
 	ApplicationMode,
+	ApplicationVersionMode,
 } from "@/store/models/application/types";
 import { ProjectMemberMode } from "@/store/models/project/types";
 import {
@@ -20,7 +21,7 @@ import {
 } from "ant-design-vue";
 import moment from "moment";
 moment.locale("zh-cn");
-import { Component, Emit, Prop, Vue } from "vue-property-decorator";
+import { Component, Emit, Prop, Vue, Watch } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 const ApplicationStore = namespace("application");
 import styles from "./index.less";
@@ -37,12 +38,38 @@ import templateImg5 from "@/assets/image/version/5.png";
 	},
 })
 class ApplicationVersionEdit extends Vue {
-	@ApplicationStore.Action("addApplicationVersion")
-	addApplicationVersion!: Function;
+	@ApplicationStore.Action("updateApplicationVersion")
+	updateApplicationVersion!: Function;
+
+	@ApplicationStore.Getter("currEditApplicationVersion")
+	currEditApplicationVersion!: ApplicationVersionMode;
 
 	@Emit()
 	private emitVersionApplicationVersionList() {
 		this.$emit("emitVersionApplicationVersionList");
+	}
+
+	@Watch("currEditApplicationVersion", { immediate: true, deep: true })
+	watchCurrEditApplicationUpdate(
+		newValue: ApplicationVersionMode,
+		oldValue: ApplicationVersionMode
+	) {
+		console.log("newValue", newValue);
+
+		this.$nextTick(() => {
+			this.form.setFieldsValue({
+				version: this.currEditApplicationVersion.version,
+				versionName: this.currEditApplicationVersion.versionName,
+				platform: this.currEditApplicationVersion.platform.split(","),
+				title: this.currEditApplicationVersion.title,
+				content: this.currEditApplicationVersion.content,
+				iOSUrl: this.currEditApplicationVersion.iOSUrl,
+				androidUrl: this.currEditApplicationVersion.androidUrl,
+				templateId: this.currEditApplicationVersion.templateId,
+				forced: this.currEditApplicationVersion.forced,
+				debug: this.currEditApplicationVersion.debug,
+			});
+		});
 	}
 
 	form: any;
@@ -53,43 +80,43 @@ class ApplicationVersionEdit extends Vue {
 	];
 
 	debugOptions: Array<any> = [
-		{ label: "排除", value: 0 },
-		{ label: "包含", value: 1 },
-		{ label: "仅DEBUG", value: 2 },
+		{ label: "排除", value: "0" },
+		{ label: "包含", value: "1" },
+		{ label: "仅DEBUG", value: "2" },
 	];
-	debugTipsMode = 0;
+	debugTipsMode = "0";
 	debugChange(e: any) {
 		this.debugTipsMode = e.target.value;
 	}
 	debugTips() {
 		console.log("debugTipsMode", this.debugTipsMode);
 
-		if (this.debugTipsMode === 0) {
+		if (this.debugTipsMode === "0") {
 			return "DEBUG版本无法收到此更新包。";
 		}
-		if (this.debugTipsMode === 1) {
+		if (this.debugTipsMode === "1") {
 			return "DEBUG版本可以收到此更新包。";
 		}
-		if (this.debugTipsMode === 2) {
+		if (this.debugTipsMode === "2") {
 			return "只有DEBUG版本可以收到此更新包（一般用于测试）。";
 		}
 	}
 
 	templateIdOptions: Array<any> = [
-		{ label: "模板1", value: 1 },
-		{ label: "模板2", value: 2 },
-		{ label: "模板3", value: 3 },
-		{ label: "模板4", value: 4 },
-		{ label: "模板5", value: 5 },
+		{ label: "模板1", value: "1" },
+		{ label: "模板2", value: "2" },
+		{ label: "模板3", value: "3" },
+		{ label: "模板4", value: "4" },
+		{ label: "模板5", value: "5" },
 	];
-	templateIdMode = 1;
+	templateIdMode = "1";
 	templateIdChange(e: any) {
 		this.templateIdMode = e.target.value;
 	}
 
 	forcedOptions: Array<any> = [
-		{ label: "自由更新", value: 0 },
-		{ label: "强制更新", value: 1 },
+		{ label: "自由更新", value: "0" },
+		{ label: "强制更新", value: "1" },
 	];
 	forcedMode = 0;
 	forcedChange(e: any) {
@@ -128,7 +155,7 @@ class ApplicationVersionEdit extends Vue {
 					forced: value.forced,
 					debug: value.debug,
 				};
-				await this.addApplicationVersion(params);
+				await this.updateApplicationVersion(params);
 				// this.emitVersionApplicationVersionList();
 				this.btnLoading = false;
 			}
@@ -331,31 +358,20 @@ class ApplicationVersionEdit extends Vue {
 		);
 	}
 
-	renderVersion() {
-		return {
-			/* <Select.Option key="h5">前端-H5</Select.Option>
-		<Select.Option key="xcx">前端-小程序</Select.Option>
-		<Select.Option key="web">前端-后台</Select.Option>
-		<Select.Option key="java">后端-JAVA</Select.Option>
-		<Select.Option key="go">后端-Go</Select.Option>
-		<Select.Option key="ai">ai</Select.Option> */
-		};
-	}
-
 	protected rendertemplateIdImg() {
-		if (this.templateIdMode === 1) {
+		if (this.templateIdMode === "1") {
 			return <img class={styles.templateImg} src={templateImg1}></img>;
 		}
-		if (this.templateIdMode === 2) {
+		if (this.templateIdMode === "2") {
 			return <img class={styles.templateImg} src={templateImg2}></img>;
 		}
-		if (this.templateIdMode === 3) {
+		if (this.templateIdMode === "3") {
 			return <img class={styles.templateImg} src={templateImg3}></img>;
 		}
-		if (this.templateIdMode === 4) {
+		if (this.templateIdMode === "4") {
 			return <img class={styles.templateImg} src={templateImg4}></img>;
 		}
-		if (this.templateIdMode === 5) {
+		if (this.templateIdMode === "5") {
 			return <img class={styles.templateImg} src={templateImg5}></img>;
 		}
 	}
