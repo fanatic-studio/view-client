@@ -48,17 +48,10 @@ class ApplicationInfo extends Vue {
 				cName: this.currEditApplication.cName,
 				desc: this.currEditApplication.desc,
 				assignee: this.currEditApplication.assignee,
-				welcomeJump: this.currEditApplication.welcomeJump,
-				welcomeImage: this.currEditApplication.welcomeImage,
-				welcomeLimitE: this.currEditApplication.welcomeLimitE,
-				welcomeLimitS: this.currEditApplication.welcomeLimitS,
-				welcomeSkip: this.currEditApplication.welcomeSkip,
-				welcomeWait: this.currEditApplication.welcomeWait,
 				version: this.currEditApplication.version,
 				versionName: this.currEditApplication.versionName,
 				platform: this.currEditApplication.platform,
 				package: this.currEditApplication.package,
-				debug: this.currEditApplication.debug,
 			});
 		});
 	}

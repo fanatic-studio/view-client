@@ -11,6 +11,9 @@ export interface ApplicationState {
 	currApplicationVersionListCount: number;
 	currApplicationVersionList: Array<ApplicationVersionMode>;
 	currEditApplicationVersion: any;
+	currApplicationWelcomeListCount: number;
+	currApplicationWelcomeList: Array<ApplicationWelcomeMode>;
+	currEditApplicationWelcome: any;
 }
 
 export interface ApplicationMode {
@@ -25,18 +28,11 @@ export interface ApplicationMode {
 	cName: string;
 	desc: string;
 	assignee: string;
-	welcomeJump: string;
-	welcomeImage: string;
-	welcomeLimitE: number;
-	welcomeLimitS: number;
-	welcomeSkip: number;
-	welcomeWait: number;
 	version: string;
 	versionName: string;
 	hotFixCode: string;
 	platform: string;
 	package: string;
-	debug: number;
 	launchTotal?: number;
 	allInstall?: number;
 	status?: string;
@@ -417,6 +413,112 @@ export interface ListApplicationVersionParams {
 }
 
 export interface ListApplicationVersionResponse {
+	list: Array<ApplicationMode>;
+	count: number;
+	pageIndex: number;
+	pageSize: number;
+	ret: number;
+}
+
+//-------welcome
+export interface ApplicationWelcomeMode {
+	id?: string;
+	appId?: string;
+	appWelcomeId?: string;
+	title: string;
+	desc: string;
+	welcome_jump: string;
+	welcome_image: string;
+	welcome_limit_e: number;
+	welcome_limit_s: number;
+	welcome_skip: number;
+	welcome_wait: number;
+	status: string;
+}
+
+export interface AddApplicationWelcomeParams {
+	appId?: string;
+	title: string;
+	desc: string;
+	welcome_jump: string;
+	welcome_image: string;
+	welcome_limit_e: number;
+	welcome_limit_s: number;
+	welcome_skip: number;
+	welcome_wait: number;
+}
+export interface AddApplicationWelcomeResponse extends IResponse {
+	data: {
+		appId: string;
+		appWelcomeId: string;
+		title: string;
+		desc: string;
+		welcome_jump: string;
+		welcome_image: string;
+		welcome_limit_e: number;
+		welcome_limit_s: number;
+		welcome_skip: number;
+		welcome_wait: number;
+		status: string;
+	};
+}
+
+export interface GetApplicationWelcomeParams {
+	appWelcomeId: string;
+}
+export interface GetApplicationWelcomeResponse extends IResponse {
+	data: {
+		appId: string;
+		appWelcomeId: string;
+		title: string;
+		desc: string;
+		welcome_jump: string;
+		welcome_image: string;
+		welcome_limit_e: number;
+		welcome_limit_s: number;
+		welcome_skip: number;
+		welcome_wait: number;
+		status: string;
+	};
+}
+
+export interface UpdateApplicationWelcomeParams {
+	appId?: string;
+	appWelcomeId?: string;
+	title: string;
+	desc: string;
+	welcome_jump: string;
+	welcome_image: string;
+	welcome_limit_e: number;
+	welcome_limit_s: number;
+	welcome_skip: number;
+	welcome_wait: number;
+	status: string;
+}
+export interface UpdateApplicationWelcomeResponse extends IResponse {
+	data: {
+		id: number;
+		appId: string;
+		appWelcomeId: string;
+		title: string;
+		desc: string;
+		welcome_jump: string;
+		welcome_image: string;
+		welcome_limit_e: number;
+		welcome_limit_s: number;
+		welcome_skip: number;
+		welcome_wait: number;
+		status: string;
+	};
+}
+
+export interface ListApplicationWelcomeParams {
+	appId: string;
+	pageIndex: string;
+	pageSize: string;
+}
+
+export interface ListApplicationWelcomeResponse {
 	list: Array<ApplicationMode>;
 	count: number;
 	pageIndex: number;

@@ -14,6 +14,9 @@ const createState = (): ApplicationState => ({
 	currApplicationVersionListCount: 0,
 	currApplicationVersionList: [],
 	currEditApplicationVersion: {},
+	currApplicationWelcomeListCount: 0,
+	currApplicationWelcomeList: [],
+	currEditApplicationWelcome: {},
 });
 
 const namespaced: boolean = true;

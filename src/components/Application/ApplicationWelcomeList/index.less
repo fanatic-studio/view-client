@@ -1,0 +1,66 @@
+.applicationVersionList {
+	.buttonGroups {
+		display: flex;
+		margin-bottom: 8px;
+	}
+	.itemLine {
+		margin-top: 24px;
+		.timelineItemCard {
+			.title {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				.titleLeft {
+					display: flex;
+					align-items: center;
+				}
+			}
+			.versionContent {
+				display: flex;
+				align-items: center;
+				.versionUI {
+					display: flex;
+					// align-items: center;
+					justify-content: center;
+					position: relative;
+					padding: 12px;
+					.templateImg {
+						width: 300px;
+						padding: 12px;
+						background-color: #f2f2f2;
+					}
+					.versionInfo {
+						position: absolute;
+						margin-top: 100px;
+						.title {
+							font-size: 16px;
+							font-weight: bold;
+						}
+						.mavonEditorPreview {
+							background-color: unset !important;
+						}
+					}
+				}
+				.qrcodes {
+					display: flex;
+					align-items: center;
+					.qrcode {
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+					}
+				}
+			}
+		}
+	}
+
+	.platform {
+		display: flex;
+	}
+
+	.actionButton {
+		width: 100px;
+		display: flex;
+		justify-content: space-between;
+	}
+}

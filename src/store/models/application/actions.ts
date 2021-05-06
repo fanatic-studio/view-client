@@ -15,6 +15,10 @@ import {
 	AddApplicationVersionParams,
 	UpdateApplicationVersionParams,
 	ApplicationVersionMode,
+	ListApplicationWelcomeParams,
+	ApplicationWelcomeMode,
+	AddApplicationWelcomeParams,
+	UpdateApplicationWelcomeParams,
 } from "./types";
 
 const actions: ActionTree<ApplicationState, any> = {
@@ -213,6 +217,65 @@ const actions: ActionTree<ApplicationState, any> = {
 		try {
 			console.log("updateApplication - params", params);
 			const result = await ApplicationApi.UpdateApplicationVersion(params);
+			store.commit("SET_EDIT_APPLICATION_VERSION", result.data);
+		} catch (error) {}
+	},
+
+	//-------welcome
+
+	async getApplicationWelcomeList(store, p: ListApplicationWelcomeParams) {
+		try {
+			let params: ListApplicationWelcomeParams = {
+				appId: store.state.currEditApplication.appId,
+				pageIndex: p.pageIndex,
+				pageSize: p.pageSize,
+			};
+			console.log("params", params);
+
+			const result = await ApplicationApi.ListApplicationWelcome(params);
+			store.commit("SET_APPLICATION_VERSION_LIST", result.list);
+			store.commit("SET_APPLICATION_VERSION_LIST_COUNT", result.count);
+		} catch (error) {}
+	},
+	async addApplicationWelcome(store, p: ApplicationWelcomeMode) {
+		const params: AddApplicationWelcomeParams = {
+			appId: store.state.currEditApplication.appId,
+			title: p.title,
+			desc: p.desc,
+			welcome_image: p.welcome_image,
+			welcome_jump: p.welcome_jump,
+			welcome_skip: p.welcome_skip,
+			welcome_wait: p.welcome_wait,
+			welcome_limit_e: p.welcome_limit_e,
+			welcome_limit_s: p.welcome_limit_s,
+		};
+		try {
+			console.log("addApplicationWelcome - params", params);
+			const result = await ApplicationApi.AddApplicationWelcome(params);
+			console.log("addApplication - result", result);
+			return result;
+		} catch (error) {}
+	},
+	updateEditApplicationWelcome(store, p: any) {
+		store.commit("SET_EDIT_APPLICATION_VERSION", p);
+	},
+	async updateApplicationWelcome(store, p: UpdateApplicationWelcomeParams) {
+		const params: UpdateApplicationWelcomeParams = {
+			appId: store.state.currEditApplication.appId,
+			appWelcomeId: store.state.currEditApplicationWelcome.appWelcomeId,
+			title: p.title,
+			desc: p.desc,
+			welcome_image: p.welcome_image,
+			welcome_jump: p.welcome_jump,
+			welcome_skip: p.welcome_skip,
+			welcome_wait: p.welcome_wait,
+			welcome_limit_e: p.welcome_limit_e,
+			welcome_limit_s: p.welcome_limit_s,
+			status: p.status,
+		};
+		try {
+			console.log("updateApplication - params", params);
+			const result = await ApplicationApi.UpdateApplicationWelcome(params);
 			store.commit("SET_EDIT_APPLICATION_VERSION", result.data);
 		} catch (error) {}
 	},

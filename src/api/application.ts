@@ -25,6 +25,14 @@ import {
 	ListApplicationVersionResponse,
 	UpdateApplicationVersionParams,
 	UpdateApplicationVersionResponse,
+	AddApplicationWelcomeParams,
+	AddApplicationWelcomeResponse,
+	GetApplicationWelcomeParams,
+	GetApplicationWelcomeResponse,
+	ListApplicationWelcomeParams,
+	ListApplicationWelcomeResponse,
+	UpdateApplicationWelcomeParams,
+	UpdateApplicationWelcomeResponse,
 } from "@/store/models/application/types";
 import HttpRequest from "@/utils/network/HttpRequest";
 
@@ -44,6 +52,11 @@ export enum API {
 	Get_Application_Version = "/api/v1/app/version/get",
 	List_Application_Version = "/api/v1/app/version/list",
 	Update_Application_Version = "/api/v1/app/version/update",
+
+	Add_Application_Welcome = "/api/v1/app/welcome/add",
+	Get_Application_Welcome = "/api/v1/app/welcome/get",
+	List_Application_Welcome = "/api/v1/app/welcome/list",
+	Update_Application_Welcome = "/api/v1/app/welcome/update",
 }
 
 export default class ApplicationApi {
@@ -124,5 +137,30 @@ export default class ApplicationApi {
 		params: UpdateApplicationVersionParams
 	): Promise<UpdateApplicationVersionResponse> {
 		return await HttpRequest.postData(API.Update_Application_Version, params);
+	}
+
+	//welcome
+	public static async AddApplicationWelcome(
+		params: AddApplicationWelcomeParams
+	): Promise<AddApplicationWelcomeResponse> {
+		return await HttpRequest.postData(API.Add_Application_Welcome, params);
+	}
+
+	public static async GetApplicationWelcome(
+		params: GetApplicationWelcomeParams
+	): Promise<GetApplicationWelcomeResponse> {
+		return await HttpRequest.getData(API.Get_Application_Welcome, params);
+	}
+
+	public static async ListApplicationWelcome(
+		params: ListApplicationWelcomeParams
+	): Promise<ListApplicationWelcomeResponse> {
+		return await HttpRequest.getData(API.List_Application_Welcome, params);
+	}
+
+	public static async UpdateApplicationWelcome(
+		params: UpdateApplicationWelcomeParams
+	): Promise<UpdateApplicationWelcomeResponse> {
+		return await HttpRequest.postData(API.Update_Application_Welcome, params);
 	}
 }

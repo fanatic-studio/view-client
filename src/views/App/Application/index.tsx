@@ -17,14 +17,13 @@ import { Component, Vue } from "vue-property-decorator";
 import style from "./index.less";
 import { namespace } from "vuex-class";
 const ApplicationStore = namespace("application");
-import RequirementHeader from "@/components/Requirement/RequirementHeader";
 import { ApplicationMode } from "@/store/models/application/types";
 import ApplicationItem from "@/components/Application/ApplicationItem";
 import ApplicationAdd from "@/components/Application/ApplicationAdd";
 import ApplicationInfo from "@/components/Application/ApplicationInfo";
 import ApplicationVersionList from "@/components/Application/ApplicationVersionList";
 import ApplicationUpdateList from "@/components/Application/ApplicationUpdateList";
-import ApplicationWelcomeSetting from "@/components/Application/ApplicationWelcomeSetting";
+import ApplicationWelcomeList from "@/components/Application/ApplicationWelcomeList";
 
 @Component
 export default class Application extends Vue {
@@ -41,7 +40,7 @@ export default class Application extends Vue {
 	controlDrawer: boolean = false;
 	versionControlDrawer: boolean = false;
 	updateControlDrawer: boolean = false;
-	welcomeSettingModal: boolean = false;
+	welcomeControlDrawer: boolean = false;
 	pageIndex: number = 1;
 	pageSize: number = 10;
 
@@ -71,7 +70,7 @@ export default class Application extends Vue {
 
 	applicationWelcome(item: ApplicationMode) {
 		this.updateEditApplication(item);
-		this.welcomeSettingModal = !this.welcomeSettingModal;
+		this.welcomeControlDrawer = !this.welcomeControlDrawer;
 	}
 
 	async tabClick(e: string) {
@@ -128,19 +127,6 @@ export default class Application extends Vue {
 				>
 					<ApplicationAdd on-updateAppList={this.updateAppList} />
 				</Modal>
-				<Modal
-					title="欢迎页(welcome)闪屏广告设置"
-					visible={this.welcomeSettingModal}
-					width={800}
-					dialog-style={{ top: "20px" }}
-					on-cancel={() => {
-						this.welcomeSettingModal = !this.welcomeSettingModal;
-					}}
-					maskClosable={false}
-					footer={null}
-				>
-					<ApplicationWelcomeSetting on-updateAppList={this.updateAppList} />
-				</Modal>
 				<Drawer
 					title="工程信息"
 					visible={this.controlDrawer}
@@ -170,6 +156,16 @@ export default class Application extends Vue {
 					width={1100}
 				>
 					<ApplicationUpdateList on-updateAppList={this.updateAppList} />
+				</Drawer>
+				<Drawer
+					title="App欢迎页管理"
+					visible={this.welcomeControlDrawer}
+					on-close={() => {
+						this.welcomeControlDrawer = !this.welcomeControlDrawer;
+					}}
+					width={1100}
+				>
+					<ApplicationWelcomeList on-updateAppList={this.updateAppList} />
 				</Drawer>
 			</div>
 		);
