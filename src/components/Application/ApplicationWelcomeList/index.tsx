@@ -24,6 +24,7 @@ import { namespace } from "vuex-class";
 const ApplicationStore = namespace("application");
 import ApplicationWelcomeAdd from "@/components/Application/ApplicationWelcomeAdd";
 import ApplicationWelcomeEdit from "@/components/Application/ApplicationWelcomeEdit";
+import moment from "moment";
 @Component
 export default class ApplicationWelcomeList extends Vue {
 	@ApplicationStore.Getter("currApplicationWelcomeList")
@@ -42,7 +43,7 @@ export default class ApplicationWelcomeList extends Vue {
 	addWelcomeModal: boolean = false;
 	editWelcomeModal: boolean = false;
 	editorApplicationWelcomeItem!: ApplicationWelcomeMode;
-	updateListColumns: Array<any> = [
+	welcomeListColumns: Array<any> = [
 		{
 			title: "名称",
 			dataIndex: "title",
@@ -50,46 +51,38 @@ export default class ApplicationWelcomeList extends Vue {
 		},
 		{
 			title: "图片",
-			dataIndex: "version",
-			key: "version",
-			customRender: this.rednerVersion,
+			dataIndex: "welcomeImage",
+			key: "welcomeImage",
+			customRender: this.rednerWelcomeImage,
 		},
 		{
 			title: "说明",
-			dataIndex: "platform",
-			key: "platform",
-			customRender: this.rednerPlatfrom,
+			dataIndex: "desc",
+			key: "desc",
 		},
 		{
 			title: "等待时间",
-			dataIndex: "debug",
-			key: "debug",
-			customRender: this.rednerDebug,
+			dataIndex: "welcomeWait",
+			key: "welcomeWait",
+			customRender: this.rednerWelcomeWait,
 		},
 
 		{
 			title: "是否显示跳过",
-			dataIndex: "updateMode",
-			key: "updateMode",
-			customRender: this.rednerWelcomeMode,
+			dataIndex: "welcomeSkip",
+			key: "welcomeSkip",
+			customRender: this.rednerWelcomeSkip,
 		},
 		{
 			title: "点击跳转",
-			dataIndex: "reboot",
-			key: "reboot",
-			customRender: this.rednerReboot,
+			dataIndex: "welcomeJump",
+			key: "welcomeJump",
 		},
 		{
-			title: "开始时间",
-			dataIndex: "clearCache",
-			key: "clearCache",
-			customRender: this.rednerWelcomeAction,
-		},
-		{
-			title: "结束时间",
-			dataIndex: "valid",
-			key: "valid",
-			customRender: this.rednerValid,
+			title: "时间限制",
+			dataIndex: "welcomeLimit",
+			key: "welcomeLimit",
+			customRender: this.rednerWelcomeLimit,
 		},
 		{
 			title: "状态",
@@ -173,7 +166,7 @@ export default class ApplicationWelcomeList extends Vue {
 
 				<Table
 					rowKey="id"
-					columns={this.updateListColumns}
+					columns={this.welcomeListColumns}
 					data-source={this.currApplicationWelcomeList}
 					pagination={{
 						pageSize: this.pageSize,
@@ -219,30 +212,12 @@ export default class ApplicationWelcomeList extends Vue {
 		);
 	}
 
-	private rednerVersion(text: any, record: any, index: number) {
-		const verson: Array<string> = record.version.split(",");
-		return verson.map((item) => {
-			return <Tag color="blue">{item}</Tag>;
-		});
+	private rednerWelcomeImage(text: any, record: any, index: number) {
+		return <img style={{ width: "100px" }} src={record.welcomeImage}></img>;
 	}
 
-	private rednerPlatfrom(text: any, record: any, index: number) {
-		let platform = record.platform.split(",");
-		if (platform.length > 1) {
-			return (
-				<div>
-					<Icon type="android" theme="filled" style={{ color: "#2def0a" }} />
-					<Icon type="apple" theme="filled" />
-				</div>
-			);
-		} else {
-			if (platform[0] === "ios") {
-				return <Icon type="apple" />;
-			}
-			if (platform[0] === "android") {
-				return <Icon type="android" style={{ color: "#2def0a" }} />;
-			}
-		}
+	private rednerWelcomeWait(text: any, record: any, index: number) {
+		return <Tag>{record.welcomeWait / 1000}/s</Tag>;
 	}
 	private rednerDebug(text: any, record: any, index: number) {
 		if (record.debug === "0") {
@@ -283,12 +258,12 @@ export default class ApplicationWelcomeList extends Vue {
 		}
 	}
 
-	private rednerWelcomeMode(text: any, record: any, index: number) {
-		if (record.updateMode === "0") {
-			return <Tag color="blue">自动触发</Tag>;
+	private rednerWelcomeSkip(text: any, record: any, index: number) {
+		if (record.welcomeSkip === "0") {
+			return <Tag color="blue">显示跳过</Tag>;
 		}
-		if (record.updateMode === "1") {
-			return <Tag color="orange">客户端触发</Tag>;
+		if (record.welcomeSkip === "1") {
+			return <Tag color="orange">隐藏跳过</Tag>;
 		}
 	}
 
@@ -301,16 +276,14 @@ export default class ApplicationWelcomeList extends Vue {
 		}
 	}
 
-	private rednerValid(text: any, record: any, index: number) {
-		if (record.valid === "1") {
-			return <Tag color="blue">启用</Tag>;
-		}
-		if (record.valid === "0") {
-			return <Tag color="orange">暂停</Tag>;
-		}
-		if (record.valid === "2") {
-			return <Tag color="red">撤回</Tag>;
-		}
+	private rednerWelcomeLimit(text: any, record: any, index: number) {
+		return (
+			<Tag color="red">{`${moment(parseInt(record.welcomeLimitE)).format(
+				"YYYY-MM-DD HH:mm:ss"
+			)} - ${moment(parseInt(record.welcomeLimitS)).format(
+				"YYYY-MM-DD HH:mm:ss"
+			)}`}</Tag>
+		);
 	}
 
 	private rednerStatus(text: any, record: any, index: number) {

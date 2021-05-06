@@ -233,8 +233,8 @@ const actions: ActionTree<ApplicationState, any> = {
 			console.log("params", params);
 
 			const result = await ApplicationApi.ListApplicationWelcome(params);
-			store.commit("SET_APPLICATION_VERSION_LIST", result.list);
-			store.commit("SET_APPLICATION_VERSION_LIST_COUNT", result.count);
+			store.commit("SET_APPLICATION_WELCOME_LIST", result.list);
+			store.commit("SET_APPLICATION_WELCOME_LIST_COUNT", result.count);
 		} catch (error) {}
 	},
 	async addApplicationWelcome(store, p: ApplicationWelcomeMode) {
@@ -258,7 +258,7 @@ const actions: ActionTree<ApplicationState, any> = {
 		} catch (error) {}
 	},
 	updateEditApplicationWelcome(store, p: any) {
-		store.commit("SET_EDIT_APPLICATION_VERSION", p);
+		store.commit("SET_EDIT_APPLICATION_WELCOME", p);
 	},
 	async updateApplicationWelcome(store, p: UpdateApplicationWelcomeParams) {
 		const params: UpdateApplicationWelcomeParams = {
@@ -278,7 +278,7 @@ const actions: ActionTree<ApplicationState, any> = {
 		try {
 			console.log("updateApplication - params", params);
 			const result = await ApplicationApi.UpdateApplicationWelcome(params);
-			store.commit("SET_EDIT_APPLICATION_VERSION", result.data);
+			store.commit("SET_EDIT_APPLICATION_WELCOME", result.data);
 		} catch (error) {}
 	},
 };
