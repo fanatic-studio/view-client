@@ -444,8 +444,8 @@ export interface AddApplicationWelcomeParams {
 	welcomeType: string;
 	welcomeJump: string;
 	welcomeImage: string;
-	welcomeLimitE: number;
-	welcomeLimitS: number;
+	welcomeLimitE: string;
+	welcomeLimitS: string;
 	welcomeSkip: number;
 	welcomeWait: number;
 }

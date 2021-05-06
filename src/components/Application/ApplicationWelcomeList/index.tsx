@@ -278,12 +278,14 @@ export default class ApplicationWelcomeList extends Vue {
 	}
 
 	private rednerWelcomeLimit(text: any, record: any, index: number) {
+		console.log("record", record);
+
 		return (
-			<Tag color="red">{`${moment(parseInt(record.welcomeLimitE)).format(
-				"YYYY-MM-DD HH:mm:ss"
-			)} - ${moment(parseInt(record.welcomeLimitS)).format(
-				"YYYY-MM-DD HH:mm:ss"
-			)}`}</Tag>
+			<Tag color="red">{`${moment
+				.unix(parseInt(record.welcomeLimitE))
+				.format("YYYY-MM-DD HH:mm:ss")} - ${moment
+				.unix(parseInt(record.welcomeLimitS))
+				.format("YYYY-MM-DD HH:mm:ss")}`}</Tag>
 		);
 	}
 

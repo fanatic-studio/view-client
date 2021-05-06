@@ -58,12 +58,12 @@ class ApplicationWelcomeEdit extends Vue {
 				welcomeSkip: this.currEditApplicationWelcome.welcomeSkip,
 				welcomeJump: this.currEditApplicationWelcome.welcomeJump,
 				welcomeTime: [
-					moment(
-						parseInt(this.currEditApplicationWelcome.welcomeLimitE)
-					).format(),
-					moment(
-						parseInt(this.currEditApplicationWelcome.welcomeLimitS)
-					).format(),
+					moment
+						.unix(parseInt(this.currEditApplicationWelcome.welcomeLimitE))
+						.format(),
+					moment
+						.unix(parseInt(this.currEditApplicationWelcome.welcomeLimitS))
+						.format(),
 				],
 			});
 		});
@@ -108,8 +108,12 @@ class ApplicationWelcomeEdit extends Vue {
 					welcomeJump: value.welcomeJump,
 					welcomeSkip: value.welcomeSkip,
 					welcomeWait: value.welcomeWait,
-					welcomeLimitE: moment(value.welcomeTime[0]).unix(),
-					welcomeLimitS: moment(value.welcomeTime[1]).unix(),
+					welcomeLimitE: moment(value.welcomeTime[0])
+						.unix()
+						.toString(),
+					welcomeLimitS: moment(value.welcomeTime[1])
+						.unix()
+						.toString(),
 				};
 
 				console.log("params", params);
