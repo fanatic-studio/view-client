@@ -20,6 +20,7 @@ import {
 	AddApplicationWelcomeParams,
 	UpdateApplicationWelcomeParams,
 	ApplicationWelcomeStatusParams,
+	UpdateApplicationUpdateStatusParams,
 } from "./types";
 
 const actions: ActionTree<ApplicationState, any> = {
@@ -112,8 +113,6 @@ const actions: ActionTree<ApplicationState, any> = {
 		} catch (error) {}
 	},
 	updateEditApplicationUpdate(store, p: any) {
-		console.log("123123", p);
-
 		store.commit("SET_EDIT_APPLICATION_UPDATE", p);
 	},
 	async updateApplicationUpdate(store, p: UpdateApplicationUpdateParams) {
@@ -152,6 +151,21 @@ const actions: ActionTree<ApplicationState, any> = {
 			console.log("updateApplication - params", params);
 			const result = await ApplicationApi.CheckApplicationUpdate(params);
 			return result.data;
+		} catch (error) {}
+	},
+
+	async updateApplicationUpdateStatus(
+		store,
+		p: UpdateApplicationUpdateStatusParams
+	) {
+		const params: UpdateApplicationUpdateStatusParams = {
+			appId: store.state.currEditApplication.appId,
+			updateId: store.state.currEditApplicationUpdate.updateId,
+			status: p.status,
+		};
+		try {
+			console.log("updateApplicationStatus - params", params);
+			const result = await ApplicationApi.UpdateApplicationUpdateStatus(params);
 		} catch (error) {}
 	},
 	//-------version

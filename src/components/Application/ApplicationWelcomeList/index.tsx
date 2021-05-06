@@ -313,7 +313,7 @@ export default class ApplicationWelcomeList extends Vue {
 		return (
 			<div class={styles.actionButton}>
 				<Button
-					type="primary"
+					type="dashed"
 					size="small"
 					on-click={() => {
 						this.updateEditApplicationWelcome(record);
@@ -331,7 +331,7 @@ export default class ApplicationWelcomeList extends Vue {
 					size="small"
 					on-click={() => {
 						this.updateEditApplicationWelcome(record);
-						this.stopWelcomeHandle(record);
+						// this.stopWelcomeHandle(record);
 					}}
 				>
 					{record.status === "1" ? "启用" : "停用"}

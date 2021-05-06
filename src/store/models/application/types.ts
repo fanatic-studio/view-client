@@ -291,6 +291,30 @@ export interface CheckApplicationUpdateResponse extends IResponse {
 	};
 }
 
+export interface UpdateApplicationUpdateStatusParams {
+	appId?: string;
+	updateId?: string;
+	status: string;
+}
+export interface UpdateApplicationUpdateStatusResponse extends IResponse {
+	data: {
+		id: number;
+		teamId: string;
+		projectId: string;
+		accountId: string;
+		applicationId: string;
+		gitLabApplicationId: number;
+		assignee: string;
+		name: string;
+		desc: string;
+		content: string;
+		startAt: string;
+		ductTime: string;
+		onlineAt: string;
+		status: string;
+	};
+}
+
 //-------version
 export interface ApplicationVersionMode {
 	id?: string;

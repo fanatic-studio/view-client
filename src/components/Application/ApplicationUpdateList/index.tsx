@@ -37,6 +37,9 @@ export default class ApplicationUpdateList extends Vue {
 	@ApplicationStore.Action("checkApplicationUpdate")
 	checkApplicationUpdate!: Function;
 
+	@ApplicationStore.Action("updateApplicationUpdateStatus")
+	updateApplicationUpdateStatus!: Function;
+
 	@Prop(Object) readonly item!: ApplicationMode;
 
 	addUpdateModal: boolean = false;
@@ -98,12 +101,12 @@ export default class ApplicationUpdateList extends Vue {
 			key: "valid",
 			customRender: this.rednerValid,
 		},
-		// {
-		// 	title: "状态",
-		// 	dataIndex: "status",
-		// 	key: "status",
-		// 	customRender: this.rednerStatus,
-		// },
+		{
+			title: "状态",
+			dataIndex: "status",
+			key: "status",
+			customRender: this.rednerStatus,
+		},
 		{
 			title: "操作",
 			customRender: this.renderAction,
@@ -154,6 +157,14 @@ export default class ApplicationUpdateList extends Vue {
 				title: "当前没有可用热更新",
 			});
 		}
+	}
+
+	private async stopUpdateHandle(record: any) {
+		let params = {
+			status: record.status === "0" ? "1" : "0",
+		};
+		await this.updateApplicationUpdateStatus(params);
+		await this.__getApplicationUpdateList();
 	}
 
 	render() {
@@ -316,7 +327,7 @@ export default class ApplicationUpdateList extends Vue {
 
 	private rednerValid(text: any, record: any, index: number) {
 		if (record.valid === "1") {
-			return <Tag color="blue">启用</Tag>;
+			return <Tag color="blue">正常</Tag>;
 		}
 		if (record.valid === "0") {
 			return <Tag color="orange">暂停</Tag>;
@@ -339,7 +350,7 @@ export default class ApplicationUpdateList extends Vue {
 		return (
 			<div class={styles.actionButton}>
 				<Button
-					type="primary"
+					type="dashed"
 					size="small"
 					on-click={() => {
 						this.updateEditApplicationUpdate(record);
@@ -348,8 +359,15 @@ export default class ApplicationUpdateList extends Vue {
 				>
 					编辑
 				</Button>
-				<Button type="danger" size="small">
-					删除
+				<Button
+					type={record.status === "1" ? "primary" : "danger"}
+					size="small"
+					on-click={() => {
+						this.updateEditApplicationUpdate(record);
+						this.stopUpdateHandle(record);
+					}}
+				>
+					{record.status === "1" ? "启用" : "停用"}
 				</Button>
 			</div>
 		);

@@ -35,6 +35,8 @@ import {
 	UpdateApplicationWelcomeResponse,
 	ApplicationWelcomeStatusParams,
 	ApplicationWelcomeStatusResponse,
+	UpdateApplicationUpdateStatusParams,
+	UpdateApplicationUpdateStatusResponse,
 } from "@/store/models/application/types";
 import HttpRequest from "@/utils/network/HttpRequest";
 
@@ -49,6 +51,7 @@ export enum API {
 	List_Application_Update = "/api/v1/app/update/list",
 	Update_Application_Update = "/api/v1/app/update/update",
 	Update_Application_Check = "/api/client/duration",
+	Update_Application_Update_Status = "/api/v1/app/update/status",
 
 	Add_Application_Version = "/api/v1/app/version/add",
 	Get_Application_Version = "/api/v1/app/version/get",
@@ -115,6 +118,15 @@ export default class ApplicationApi {
 		params: CheckApplicationUpdateParams
 	): Promise<CheckApplicationUpdateResponse> {
 		return await HttpRequest.postData(API.Update_Application_Check, params);
+	}
+
+	public static async UpdateApplicationUpdateStatus(
+		params: UpdateApplicationUpdateStatusParams
+	): Promise<UpdateApplicationUpdateStatusResponse> {
+		return await HttpRequest.postData(
+			API.Update_Application_Update_Status,
+			params
+		);
 	}
 
 	//version
