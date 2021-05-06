@@ -38,8 +38,8 @@ export default class ApplicationWelcomeList extends Vue {
 	@ApplicationStore.Action("checkApplicationWelcome")
 	checkApplicationWelcome!: Function;
 
-	@ApplicationStore.Action("updateApplicationWelcome")
-	updateApplicationWelcome!: Function;
+	@ApplicationStore.Action("applicationWelcomeStatus")
+	applicationWelcomeStatus!: Function;
 
 	@Prop(Object) readonly item!: ApplicationMode;
 
@@ -148,9 +148,9 @@ export default class ApplicationWelcomeList extends Vue {
 
 	async stopWelcomeHandle(record: ApplicationWelcomeMode) {
 		let params = {
-			status: record.status === "0" ? "1" : "0",
+			status: record.status === "1" ? "0" : "1",
 		};
-		await this.updateApplicationWelcome(params);
+		await this.applicationWelcomeStatus(params);
 		await this.__getApplicationWelcomeList();
 	}
 
