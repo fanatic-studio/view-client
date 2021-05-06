@@ -34,7 +34,7 @@ import style from "./index.less";
 		},
 	},
 })
-class ApplicationWelcomeSetting extends Vue {
+class ApplicationWelcomeEdit extends Vue {
 	@ApplicationStore.Action("updateApplicationUpdate")
 	updateApplicationUpdate!: Function;
 
@@ -231,4 +231,4 @@ class ApplicationWelcomeSetting extends Vue {
 		});
 	}
 }
-export default Form.create({})(ApplicationWelcomeSetting);
+export default Form.create({})(ApplicationWelcomeEdit);

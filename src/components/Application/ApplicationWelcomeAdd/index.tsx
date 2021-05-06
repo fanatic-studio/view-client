@@ -1,24 +1,19 @@
 import {
 	AddApplicationParams,
-	AddApplicationUpdateParams,
+	AddApplicationWelcomeParams,
 	ApplicationMode,
-	ApplicationUpdateMode,
-	UpdateApplicationUpdateParams,
+	ApplicationWelcomeMode,
 } from "@/store/models/application/types";
 import { ProjectMemberMode } from "@/store/models/project/types";
 import {
 	Form,
 	Input,
-	Icon,
 	Button,
 	DatePicker,
-	InputNumber,
 	Row,
 	Col,
 	Select,
-	Checkbox,
 	Radio,
-	Switch,
 } from "ant-design-vue";
 import moment from "moment";
 moment.locale("zh-cn");
@@ -34,22 +29,19 @@ import style from "./index.less";
 		},
 	},
 })
-class ApplicationWelcomeSetting extends Vue {
-	@ApplicationStore.Action("updateApplicationUpdate")
-	updateApplicationUpdate!: Function;
-
-	@ApplicationStore.Getter("currEditApplicationUpdate")
-	currEditApplicationUpdate!: ApplicationUpdateMode;
+class ApplicationWelcomeAdd extends Vue {
+	@ApplicationStore.Action("addApplicationWelcome")
+	addApplicationWelcome!: Function;
 
 	@Emit()
-	private emitUpdateApplicationUpdateList() {
-		this.$emit("emitUpdateApplicationUpdateList");
+	private emitWelcomeApplicationWelcomeList() {
+		this.$emit("emitWelcomeApplicationWelcomeList");
 	}
 
-	@Watch("currEditApplicationUpdate", { immediate: true, deep: true })
-	watchCurrEditApplicationUpdate(
-		newValue: ApplicationUpdateMode,
-		oldValue: ApplicationUpdateMode
+	@Watch("currEditApplicationWelcome", { immediate: true, deep: true })
+	watchCurrEditApplicationWelcome(
+		newValue: ApplicationWelcomeMode,
+		oldValue: ApplicationWelcomeMode
 	) {
 		console.log("newValue", newValue);
 
@@ -71,6 +63,12 @@ class ApplicationWelcomeSetting extends Vue {
 		{ label: "3s", value: "3000" },
 	];
 
+	welcomeTypeOptions: Array<any> = [
+		{ label: "活动", value: "activity" },
+		{ label: "内容", value: "content" },
+		{ label: "广告", value: "ad" },
+	];
+
 	async created() {}
 
 	private async handleSubmit(event: Event) {
@@ -81,23 +79,21 @@ class ApplicationWelcomeSetting extends Vue {
 		validateFields(async (err: string, value: any) => {
 			if (!err) {
 				this.btnLoading = true;
-				const params: UpdateApplicationUpdateParams = {
-					updateId: this.currEditApplicationUpdate.updateId,
+				const params: AddApplicationWelcomeParams = {
 					title: value.title,
-					version: value.version,
-					platform: value.platform.toString(),
-					reboot: value.reboot,
-					rebootTitle: value.rebootTitle,
-					rebootMessage: value.rebootMessage,
-					rebootConfirmReboot: value.rebootConfirmReboot,
-					fileUrl: value.fileUrl,
-					valid: value.valid,
-					updateMode: value.updateMode,
-					clearCache: value.clearCache,
-					debug: value.debug,
+					desc: value.desc,
+					welcomeType: value.welcomeType,
+					welcomeImage: value.welcomeImage,
+					welcomeJump: value.welcomeJump,
+					welcomeSkip: value.welcomeSkip,
+					welcomeWait: value.welcomeWait,
+					welcomeLimitE: moment(value.welcomeTime[0]).unix(),
+					welcomeLimitS: moment(value.welcomeTime[1]).unix(),
 				};
-				await this.updateApplicationUpdate(params);
-				this.emitUpdateApplicationUpdateList();
+
+				console.log("params", params);
+				await this.addApplicationWelcome(params);
+				// this.emitWelcomeApplicationWelcomeList();
 				this.btnLoading = false;
 			}
 		});
@@ -109,6 +105,52 @@ class ApplicationWelcomeSetting extends Vue {
 			<Form onSubmit={this.handleSubmit}>
 				<Row gutter={8}>
 					<Col span="12">
+						<Form.Item label="欢迎页名称">
+							{getFieldDecorator("title", {
+								rules: [
+									{
+										required: true,
+										message: "欢迎页名称",
+									},
+								],
+							})(
+								<Input
+									type="text"
+									name="title"
+									placeholder="输入欢迎页名称"
+								></Input>
+							)}
+						</Form.Item>
+						<Form.Item label="欢迎页类型">
+							{getFieldDecorator("welcomeType", {
+								rules: [
+									{
+										required: true,
+										message: "欢迎页类型",
+									},
+								],
+							})(
+								<Select name="welcomeType" placeholder="请选择闪屏类型">
+									{this.renderWelcomeType()}
+								</Select>
+							)}
+						</Form.Item>
+						<Form.Item label="欢迎页说明">
+							{getFieldDecorator("desc", {
+								rules: [
+									{
+										required: true,
+										message: "欢迎页说明",
+									},
+								],
+							})(
+								<Input
+									type="text"
+									name="desc"
+									placeholder="输入欢迎页说明"
+								></Input>
+							)}
+						</Form.Item>
 						<Form.Item
 							label="闪屏广告图"
 							help="闪屏广告图片：留空则不显示闪屏广告。"
@@ -135,6 +177,7 @@ class ApplicationWelcomeSetting extends Vue {
 							help="打开应用时显示APP闪屏广告的时间，留空默认：2秒。"
 						>
 							{getFieldDecorator("welcomeWait", {
+								initialValue: "3000",
 								rules: [
 									{
 										required: true,
@@ -142,11 +185,6 @@ class ApplicationWelcomeSetting extends Vue {
 									},
 								],
 							})(
-								// <Input
-								// 	type="text"
-								// 	name="welcomeWait"
-								// 	placeholder="输入热更新名称"
-								// ></Input>
 								<Select
 									name="welcomeWait"
 									placeholder="请选择闪屏显示时间，一般都是3s"
@@ -194,19 +232,20 @@ class ApplicationWelcomeSetting extends Vue {
 							label="闪屏有效时限"
 							help="设置闪屏广告在指定时间范围内显示。"
 						>
-							{getFieldDecorator("title", {
+							{getFieldDecorator("welcomeTime", {
 								rules: [
 									{
-										required: true,
+										required: false,
 										message: "热更新名称",
 									},
 								],
 							})(
-								<Input
-									type="text"
-									name="title"
-									placeholder="输入热更新名称"
-								></Input>
+								<DatePicker.RangePicker
+									name="welcomeTime"
+									style={{ width: "100%" }}
+									format="YYYY-MM-DD HH:mm:ss"
+									show-time
+								></DatePicker.RangePicker>
 							)}
 						</Form.Item>
 					</Col>
@@ -230,5 +269,11 @@ class ApplicationWelcomeSetting extends Vue {
 			return <Select.Option key={item.value}>{item.label}</Select.Option>;
 		});
 	}
+
+	protected renderWelcomeType() {
+		return this.welcomeTypeOptions.map((item) => {
+			return <Select.Option key={item.value}>{item.label}</Select.Option>;
+		});
+	}
 }
-export default Form.create({})(ApplicationWelcomeSetting);
+export default Form.create({})(ApplicationWelcomeAdd);

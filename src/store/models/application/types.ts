@@ -427,12 +427,13 @@ export interface ApplicationWelcomeMode {
 	appWelcomeId?: string;
 	title: string;
 	desc: string;
-	welcome_jump: string;
-	welcome_image: string;
-	welcome_limit_e: number;
-	welcome_limit_s: number;
-	welcome_skip: number;
-	welcome_wait: number;
+	welcomeType: string;
+	welcomeJump: string;
+	welcomeImage: string;
+	welcomeLimitE: number;
+	welcomeLimitS: number;
+	welcomeSkip: number;
+	welcomeWait: number;
 	status: string;
 }
 
@@ -440,12 +441,13 @@ export interface AddApplicationWelcomeParams {
 	appId?: string;
 	title: string;
 	desc: string;
-	welcome_jump: string;
-	welcome_image: string;
-	welcome_limit_e: number;
-	welcome_limit_s: number;
-	welcome_skip: number;
-	welcome_wait: number;
+	welcomeType: string;
+	welcomeJump: string;
+	welcomeImage: string;
+	welcomeLimitE: number;
+	welcomeLimitS: number;
+	welcomeSkip: number;
+	welcomeWait: number;
 }
 export interface AddApplicationWelcomeResponse extends IResponse {
 	data: {
@@ -453,12 +455,12 @@ export interface AddApplicationWelcomeResponse extends IResponse {
 		appWelcomeId: string;
 		title: string;
 		desc: string;
-		welcome_jump: string;
-		welcome_image: string;
-		welcome_limit_e: number;
-		welcome_limit_s: number;
-		welcome_skip: number;
-		welcome_wait: number;
+		welcomeJump: string;
+		welcomeImage: string;
+		welcomeLimitE: number;
+		welcomeLimitS: number;
+		welcomeSkip: number;
+		welcomeWait: number;
 		status: string;
 	};
 }
@@ -472,12 +474,12 @@ export interface GetApplicationWelcomeResponse extends IResponse {
 		appWelcomeId: string;
 		title: string;
 		desc: string;
-		welcome_jump: string;
-		welcome_image: string;
-		welcome_limit_e: number;
-		welcome_limit_s: number;
-		welcome_skip: number;
-		welcome_wait: number;
+		welcomeJump: string;
+		welcomeImage: string;
+		welcomeLimitE: number;
+		welcomeLimitS: number;
+		welcomeSkip: number;
+		welcomeWait: number;
 		status: string;
 	};
 }
@@ -487,12 +489,13 @@ export interface UpdateApplicationWelcomeParams {
 	appWelcomeId?: string;
 	title: string;
 	desc: string;
-	welcome_jump: string;
-	welcome_image: string;
-	welcome_limit_e: number;
-	welcome_limit_s: number;
-	welcome_skip: number;
-	welcome_wait: number;
+	welcomeType: string;
+	welcomeJump: string;
+	welcomeImage: string;
+	welcomeLimitE: number;
+	welcomeLimitS: number;
+	welcomeSkip: number;
+	welcomeWait: number;
 	status: string;
 }
 export interface UpdateApplicationWelcomeResponse extends IResponse {
@@ -502,12 +505,12 @@ export interface UpdateApplicationWelcomeResponse extends IResponse {
 		appWelcomeId: string;
 		title: string;
 		desc: string;
-		welcome_jump: string;
-		welcome_image: string;
-		welcome_limit_e: number;
-		welcome_limit_s: number;
-		welcome_skip: number;
-		welcome_wait: number;
+		welcomeJump: string;
+		welcomeImage: string;
+		welcomeLimitE: number;
+		welcomeLimitS: number;
+		welcomeSkip: number;
+		welcomeWait: number;
 		status: string;
 	};
 }

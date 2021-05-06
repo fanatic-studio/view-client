@@ -17,31 +17,31 @@ import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 import styles from "./index.less";
 import {
 	ApplicationMode,
-	ApplicationUpdateMode,
-	ListApplicationUpdateParams,
+	ApplicationWelcomeMode,
+	ListApplicationWelcomeParams,
 } from "@/store/models/application/types";
 import { namespace } from "vuex-class";
 const ApplicationStore = namespace("application");
-import ApplicationUpdateAdd from "@/components/Application/ApplicationUpdateAdd";
-import ApplicationUpdateEdit from "@/components/Application/ApplicationUpdateEdit";
+import ApplicationWelcomeAdd from "@/components/Application/ApplicationWelcomeAdd";
+import ApplicationWelcomeEdit from "@/components/Application/ApplicationWelcomeEdit";
 @Component
 export default class ApplicationWelcomeList extends Vue {
 	@ApplicationStore.Getter("currApplicationWelcomeList")
-	currApplicationWelcomeList!: Array<ApplicationUpdateMode>;
+	currApplicationWelcomeList!: Array<ApplicationWelcomeMode>;
 	@ApplicationStore.Getter("currApplicationWelcomeListCount")
 	currApplicationWelcomeListCount!: number;
 	@ApplicationStore.Action("getApplicationWelcomeList")
 	getApplicationWelcomeList!: Function;
-	@ApplicationStore.Action("updateEditApplicationUpdate")
-	updateEditApplicationUpdate!: Function;
-	@ApplicationStore.Action("checkApplicationUpdate")
-	checkApplicationUpdate!: Function;
+	@ApplicationStore.Action("updateEditApplicationWelcome")
+	updateEditApplicationWelcome!: Function;
+	@ApplicationStore.Action("checkApplicationWelcome")
+	checkApplicationWelcome!: Function;
 
 	@Prop(Object) readonly item!: ApplicationMode;
 
-	addUpdateModal: boolean = false;
-	editUpdateModal: boolean = false;
-	editorApplicationUpdateItem!: ApplicationUpdateMode;
+	addWelcomeModal: boolean = false;
+	editWelcomeModal: boolean = false;
+	editorApplicationWelcomeItem!: ApplicationWelcomeMode;
 	updateListColumns: Array<any> = [
 		{
 			title: "名称",
@@ -71,7 +71,7 @@ export default class ApplicationWelcomeList extends Vue {
 			title: "是否显示跳过",
 			dataIndex: "updateMode",
 			key: "updateMode",
-			customRender: this.rednerUpdateMode,
+			customRender: this.rednerWelcomeMode,
 		},
 		{
 			title: "点击跳转",
@@ -83,7 +83,7 @@ export default class ApplicationWelcomeList extends Vue {
 			title: "开始时间",
 			dataIndex: "clearCache",
 			key: "clearCache",
-			customRender: this.rednerUpdateAction,
+			customRender: this.rednerWelcomeAction,
 		},
 		{
 			title: "结束时间",
@@ -109,11 +109,11 @@ export default class ApplicationWelcomeList extends Vue {
 		await this.__getApplicationWelcomeList();
 	}
 
-	private addUpdateModalHandle() {
-		this.addUpdateModal = !this.addUpdateModal;
+	private addWelcomeModalHandle() {
+		this.addWelcomeModal = !this.addWelcomeModal;
 	}
-	private editUpdateModalHandle() {
-		this.editUpdateModal = !this.editUpdateModal;
+	private editWelcomeModalHandle() {
+		this.editWelcomeModal = !this.editWelcomeModal;
 	}
 
 	private async pageChange(e: any) {
@@ -132,15 +132,15 @@ export default class ApplicationWelcomeList extends Vue {
 		await this.getApplicationWelcomeList(params);
 	}
 
-	checkUpdateBtnLoading: boolean = false;
-	private async checkAppUpdate() {
-		this.checkUpdateBtnLoading = true;
-		const res = await this.checkApplicationUpdate();
-		this.checkUpdateBtnLoading = false;
+	checkWelcomeBtnLoading: boolean = false;
+	private async checkAppWelcome() {
+		this.checkWelcomeBtnLoading = true;
+		const res = await this.checkApplicationWelcome();
+		this.checkWelcomeBtnLoading = false;
 		if (res.uplists.length > 0) {
 			this.$success({
 				title: "发现热更新成功",
-				content: this.renderCheckAppUpdateTips(res.uplists[0]),
+				content: this.renderCheckAppWelcomeTips(res.uplists[0]),
 			});
 		} else {
 			this.$error({
@@ -151,23 +151,23 @@ export default class ApplicationWelcomeList extends Vue {
 
 	render() {
 		return (
-			<div class={styles.applicationUpdateList}>
+			<div class={styles.applicationWelcomeList}>
 				<div class={styles.buttonGroups}>
 					<Button
 						slot="tabBarExtraContent"
 						type="primary"
-						on-click={this.addUpdateModalHandle}
+						on-click={this.addWelcomeModalHandle}
 					>
-						添加热更新
+						添加欢迎页
 					</Button>
 					<Button
 						slot="tabBarExtraContent"
 						type="danger"
 						style={{ marginLeft: "8px" }}
-						loading={this.checkUpdateBtnLoading}
-						on-click={this.checkAppUpdate}
+						loading={this.checkWelcomeBtnLoading}
+						on-click={this.checkAppWelcome}
 					>
-						热更新测试
+						测试欢迎页
 					</Button>
 				</div>
 
@@ -184,45 +184,39 @@ export default class ApplicationWelcomeList extends Vue {
 					}}
 				></Table>
 				<Modal
-					title="新增热更新"
-					visible={this.addUpdateModal}
+					title="新增欢迎页"
+					visible={this.addWelcomeModal}
 					width={1000}
 					dialog-style={{ top: "20px" }}
-					on-cancel={this.addUpdateModalHandle}
+					on-cancel={this.addWelcomeModalHandle}
 					maskClosable={false}
 					footer={null}
 				>
-					<ApplicationUpdateAdd
-						on-emitUpdateApplicationWelcomeList={async () => {
-							this.addUpdateModal = !this.addUpdateModal;
+					<ApplicationWelcomeAdd
+						on-emitWelcomeApplicationWelcomeList={async () => {
+							this.addWelcomeModal = !this.addWelcomeModal;
 							await this.__getApplicationWelcomeList();
 						}}
 					/>
 				</Modal>
 				<Modal
-					title="编辑热更新"
-					visible={this.editUpdateModal}
+					title="编辑欢迎页"
+					visible={this.editWelcomeModal}
 					width={1000}
 					dialog-style={{ top: "20px" }}
-					on-cancel={this.editUpdateModalHandle}
+					on-cancel={this.editWelcomeModalHandle}
 					maskClosable={false}
 					footer={null}
 				>
-					<ApplicationUpdateEdit
-						on-emitUpdateApplicationWelcomeList={async () => {
-							this.editUpdateModal = !this.editUpdateModal;
+					<ApplicationWelcomeEdit
+						on-emitWelcomeApplicationWelcomeList={async () => {
+							this.editWelcomeModal = !this.editWelcomeModal;
 							await this.__getApplicationWelcomeList();
 						}}
 					/>
 				</Modal>
 			</div>
 		);
-	}
-
-	renderAppType(appType: string) {
-		if (appType === "native") {
-			return "原生";
-		}
 	}
 
 	private rednerVersion(text: any, record: any, index: number) {
@@ -289,7 +283,7 @@ export default class ApplicationWelcomeList extends Vue {
 		}
 	}
 
-	private rednerUpdateMode(text: any, record: any, index: number) {
+	private rednerWelcomeMode(text: any, record: any, index: number) {
 		if (record.updateMode === "0") {
 			return <Tag color="blue">自动触发</Tag>;
 		}
@@ -298,7 +292,7 @@ export default class ApplicationWelcomeList extends Vue {
 		}
 	}
 
-	private rednerUpdateAction(text: any, record: any, index: number) {
+	private rednerWelcomeAction(text: any, record: any, index: number) {
 		if (record.clearCache === "0") {
 			return <Tag color="blue">保留缓存</Tag>;
 		}
@@ -335,8 +329,8 @@ export default class ApplicationWelcomeList extends Vue {
 					type="primary"
 					size="small"
 					on-click={() => {
-						this.updateEditApplicationUpdate(record);
-						this.editUpdateModalHandle();
+						this.updateEditApplicationWelcome(record);
+						this.editWelcomeModalHandle();
 					}}
 				>
 					编辑
@@ -348,7 +342,7 @@ export default class ApplicationWelcomeList extends Vue {
 		);
 	}
 
-	private renderCheckAppUpdateTips(updateData: any) {
+	private renderCheckAppWelcomeTips(updateData: any) {
 		return (
 			<Alert type="info">
 				<div slot="message">
@@ -370,7 +364,7 @@ export default class ApplicationWelcomeList extends Vue {
 					<Row gutter={8} style={{ marginTop: "8px" }}>
 						<Col span="8">是否清除缓存:</Col>
 						<Col span="16">
-							{this.rednerUpdateAction(
+							{this.rednerWelcomeAction(
 								null,
 								{ clearCache: updateData.clear_cache },
 								0
