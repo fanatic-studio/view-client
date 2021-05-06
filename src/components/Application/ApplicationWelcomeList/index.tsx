@@ -38,6 +38,9 @@ export default class ApplicationWelcomeList extends Vue {
 	@ApplicationStore.Action("checkApplicationWelcome")
 	checkApplicationWelcome!: Function;
 
+	@ApplicationStore.Action("updateApplicationWelcome")
+	updateApplicationWelcome!: Function;
+
 	@Prop(Object) readonly item!: ApplicationMode;
 
 	addWelcomeModal: boolean = false;
@@ -141,6 +144,14 @@ export default class ApplicationWelcomeList extends Vue {
 				title: "当前没有可用热更新",
 			});
 		}
+	}
+
+	async stopWelcomeHandle(record: ApplicationWelcomeMode) {
+		let params = {
+			status: record.status === "0" ? "1" : "0",
+		};
+		await this.updateApplicationWelcome(params);
+		await this.__getApplicationWelcomeList();
 	}
 
 	render() {
@@ -294,7 +305,7 @@ export default class ApplicationWelcomeList extends Vue {
 			return <Tag color="blue">正常</Tag>;
 		}
 		if (record.status === "1") {
-			return <Tag color="red">删除</Tag>;
+			return <Tag color="red">停用</Tag>;
 		}
 	}
 
@@ -311,8 +322,19 @@ export default class ApplicationWelcomeList extends Vue {
 				>
 					编辑
 				</Button>
-				<Button type="danger" size="small" style={{ marginLeft: "8px" }}>
+				{/* <Button type="danger" size="small" style={{ marginLeft: "8px" }}>
 					删除
+				</Button> */}
+				<Button
+					style={{ marginLeft: "8px" }}
+					type={record.status === "1" ? "primary" : "danger"}
+					size="small"
+					on-click={() => {
+						this.updateEditApplicationWelcome(record);
+						this.stopWelcomeHandle(record);
+					}}
+				>
+					{record.status === "1" ? "启用" : "停用"}
 				</Button>
 			</div>
 		);

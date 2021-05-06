@@ -19,6 +19,7 @@ import {
 	ApplicationWelcomeMode,
 	AddApplicationWelcomeParams,
 	UpdateApplicationWelcomeParams,
+	ApplicationWelcomeStatusParams,
 } from "./types";
 
 const actions: ActionTree<ApplicationState, any> = {
@@ -279,6 +280,17 @@ const actions: ActionTree<ApplicationState, any> = {
 			console.log("updateApplication - params", params);
 			const result = await ApplicationApi.UpdateApplicationWelcome(params);
 			store.commit("SET_EDIT_APPLICATION_WELCOME", result.data);
+		} catch (error) {}
+	},
+
+	async applicationWelcomeStatus(store, p: ApplicationWelcomeStatusParams) {
+		const params: ApplicationWelcomeStatusParams = {
+			appWelcomeId: store.state.currEditApplicationWelcome.appWelcomeId,
+			status: p.status,
+		};
+		try {
+			console.log("updateApplication - params", params);
+			const result = await ApplicationApi.ApplicationWelcomeStatus(params);
 		} catch (error) {}
 	},
 };

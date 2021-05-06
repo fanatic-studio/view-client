@@ -33,6 +33,8 @@ import {
 	ListApplicationWelcomeResponse,
 	UpdateApplicationWelcomeParams,
 	UpdateApplicationWelcomeResponse,
+	ApplicationWelcomeStatusParams,
+	ApplicationWelcomeStatusResponse,
 } from "@/store/models/application/types";
 import HttpRequest from "@/utils/network/HttpRequest";
 
@@ -57,6 +59,7 @@ export enum API {
 	Get_Application_Welcome = "/api/v1/app/welcome/get",
 	List_Application_Welcome = "/api/v1/app/welcome/list",
 	Update_Application_Welcome = "/api/v1/app/welcome/update",
+	Application_Welcome_Status = "/api/v1/app/welcome/status",
 }
 
 export default class ApplicationApi {
@@ -162,5 +165,11 @@ export default class ApplicationApi {
 		params: UpdateApplicationWelcomeParams
 	): Promise<UpdateApplicationWelcomeResponse> {
 		return await HttpRequest.postData(API.Update_Application_Welcome, params);
+	}
+
+	public static async ApplicationWelcomeStatus(
+		params: ApplicationWelcomeStatusParams
+	): Promise<ApplicationWelcomeStatusResponse> {
+		return await HttpRequest.postData(API.Application_Welcome_Status, params);
 	}
 }

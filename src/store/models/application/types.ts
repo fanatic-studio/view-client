@@ -528,3 +528,24 @@ export interface ListApplicationWelcomeResponse {
 	pageSize: number;
 	ret: number;
 }
+
+export interface ApplicationWelcomeStatusParams {
+	appWelcomeId?: string;
+	status: string;
+}
+export interface ApplicationWelcomeStatusResponse extends IResponse {
+	data: {
+		id: number;
+		appId: string;
+		appWelcomeId: string;
+		title: string;
+		desc: string;
+		welcomeJump: string;
+		welcomeImage: string;
+		welcomeLimitE: number;
+		welcomeLimitS: number;
+		welcomeSkip: number;
+		welcomeWait: number;
+		status: string;
+	};
+}
