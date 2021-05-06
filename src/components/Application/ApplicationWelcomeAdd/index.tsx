@@ -258,7 +258,7 @@ class ApplicationWelcomeAdd extends Vue {
 						html-type="submit"
 						loading={this.btnLoading}
 					>
-						更新
+						新增
 					</Button>
 				</Form.Item>
 			</Form>

@@ -92,6 +92,7 @@ export default class ApplicationWelcomeList extends Vue {
 		},
 		{
 			title: "操作",
+			width: "200px",
 			customRender: this.renderAction,
 		},
 	];
@@ -308,7 +309,7 @@ export default class ApplicationWelcomeList extends Vue {
 				>
 					编辑
 				</Button>
-				<Button type="danger" size="small">
+				<Button type="danger" size="small" style={{ marginLeft: "8px" }}>
 					删除
 				</Button>
 			</div>
