@@ -37,10 +37,17 @@ export default class RightBox extends Vue {
 		} catch (error) {}
 		this.$router.push("/");
 	}
+
+	seuiCLick() {
+		window.open("http://192.168.11.93:8080/seui-docs/index.html", "_blank");
+	}
 	render() {
 		const { language, loginInfo } = this;
 		return (
 			<div class={style.rightBox}>
+				<div on-click={this.seuiCLick} class={style.seuiDoc}>
+					SEUI文档
+				</div>
 				<Dropdown>
 					<div class={style.userInfo}>
 						<Avatar icon="user" />
