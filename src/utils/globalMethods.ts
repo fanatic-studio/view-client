@@ -5,10 +5,10 @@ export default class globalMethods {
 		let baseUrl = "";
 		switch (process.env.NODE_ENV) {
 			case "development":
-				baseUrl = appConfig.HTTP_HOST_DEV;
+				baseUrl = appConfig.HTTP_HOST_PROD;
 				break;
 			case "ch":
-				baseUrl = appConfig.HTTP_HOST_CH;
+				baseUrl = appConfig.HTTP_HOST_PROD;
 				break;
 			default:
 				baseUrl = appConfig.HTTP_HOST_PROD;
