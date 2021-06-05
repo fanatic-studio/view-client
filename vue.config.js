@@ -1,6 +1,6 @@
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 module.exports = {
-	publicPath: "/view-design/",
+	publicPath: "/",
 	pluginOptions: {
 		electronBuilder: {
 			outputDir: "dist_electron", // 输出目录

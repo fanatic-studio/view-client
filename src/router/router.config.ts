@@ -14,12 +14,12 @@ export const publicRouter: Array<RouterItem> = [
 		meta: { label: "404" },
 		component: () => import("@/views/NotFound"),
 	},
-	{
-		name: "Home",
-		path: "/",
-		meta: { label: "首页" },
-		redirect: "/login",
-	},
+	// {
+	// 	name: "Home",
+	// 	path: "/",
+	// 	meta: { label: "首页" },
+	// 	redirect: "/login",
+	// },
 	{
 		name: "Login",
 		path: "/login",
